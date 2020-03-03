@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'dart:async';
-
-import 'package:flutter/services.dart';
 import 'package:flutter_trtc_plugin/flutter_trtc_plugin.dart';
 
 void main() => runApp(MyApp());
@@ -17,27 +14,6 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    initPlatformState();
-  }
-
-  // Platform messages are asynchronous, so we initialize in an async method.
-  Future<void> initPlatformState() async {
-    String platformVersion;
-    // Platform messages may fail, so we use a try/catch PlatformException.
-    try {
-      platformVersion = await FlutterTrtcPlugin.platformVersion;
-    } on PlatformException {
-      platformVersion = 'Failed to get platform version.';
-    }
-
-    // If the widget was removed from the tree while the asynchronous platform
-    // message was in flight, we want to discard the reply rather than calling
-    // setState to update our non-existent appearance.
-    if (!mounted) return;
-
-    setState(() {
-      _platformVersion = platformVersion;
-    });
   }
 
   @override
@@ -47,8 +23,23 @@ class _MyAppState extends State<MyApp> {
         appBar: AppBar(
           title: const Text('Plugin example app'),
         ),
-        body: Center(
-          child: Text('Running on: $_platformVersion\n'),
+        body: Column(
+          children: <Widget>[
+            FlatButton(
+              onPressed: () {
+                TrtcBase.sharedInstance();
+              },
+              child: Text('初始化SDK'),
+            ),
+            FlatButton(
+              onPressed: () {
+                String sig =
+                    'eJwtjNEKgjAUQP-lPofczU2m0EutMhEKkgjfpC25VGJzZBD9e6I*nnPgfKHIT8HbOkiABwiLkcnYxtONRh2jZELOpTP3qm3JQMIEYsiFEHwq9tOSs5BEKBTi5Dw9B8OkCoeDjNX8oHrY7ncGyzLb9KRfrsHsotfRcZuyWqdN4a*2Oyvt88PqkfVL*P0Ba9EwCA__';
+                TrtcRoom.enterRoom(1400324442, '123', sig, 58994078, 0);
+              },
+              child: Text('进入房间'),
+            ),
+          ],
         ),
       ),
     );
