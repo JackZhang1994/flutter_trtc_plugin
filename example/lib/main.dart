@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 
@@ -47,10 +48,21 @@ class _MyAppState extends State<MyApp> {
         appBar: AppBar(
           title: const Text('Plugin example app'),
         ),
-        body: Center(
-          child: Text('Running on: $_platformVersion\n'),
+        body:  (defaultTargetPlatform == TargetPlatform.iOS)
+              ? Container(
+            margin: EdgeInsets.only(left: 10,top: 10),
+            height: 126,
+              width: 126,
+              child: UiKitView(
+              viewType: "platform_video_view",
+              creationParams: <String, dynamic>{"text": '视频会议'},
+              creationParamsCodec: const StandardMessageCodec(),
+            )
+          )
+              : Text(
+                  'Running on: $_platformVersion\n',
+                ),
         ),
-      ),
     );
   }
 }
