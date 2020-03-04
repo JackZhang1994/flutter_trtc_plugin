@@ -22,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithRect:(CGRect)rect viewID:(int64_t) viewId;
 
 - (UIView *)getUIView;
-
+-(void)startView;
 @end
 
 NS_ASSUME_NONNULL_END

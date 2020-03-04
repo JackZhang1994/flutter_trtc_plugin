@@ -25,9 +25,9 @@
         _uiView.backgroundColor = [UIColor blackColor];
         _viewId = viewId;
         _remoteViewDic = [[NSMutableDictionary alloc] init];
-           trtcCloud = [TRTCCloud sharedInstance];
-           [trtcCloud setDelegate:self];
-           [self enterRoom];
+        trtcCloud = [TRTCCloud sharedInstance];
+        [trtcCloud setDelegate:self];
+//        [self enterRoom];
     }
     
     return self;
@@ -42,33 +42,36 @@
 }
 
 // 错误通知是要监听的，错误通知意味着 SDK 不能继续运行了
-- (void)onError:(int)errCode errMsg:(NSString *)errMsg extInfo:(nullable NSDictionary *)extInfo {
-    if (errCode == ERR_ROOM_ENTER_FAIL) {
-//        [self toastTip:[NSString stringWithFormat:@"进房失败[%@]", errMsg]];
-//        [self exitRoom];
-        NSLog(@"进入房间失败==%@",errMsg);
-        return;
-    }
-}
-- (void)enterRoom {
-{
-    //TRTCParams 定义参考头文件TRTCCloudDef.h
-    TRTCParams *params = [[TRTCParams alloc] init];
-    params.sdkAppId    = 1400324442;
-    params.userId      = @"123";
-    params.userSig     =[GenerateTestUserSig genTestUserSig:@"123"];
-    params.roomId      = 908; //输入您想进入的房间
-    [trtcCloud enterRoom:params appScene:TRTCAppSceneVideoCall];
-}
-}
-- (void)onEnterRoom:(NSInteger)elapsed {
-//    NSString *msg = [NSString stringWithFormat:@"[%@]进房成功[%u]: elapsed[%d]", '_userID', '_roomID', elapsed];
-    NSLog(@"进入房间成功%ld",(long)elapsed);
-    [trtcCloud startLocalPreview:NO
-    view:_uiView];
-    
-}
-- (void)onUserVideoAvailable:(NSString *)userId available:(BOOL)available {
-
+//- (void)onError:(int)errCode errMsg:(NSString *)errMsg extInfo:(nullable NSDictionary *)extInfo {
+//    if (errCode == ERR_ROOM_ENTER_FAIL) {
+////        [self toastTip:[NSString stringWithFormat:@"进房失败[%@]", errMsg]];
+////        [self exitRoom];
+//        NSLog(@"进入房间失败==%@",errMsg);
+//        return;
+//    }
+//}
+//- (void)enterRoom {
+//
+//    //TRTCParams 定义参考头文件TRTCCloudDef.h
+//    TRTCParams *params = [[TRTCParams alloc] init];
+//    params.sdkAppId    = 1400324442;
+//    params.userId      = @"123";
+//    params.userSig     =[GenerateTestUserSig genTestUserSig:@"123"];
+//    params.roomId      = 908; //输入您想进入的房间
+//    [trtcCloud enterRoom:params appScene:TRTCAppSceneVideoCall];
+//}
+//}
+//- (void)onEnterRoom:(NSInteger)elapsed {
+////    NSString *msg = [NSString stringWithFormat:@"[%@]进房成功[%u]: elapsed[%d]", '_userID', '_roomID', elapsed];
+//    NSLog(@"进入房间成功%ld",(long)elapsed);
+//    [trtcCloud startLocalPreview:NO
+//    view:_uiView];
+//
+//}
+//- (void)onUserVideoAvailable:(NSString *)userId available:(BOOL)available {
+//
+//}
+-(void)startView{
+    [trtcCloud startLocalPreview:YES view:_uiView];
 }
 @end
