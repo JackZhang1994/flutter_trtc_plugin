@@ -8,6 +8,7 @@
 #import <Foundation/Foundation.h>
 #import <Flutter/Flutter.h>
 #import "TRTCVideoView.h"
+#import <Flutter/FlutterPlatformViews.h>
 NS_ASSUME_NONNULL_BEGIN
 
 @interface TRTCPlatformViewFactory : NSObject<FlutterPlatformViewFactory>

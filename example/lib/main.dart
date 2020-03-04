@@ -85,7 +85,9 @@ class _MyAppState extends State<MyApp> {
                       ),
                       FlatButton(
                         onPressed: () {
-                          TrtcRoom.enterRoom(1400324442, _currentUserId, _userSig, _roomId, 0);
+                          TrtcRoom.enterRoom(1400324442, _currentUserId, _userSig, _roomId, 0).then((success){
+
+                          });
                         },
                         child: Text('进入房间'),
                       ),

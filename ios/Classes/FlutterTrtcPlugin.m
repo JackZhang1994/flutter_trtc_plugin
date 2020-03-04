@@ -58,38 +58,34 @@
 }
 
 - (void)handleMethodCall:(FlutterMethodCall*)call result:(FlutterResult)result {
+    NSDictionary *args = call.arguments;
     if ([@"getPlatformVersion" isEqualToString:call.method]) {
         result([@"iOS " stringByAppendingString:[[UIDevice currentDevice] systemVersion]]);
     }else if ([@"sharedInstance" isEqualToString:call.method]) {
-        self.trtc = [TRTCCloud sharedInstance];
-        [self.trtc setDelegate:self];
+        [[TRTCCloudManager shareInstance] initTrtcCloud];
     }else if ([@"enterRoom" isEqualToString:call.method]) {
         TRTCParams * params = [[TRTCParams alloc]init];
-//        params.roomId = (UInt32)call.arguments[@"roomId"];
-//        params.sdkAppId = (UInt32)call.arguments[@"sdkAppId"];
-//        params.userId = call.arguments[@"userId"];
-//        params.userSig = call.arguments[@"userSig"];
-////        int scene = (int)call.arguments[@"scene"];
-            params.sdkAppId    = 1400324442;
-            params.userId      = @"123";
-            params.userSig     =[GenerateTestUserSig genTestUserSig:@"123"];
-            params.roomId      = 908; //输入您想进入的房间
-        [self.trtc enterRoom:params appScene:TRTCAppSceneVideoCall];
-        
+        params.roomId = [self numberToIntValue:args[@"roomId"]];
+        params.sdkAppId = [self numberToIntValue:args[@"sdkAppId"]];
+        params.userId = call.arguments[@"userId"];
+        params.userSig = call.arguments[@"userSig"];
+        int scene = [self numberToIntValue:args[@"scene"]];
+        //进入房间
+        [[TRTCCloudManager shareInstance] enterRoom:params appScene:scene];
     }else if ([@"startLocalPreview" isEqualToString:call.method]) {
-        NSDictionary *args = call.arguments;
         BOOL frontCamera =[self numberToBoolValue:args[@"frontCamera"]];
-         int viewID = [self numberToIntValue:args[@"viewId"]];
-        TRTCVideoView * view = [[TRTCVideoView alloc]initWithRect:CGRectZero viewID:viewID];
-//        TRTCVideoView * view = [[TRTCPlatformViewFactory shareInstance] getPlatformView:@(viewID)];
-        [view startView];
-//               if(view) {
-//                   [self.trtc startLocalPreview:frontCamera view:[view getUIView]];
-//                   result(@(YES));
-//               } else {
-//                   result(@(NO));
-//               }
-    
+        int viewID = [self numberToIntValue:args[@"viewId"]];
+        //本地视频渲染
+        [[TRTCCloudManager shareInstance] startLocalPreview:frontCamera viewID:@(viewID) callBackBlock:^(BOOL success) {
+            if(success){
+                result(@(YES));
+            }else{
+               result(@(NO));
+            }
+        }];
+    }else if ([@"exitRoom" isEqualToString:call.method]) {
+        [[TRTCCloudManager shareInstance] exitRoom];
+        result(0);
     } else {
         result(FlutterMethodNotImplemented);
     }

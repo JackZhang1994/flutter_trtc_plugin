@@ -19,13 +19,18 @@ NS_ASSUME_NONNULL_BEGIN
 @interface TRTCCloudManager : NSObject
 @property (weak, nonatomic) id<TRTCCloudManagerDelegate> delegate;
 @property (strong, nonatomic, nullable) UIImageView *videoView;
+typedef void(^CallBackBlock)(BOOL result);
+@property (nonatomic, copy)CallBackBlock callBack;
++ (instancetype) shareInstance;
 #pragma mark - Room
-
+///初始化SDK
+-(void)initTrtcCloud;
 /// 加入房间
 - (void)enterRoom:(TRTCParams *)params appScene:(TRTCAppScene)appScene;
 ///渲染视频
--(void)startLocalPreview:(BOOL)frontCamera viewID:(int64_t)viewID;
-
+-(void)startLocalPreview:(BOOL)frontCamera viewID:(NSNumber *)viewID callBackBlock:(CallBackBlock )callBack;
+///退房
+-(void)exitRoom;
 @end
 
 NS_ASSUME_NONNULL_END

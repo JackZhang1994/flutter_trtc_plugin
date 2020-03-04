@@ -11,6 +11,7 @@ class TrtcVideo {
     if (TargetPlatform.iOS == defaultTargetPlatform) {
       return UiKitView(
           viewType: 'flutter_trtc_plugin_view',
+          key: new ObjectKey('preview'),
           onPlatformViewCreated: (int viewId) {
             if (onViewCreated != null) {
               onViewCreated(viewId);
