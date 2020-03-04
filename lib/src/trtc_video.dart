@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_trtc_plugin/flutter_trtc_plugin.dart';
 
@@ -5,26 +7,41 @@ class TrtcVideo {
   static const MethodChannel _channel = const MethodChannel('flutter_trtc_plugin');
 
   /// 创建PlatformView
-  ///
-  /// [userId] 用户标识
-  /// [streamType] 视频类型, 详见 [TrtcVideoStreamType] 定义
-  static Future<void> createPlatformView(String userId, int streamType) async {
-    return await _channel.invokeMethod('createPlatformView', {'userId': userId, 'streamType': streamType});
+  static Widget createPlatformView(Function(int viewID) onViewCreated) {
+    if (TargetPlatform.iOS == defaultTargetPlatform) {
+      return UiKitView(
+          viewType: 'flutter_trtc_plugin_view',
+          onPlatformViewCreated: (int viewID) {
+            if (onViewCreated != null) {
+              onViewCreated(viewID);
+            }
+          });
+    } else if (TargetPlatform.android == defaultTargetPlatform) {
+      return AndroidView(
+        viewType: 'flutter_trtc_plugin_view',
+        onPlatformViewCreated: (int viewID) {
+          if (onViewCreated != null) {
+            onViewCreated(viewID);
+          }
+        },
+      );
+    }
+    return null;
   }
 
   /// 销毁PlatformView
   ///
-  /// [userId] 用户标识
-  /// [streamType] 视频类型, 详见 [TrtcVideoStreamType] 定义
-  static Future<void> destroyPlatformView(String userId, int streamType) async {
-    return await _channel.invokeMethod('destroyPlatformView', {'userId': userId, 'streamType': streamType});
+  /// [viewId] 视图ID
+  static Future<bool> destroyPlatformView(int viewId) async {
+    return await _channel.invokeMethod('destroyPlatformView', {'viewId': viewId});
   }
 
   /// 开启本地视频的预览画面
   ///
   /// [frontCamera] true：前置摄像头；false：后置摄像头
-  static Future<void> startLocalPreview(bool frontCamera) async {
-    return await _channel.invokeMethod('startLocalPreview', {'frontCamera': frontCamera});
+  /// [viewId] 视图ID
+  static Future<void> startLocalPreview(bool frontCamera, int viewId) async {
+    return await _channel.invokeMethod('startLocalPreview', {'frontCamera': frontCamera, 'viewId': viewId});
   }
 
   /// 停止本地视频采集及预览
@@ -35,10 +52,11 @@ class TrtcVideo {
   /// 开始显示远端视频画面
   ///
   /// [userId] 对方的用户标识
+  /// [viewId] 视图ID
   /// @discussion 在收到 SDK 的 [TrtcBase.registerCallback] 中的 onUserVideoAvailable(userId, true) 通知时，可以获知该远程用户开启了视频，
   /// @discussion 此后调用 [startRemoteView] 接口加载该用户的远程画面，可以用 loading 动画优化加载过程中的等待体验。
-  static Future<void> startRemoteView(String userId) async {
-    return await _channel.invokeMethod('startRemoteView', {'userId': userId});
+  static Future<void> startRemoteView(String userId, int viewId) async {
+    return await _channel.invokeMethod('startRemoteView', {'userId': userId, 'viewId': viewId});
   }
 
   /// 停止显示远端视频画面，同时不再拉取该远端用户的视频数据流
