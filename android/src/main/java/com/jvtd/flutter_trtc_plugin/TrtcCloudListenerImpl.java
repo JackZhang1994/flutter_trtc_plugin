@@ -6,6 +6,7 @@ import android.util.Log;
 import com.tencent.trtc.TRTCCloudListener;
 
 import java.lang.ref.WeakReference;
+import java.util.HashMap;
 
 import io.flutter.plugin.common.EventChannel;
 
@@ -31,8 +32,13 @@ public class TrtcCloudListenerImpl extends TRTCCloudListener
     EventChannel.EventSink eventSink = mWefListener.get();
     if (eventSink != null)
     {
-      // TODO
-//      eventSink.onError(errCode, errMsg, extraInfo);
+      HashMap<String, Object> returnMap = new HashMap<>();
+      HashMap<String, Object> method = new HashMap<>();
+      method.put("name", "onError");
+      method.put("errCode", errCode);
+      method.put("errMsg", errMsg);
+      returnMap.put("method", method);
+      eventSink.success(returnMap);
     }
   }
 
@@ -43,7 +49,13 @@ public class TrtcCloudListenerImpl extends TRTCCloudListener
     EventChannel.EventSink eventSink = mWefListener.get();
     if (eventSink != null)
     {
-//      listener.onWarning(warningCode, warningMsg, extraInfo);
+      HashMap<String, Object> returnMap = new HashMap<>();
+      HashMap<String, Object> method = new HashMap<>();
+      method.put("name", "onWarning");
+      method.put("warningCode", warningCode);
+      method.put("warningMsg", warningMsg);
+      returnMap.put("method", method);
+      eventSink.success(returnMap);
     }
   }
 
@@ -54,7 +66,12 @@ public class TrtcCloudListenerImpl extends TRTCCloudListener
     final EventChannel.EventSink eventSink = mWefListener.get();
     if (eventSink != null)
     {
-//      listener.onEnterRoom(elapsed);
+      HashMap<String, Object> returnMap = new HashMap<>();
+      HashMap<String, Object> method = new HashMap<>();
+      method.put("name", "onEnterRoom");
+      method.put("result", elapsed);
+      returnMap.put("method", method);
+      eventSink.success(returnMap);
     }
   }
 
@@ -65,7 +82,12 @@ public class TrtcCloudListenerImpl extends TRTCCloudListener
     final EventChannel.EventSink eventSink = mWefListener.get();
     if (eventSink != null)
     {
-//      eventSink.onExitRoom(reason);
+      HashMap<String, Object> returnMap = new HashMap<>();
+      HashMap<String, Object> method = new HashMap<>();
+      method.put("name", "onExitRoom");
+      method.put("reason", reason);
+      returnMap.put("method", method);
+      eventSink.success(returnMap);
     }
   }
 
@@ -77,7 +99,12 @@ public class TrtcCloudListenerImpl extends TRTCCloudListener
     EventChannel.EventSink eventSink = mWefListener.get();
     if (eventSink != null)
     {
-//      eventSink.onRemoteUserEnterRoom(userId);
+      HashMap<String, Object> returnMap = new HashMap<>();
+      HashMap<String, Object> method = new HashMap<>();
+      method.put("name", "onRemoteUserEnterRoom");
+      method.put("userId", userId);
+      returnMap.put("method", method);
+      eventSink.success(returnMap);
     }
   }
 
@@ -88,7 +115,13 @@ public class TrtcCloudListenerImpl extends TRTCCloudListener
     EventChannel.EventSink eventSink = mWefListener.get();
     if (eventSink != null)
     {
-//      eventSink.onRemoteUserLeaveRoom(userId, reason);
+      HashMap<String, Object> returnMap = new HashMap<>();
+      HashMap<String, Object> method = new HashMap<>();
+      method.put("name", "onRemoteUserLeaveRoom");
+      method.put("userId", userId);
+      method.put("reason", reason);
+      returnMap.put("method", method);
+      eventSink.success(returnMap);
     }
   }
 
@@ -99,7 +132,13 @@ public class TrtcCloudListenerImpl extends TRTCCloudListener
     EventChannel.EventSink eventSink = mWefListener.get();
     if (eventSink != null)
     {
-//      eventSink.onUserVideoAvailable(userId, available);
+      HashMap<String, Object> returnMap = new HashMap<>();
+      HashMap<String, Object> method = new HashMap<>();
+      method.put("name", "onUserVideoAvailable");
+      method.put("userId", userId);
+      method.put("available", available);
+      returnMap.put("method", method);
+      eventSink.success(returnMap);
     }
   }
 
@@ -110,7 +149,13 @@ public class TrtcCloudListenerImpl extends TRTCCloudListener
     EventChannel.EventSink eventSink = mWefListener.get();
     if (eventSink != null)
     {
-//      listener.onUserAudioAvailable(userId, available);
+      HashMap<String, Object> returnMap = new HashMap<>();
+      HashMap<String, Object> method = new HashMap<>();
+      method.put("name", "onUserAudioAvailable");
+      method.put("userId", userId);
+      method.put("available", available);
+      returnMap.put("method", method);
+      eventSink.success(returnMap);
     }
   }
 
@@ -121,7 +166,11 @@ public class TrtcCloudListenerImpl extends TRTCCloudListener
     EventChannel.EventSink eventSink = mWefListener.get();
     if (eventSink != null)
     {
-//      eventSink.onConnectionLost();
+      HashMap<String, Object> returnMap = new HashMap<>();
+      HashMap<String, Object> method = new HashMap<>();
+      method.put("name", "onConnectionLost");
+      returnMap.put("method", method);
+      eventSink.success(returnMap);
     }
   }
 
@@ -132,7 +181,11 @@ public class TrtcCloudListenerImpl extends TRTCCloudListener
     EventChannel.EventSink eventSink = mWefListener.get();
     if (eventSink != null)
     {
-//      eventSink.onTryToReconnect();
+      HashMap<String, Object> returnMap = new HashMap<>();
+      HashMap<String, Object> method = new HashMap<>();
+      method.put("name", "onTryToReconnect");
+      returnMap.put("method", method);
+      eventSink.success(returnMap);
     }
   }
 
@@ -143,7 +196,11 @@ public class TrtcCloudListenerImpl extends TRTCCloudListener
     EventChannel.EventSink eventSink = mWefListener.get();
     if (eventSink != null)
     {
-//      eventSink.onConnectionRecovery();
+      HashMap<String, Object> returnMap = new HashMap<>();
+      HashMap<String, Object> method = new HashMap<>();
+      method.put("name", "onConnectionRecovery");
+      returnMap.put("method", method);
+      eventSink.success(returnMap);
     }
   }
 }

@@ -17,7 +17,7 @@ class TrtcBase {
   }
 
   /// 注册回调对象
-  static void registerCallback(
+  static void registerCallback({
     Function(int errCode, String errMsg) onError,
     Function(int warningCode, String warningMsg) onWarning,
     Function(int result) onEnterRoom,
@@ -29,7 +29,7 @@ class TrtcBase {
     Function() onConnectionLost,
     Function() onTryToReconnect,
     Function() onConnectionRecovery,
-  ) async {
+  }) async {
     _onError = onError;
     _onWarning = onWarning;
     _onEnterRoom = onEnterRoom;

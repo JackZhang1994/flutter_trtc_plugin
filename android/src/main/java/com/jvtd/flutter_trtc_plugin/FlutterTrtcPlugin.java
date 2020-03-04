@@ -44,7 +44,7 @@ public class FlutterTrtcPlugin implements FlutterPlugin, MethodCallHandler, Even
   public void onAttachedToEngine(@NonNull FlutterPluginBinding flutterPluginBinding)
   {
     mApplication = (Application) flutterPluginBinding.getApplicationContext();
-    mManager = new TrtcCloudManager(mApplication, mEvents);
+    mManager = new TrtcCloudManager(mApplication);
 
     mMethodChannel = new MethodChannel(flutterPluginBinding.getBinaryMessenger(), PLUGIN_METHOD_NAME);
     mMethodChannel.setMethodCallHandler(this);
@@ -221,6 +221,7 @@ public class FlutterTrtcPlugin implements FlutterPlugin, MethodCallHandler, Even
   @Override
   public void onListen(Object arguments, EventChannel.EventSink events)
   {
+    mManager.setEvents(events);
     mEvents = events;
   }
 

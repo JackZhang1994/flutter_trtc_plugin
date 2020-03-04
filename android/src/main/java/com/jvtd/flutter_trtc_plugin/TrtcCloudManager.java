@@ -19,7 +19,6 @@ public class TrtcCloudManager
   private static final String TAG = TrtcCloudListenerImpl.class.getName();
 
   private Context mContext;
-  private EventChannel.EventSink mEvents;
   private TRTCCloud mTRTCCloud;                 // SDK 核心类
 
 
@@ -31,16 +30,19 @@ public class TrtcCloudManager
   private int mRuddyLevel = 2;        // 红润等级
   private int mBeautyStyle = TRTCCloudDef.TRTC_BEAUTY_STYLE_SMOOTH;// 美颜风格
 
-  public TrtcCloudManager(Context context, EventChannel.EventSink events)
+  public TrtcCloudManager(Context context)
   {
     mContext = context;
-    mEvents = events;
+  }
+
+  public void setEvents(EventChannel.EventSink events)
+  {
+    mTRTCCloud.setListener(new TrtcCloudListenerImpl(events));
   }
 
   public void sharedInstance()
   {
     mTRTCCloud = TRTCCloud.sharedInstance(mContext);
-    mTRTCCloud.setListener(new TrtcCloudListenerImpl(mEvents));
   }
 
   public void destroySharedInstance()
