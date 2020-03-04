@@ -1,6 +1,6 @@
-import 'package:flutter/foundation.dart';
+import 'dart:collection';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_trtc_plugin/flutter_trtc_plugin.dart';
 
 void main() => runApp(MyApp());
@@ -11,7 +11,8 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  String _platformVersion = 'Unknown';
+  HashMap<String, int> viewIdMap = HashMap<String, int>();
+  String _currentUserId = '1513';
 
   @override
   void initState() {
@@ -25,34 +26,36 @@ class _MyAppState extends State<MyApp> {
           appBar: AppBar(
             title: const Text('Plugin example app'),
           ),
-          body: (defaultTargetPlatform == TargetPlatform.iOS)
-              ? Container(
-                  margin: EdgeInsets.only(left: 10, top: 10),
-                  height: 126,
-                  width: 126,
-                  child: UiKitView(
-                    viewType: "platform_video_view",
-                    creationParams: <String, dynamic>{"text": '视频会议'},
-                    creationParamsCodec: const StandardMessageCodec(),
-                  ))
-              : Column(
-                  children: <Widget>[
-                    FlatButton(
-                      onPressed: () {
-                        TrtcBase.sharedInstance();
-                      },
-                      child: Text('初始化SDK'),
-                    ),
-                    FlatButton(
-                      onPressed: () {
-                        String sig =
-                            'eJwtjNEKgjAUQP-lPofczU2m0EutMhEKkgjfpC25VGJzZBD9e6I*nnPgfKHIT8HbOkiABwiLkcnYxtONRh2jZELOpTP3qm3JQMIEYsiFEHwq9tOSs5BEKBTi5Dw9B8OkCoeDjNX8oHrY7ncGyzLb9KRfrsHsotfRcZuyWqdN4a*2Oyvt88PqkfVL*P0Ba9EwCA__';
-                        TrtcRoom.enterRoom(1400324442, '123', sig, 58994078, 0);
-                      },
-                      child: Text('进入房间'),
-                    ),
-                  ],
-                )),
+          body: Column(
+            children: <Widget>[
+              FlatButton(
+                onPressed: () {
+                  TrtcBase.sharedInstance();
+                },
+                child: Text('初始化SDK'),
+              ),
+              FlatButton(
+                onPressed: () {
+                  String sig =
+                      'eJwtzE0LgkAUheH-MttC7p07Eya0KAgznBKKgtkZTnXpA9Mxgui-J*ryPAfer9inu*DtKhEJGYAYd5sL9-R85o5RIw1eF7e8LLkQESoAkkop2T-uU3LlRDQBFQL05vnRCuqQCORU09DgSxvdaLNcWLJII9zG1jS59pQdXklmTle8VyuzPvo4aep0PhO-P-6YLtQ_';
+                  TrtcRoom.enterRoom(1400324442, _currentUserId, sig, 58994078, 0);
+                },
+                child: Text('进入房间'),
+              ),
+              Container(
+                  height: 200,
+                  width: 200,
+                  child: TrtcVideo.createPlatformView((viewId) {
+                    viewIdMap[_currentUserId] = viewId;
+                  })),
+              FlatButton(
+                onPressed: () {
+                  TrtcVideo.startLocalPreview(true, viewIdMap[_currentUserId]);
+                },
+                child: Text('开启本地预览'),
+              ),
+            ],
+          )),
     );
   }
 }

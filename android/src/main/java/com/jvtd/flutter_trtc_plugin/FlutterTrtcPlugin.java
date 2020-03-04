@@ -99,11 +99,11 @@ public class FlutterTrtcPlugin implements FlutterPlugin, MethodCallHandler, Even
         break;
 
       case "enterRoom":
-        int sdkAppId = numberToIntValue(call.argument("sdkAppId"));// 应用标识 [必填]
+        int sdkAppId = numberToIntValue((Number) call.argument("sdkAppId"));// 应用标识 [必填]
         String userId = call.argument("userId");// 用户标识 [必填]
         String userSig = call.argument("userSig");// 用户签名 [必填]
-        int roomId = numberToIntValue(call.argument("roomId"));// 房间号码 [必填]
-        int scene = numberToIntValue(call.argument("scene"));// 应用场景，目前支持视频通话（VideoCall）、在线直播（Live）、语音通话（AudioCall）、语音聊天室（VoiceChatRoom）四种场景。
+        int roomId = numberToIntValue((Number) call.argument("roomId"));// 房间号码 [必填]
+        int scene = numberToIntValue((Number) call.argument("scene"));// 应用场景，目前支持视频通话（VideoCall）、在线直播（Live）、语音通话（AudioCall）、语音聊天室（VoiceChatRoom）四种场景。
         TRTCCloudDef.TRTCParams param = new TRTCCloudDef.TRTCParams();
         param.sdkAppId = sdkAppId;
         param.userId = userId;
@@ -117,20 +117,20 @@ public class FlutterTrtcPlugin implements FlutterPlugin, MethodCallHandler, Even
         break;
 
       case "setDefaultStreamRecvMode":
-        boolean isReceivedAudio = numberToBoolValue(call.argument("isReceivedAudio"));
-        boolean isReceivedVideo = numberToBoolValue(call.argument("isReceivedVideo"));
+        boolean isReceivedAudio = numberToBoolValue((Boolean) call.argument("isReceivedAudio"));
+        boolean isReceivedVideo = numberToBoolValue((Boolean) call.argument("isReceivedVideo"));
         mManager.setDefaultStreamRecvMode(isReceivedAudio, isReceivedVideo);
         break;
 
       case "destroyPlatformView":
-        int viewId = numberToIntValue(call.argument("viewId"));
+        int viewId = numberToIntValue((Number) call.argument("viewId"));
         boolean success = TrtcPlatformViewFactory.shareInstance().removeView(viewId);
         result.success(success);
         break;
 
       case "startLocalPreview":
-        boolean frontCamera = numberToBoolValue(call.argument("frontCamera"));
-        int viewId1 = numberToIntValue(call.argument("viewId"));
+        boolean frontCamera = numberToBoolValue((Boolean) call.argument("frontCamera"));
+        int viewId1 = numberToIntValue((Number) call.argument("viewId"));
         mManager.startLocalPreview(frontCamera, viewId1);
         break;
 
@@ -140,7 +140,7 @@ public class FlutterTrtcPlugin implements FlutterPlugin, MethodCallHandler, Even
 
       case "startRemoteView":
         String userId1 = call.argument("userId");// 用户标识 [必填]
-        int viewId2 = numberToIntValue(call.argument("viewId"));
+        int viewId2 = numberToIntValue((Number) call.argument("viewId"));
         mManager.startRemoteView(userId1, viewId2);
         break;
 
@@ -154,18 +154,18 @@ public class FlutterTrtcPlugin implements FlutterPlugin, MethodCallHandler, Even
         break;
 
       case "muteLocalVideo":
-        boolean mote = numberToBoolValue(call.argument("mote"));
+        boolean mote = numberToBoolValue((Boolean) call.argument("mote"));
         mManager.muteLocalVideo(mote);
         break;
 
       case "setLocalViewFillMode":
-        int mode = numberToIntValue(call.argument("mode"));
+        int mode = numberToIntValue((Number) call.argument("mode"));
         mManager.setLocalViewFillMode(mode);
         break;
 
       case "setRemoteViewFillMode":
         String userId3 = call.argument("userId");
-        int mode1 = numberToIntValue(call.argument("mode"));
+        int mode1 = numberToIntValue((Number) call.argument("mode"));
         mManager.setRemoteViewFillMode(userId3, mode1);
         break;
 
@@ -178,23 +178,23 @@ public class FlutterTrtcPlugin implements FlutterPlugin, MethodCallHandler, Even
         break;
 
       case "muteLocalAudio":
-        boolean mote1 = numberToBoolValue(call.argument("mote"));
+        boolean mote1 = numberToBoolValue((Boolean) call.argument("mote"));
         mManager.muteLocalAudio(mote1);
         break;
 
       case "setAudioRoute":
-        int route = numberToIntValue(call.argument("route"));
+        int route = numberToIntValue((Number) call.argument("route"));
         mManager.setAudioRoute(route);
         break;
 
       case "muteRemoteAudio":
         String userId4 = call.argument("userId");
-        boolean mote2 = numberToBoolValue(call.argument("mote"));
+        boolean mote2 = numberToBoolValue((Boolean) call.argument("mote"));
         mManager.muteRemoteAudio(userId4, mote2);
         break;
 
       case "muteAllRemoteAudio":
-        boolean mote3 = numberToBoolValue(call.argument("mote"));
+        boolean mote3 = numberToBoolValue((Boolean) call.argument("mote"));
         mManager.muteAllRemoteAudio(mote3);
         break;
 
