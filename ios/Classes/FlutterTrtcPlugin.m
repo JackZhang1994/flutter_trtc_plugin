@@ -61,10 +61,19 @@
 - (void)handleMethodCall:(FlutterMethodCall*)call result:(FlutterResult)result {
     NSDictionary *args = call.arguments;
     if ([@"getPlatformVersion" isEqualToString:call.method]) {
-        result([@"iOS " stringByAppendingString:[[UIDevice currentDevice] systemVersion]]);
+        result([@"iOS" stringByAppendingString:[[UIDevice currentDevice] systemVersion]]);
     }else if ([@"sharedInstance" isEqualToString:call.method]) {
         //设置代理
         [self initTrtcManager];
+    }else if ([@"destroySharedInstance" isEqualToString:call.method]) {
+        //销毁
+    }else if ([@"getUserSig" isEqualToString:call.method]) {
+        //获取签名
+        NSString *  userId =args[@"userId"];
+        int sdkAppId = [self numberToIntValue:args[@"sdkAppId"]];
+        NSString * secretKey =[NSString stringWithFormat:@"%@",args[@"secretKey"]];
+        NSString * sign = [GenerateTestUserSig genTestUserSig:sdkAppId secretKey:secretKey userId:userId];
+        result(sign);
     }else if ([@"enterRoom" isEqualToString:call.method]) {
         TRTCParams * params = [[TRTCParams alloc]init];
         params.roomId = [self numberToIntValue:args[@"roomId"]];
@@ -75,10 +84,20 @@
         //进入房间
         [self.trtc enterRoom:params appScene:scene];
         result(@(YES));
+    }else if ([@"exitRoom" isEqualToString:call.method]) {
+        [self.trtc exitRoom];
+        result(0);
+    }else if ([@"setDefaultStreamRecvMode" isEqualToString:call.method]) {
+        BOOL isReceivedAudio = [self numberToBoolValue:args[@"isReceivedAudio"]];
+        BOOL isReceivedVideo = [self numberToBoolValue:args[@"isReceivedVideo"]];
+        [self.trtc setDefaultStreamRecvMode:isReceivedAudio video:isReceivedVideo];
+    }else if ([@"destroyPlatformView" isEqualToString:call.method]) {
+        int viewID = [self numberToIntValue:args[@"viewId"]];
+        BOOL success = [[TRTCPlatformViewFactory shareInstance] removeView:@(viewID)];
+        result(@(success));
     }else if ([@"startLocalPreview" isEqualToString:call.method]) {
         BOOL frontCamera =[self numberToBoolValue:args[@"frontCamera"]];
         int viewID = [self numberToIntValue:args[@"viewId"]];
-        //本地视频渲染
         TRTCVideoView * view = [[TRTCPlatformViewFactory shareInstance] getPlatformView:@(viewID)];
         if(view) {
             [self.trtc startLocalPreview:frontCamera view:[view getUIView]];
@@ -89,10 +108,50 @@
         }
     }else if ([@"stopLocalPreview" isEqualToString:call.method]) {
         [self.trtc stopLocalPreview];
-    }else if ([@"exitRoom" isEqualToString:call.method]) {
-        [self.trtc exitRoom];
-        result(0);
-    } else {
+    }else if ([@"startRemoteView" isEqualToString:call.method]) {
+        NSString * userId = args[@"userId"];
+        int viewID = [self numberToIntValue:args[@"viewId"]];
+        //        [self.trtc.startRemoteView(userId, viewID)];
+        TRTCVideoView * view = [[TRTCPlatformViewFactory shareInstance] getPlatformView:@(viewID)];
+        [self.trtc startRemoteView:userId view:[view getUIView]];
+    }else if ([@"stopRemoteView" isEqualToString:call.method]) {
+        NSString * userId = args[@"userId"];
+        [self.trtc stopRemoteView:userId];
+    }else if ([@"stopAllRemoteView" isEqualToString:call.method]) {
+        [self.trtc stopAllRemoteView];
+    }else if ([@"muteLocalVideo" isEqualToString:call.method]) {
+        BOOL mote =[self numberToBoolValue:args[@"mote"]];
+        [self.trtc muteLocalAudio:mote];
+    }else if ([@"setLocalViewFillMode" isEqualToString:call.method]) {
+        int mode = [self numberToIntValue:args[@"mode"]];
+        [self.trtc setLocalViewFillMode:mode];
+    }else if ([@"setRemoteViewFillMode" isEqualToString:call.method]) {
+        NSString * userId = args[@"userId"];
+        int mode = [self numberToIntValue:args[@"mode"]];
+        [self.trtc setRemoteViewFillMode:userId mode:mode];
+    }else if ([@"startLocalAudio" isEqualToString:call.method]) {
+        [self.trtc startLocalAudio];
+    }else if ([@"stopLocalAudio" isEqualToString:call.method]) {
+        [self.trtc stopLocalAudio];
+    }else if ([@"muteLocalAudio" isEqualToString:call.method]) {
+        int mote = [self numberToIntValue:args[@"mote"]];
+        [self.trtc muteLocalAudio:mote];
+    }else if ([@"setAudioRoute" isEqualToString:call.method]) {
+        int route = [self numberToIntValue:args[@"route"]];
+        [self.trtc setAudioRoute:route];
+        
+    }else if ([@"muteRemoteAudio" isEqualToString:call.method]) {
+        NSString * userId = args[@"userId"];
+        BOOL mote = [self numberToBoolValue:args[@"mote"]];
+        [self.trtc muteRemoteAudio:userId mute:mote];
+    }else if ([@"muteAllRemoteAudio" isEqualToString:call.method]) {
+        //    boolean mote3 = numberToBoolValue((Boolean) call.argument("mote"));
+        //    mManager.muteAllRemoteAudio(mote3);
+        BOOL mote = [self numberToBoolValue:args[@"mote"]];
+        [self.trtc muteAllRemoteAudio:mote];
+    }else if ([@"switchCamera" isEqualToString:call.method]) {
+        [self.trtc switchCamera];
+    }else {
         result(FlutterMethodNotImplemented);
     }
 }

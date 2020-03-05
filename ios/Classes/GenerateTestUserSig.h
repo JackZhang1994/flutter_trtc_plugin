@@ -71,7 +71,9 @@ static NSString * const _SECRETKEY = @"dcfa262b7ccac8e29e163c8d824138ebb6530331f
  *
  * 文档：https://cloud.tencent.com/document/product/647/17275#Server
  */
-+ (NSString *)genTestUserSig:(NSString *)identifier;
+//+ (NSString *)genTestUserSig:(NSString *)identifier;
+
++ (NSString *)genTestUserSig:(int )sdkAppId secretKey:(NSString *)secretKey userId:(NSString*)userId;
 @end
 
 NS_ASSUME_NONNULL_END
