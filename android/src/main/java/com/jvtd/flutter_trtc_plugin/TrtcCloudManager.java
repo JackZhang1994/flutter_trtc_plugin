@@ -159,6 +159,38 @@ public class TrtcCloudManager
     }
   }
 
+  public void setVideoEncoderParam(TRTCCloudDef.TRTCVideoEncParam endParam)
+  {
+    if (mTRTCCloud != null)
+    {
+      mTRTCCloud.setVideoEncoderParam(endParam);
+    }
+  }
+
+  public void setNetworkQosParam(TRTCCloudDef.TRTCNetworkQosParam qosParam)
+  {
+    if (mTRTCCloud != null)
+    {
+      mTRTCCloud.setNetworkQosParam(qosParam);
+    }
+  }
+
+  public void setLocalViewMirror(int mirrorType)
+  {
+    if (mTRTCCloud != null)
+    {
+      mTRTCCloud.setLocalViewMirror(mirrorType);
+    }
+  }
+
+  public void setVideoEncoderMirror(boolean mirror)
+  {
+    if (mTRTCCloud != null)
+    {
+      mTRTCCloud.setVideoEncoderMirror(mirror);
+    }
+  }
+
   public void startLocalAudio()
   {
     if (mTRTCCloud != null)

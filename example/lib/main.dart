@@ -116,44 +116,11 @@ class _MyAppState extends State<MyApp> {
                         },
                         child: Text('设置监听'),
                       ),
-//                      FlatButton(
-//                        onPressed: () {
-//                          TrtcRoom.setDefaultStreamRecvMode(true, true);
-//                        },
-//                        child: Text('设置音视频数据接收模式'),
-//                      ),
                       FlatButton(
                         onPressed: () {
                           TrtcRoom.enterRoom(_sdkAppId, _currentUserId, _userSig, _roomId, 0);
                         },
                         child: Text('进入房间'),
-                      ),
-                      FlatButton(
-                        onPressed: () {
-                          if (!_viewIdMap.containsKey(_currentUserId) && !_widgetMap.containsKey(_currentUserId)) {
-                            Widget widget = TrtcVideo.createPlatformView(_currentUserId, (viewId) {
-                              _viewIdMap[_currentUserId] = viewId;
-                              TrtcVideo.setLocalViewFillMode(TrtcVideoRenderMode.TRTC_VIDEO_RENDER_MODE_FILL);
-                              TrtcVideo.startLocalPreview(true, _viewIdMap[_currentUserId]);
-                            });
-                            _widgetMap[_currentUserId] = widget;
-                            setState(() {});
-                          }
-                        },
-                        child: Text('开启本地预览'),
-                      ),
-                      FlatButton(
-                        onPressed: () {
-                          TrtcVideo.stopLocalPreview();
-                          TrtcVideo.destroyPlatformView(_viewIdMap[_currentUserId]).then((flag) {
-                            if (flag) {
-                              _viewIdMap.remove(_currentUserId);
-                              _widgetMap.remove(_currentUserId);
-                              setState(() {});
-                            }
-                          });
-                        },
-                        child: Text('停止本地预览'),
                       ),
                       FlatButton(
                         onPressed: () {
@@ -245,6 +212,14 @@ class _MyAppState extends State<MyApp> {
     String msg;
     if (result > 0) {
       msg = '进入房间耗时$result毫秒';
+      TrtcAudio.startLocalAudio();
+      Widget widget = TrtcVideo.createPlatformView(_currentUserId, (viewId) {
+        _viewIdMap[_currentUserId] = viewId;
+        TrtcVideo.setLocalViewFillMode(TrtcVideoRenderMode.TRTC_VIDEO_RENDER_MODE_FILL);
+        TrtcVideo.startLocalPreview(true, _viewIdMap[_currentUserId]);
+      });
+      _widgetMap[_currentUserId] = widget;
+      setState(() {});
     } else {
       msg = '进入房间失败，错误码$result';
     }
@@ -256,6 +231,8 @@ class _MyAppState extends State<MyApp> {
     String msg;
     if (reason == 0) {
       msg = '用户主动离开房间';
+      _widgetMap.clear();
+      _viewIdMap.clear();
     } else if (reason == 1) {
       msg = '用户被踢出房间';
     } else {

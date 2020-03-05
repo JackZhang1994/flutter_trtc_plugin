@@ -44,3 +44,46 @@ class TrtcAudioRouter {
   /// 听筒
   static const int TRTC_AUDIO_ROUTE_EARPIECE = 1;
 }
+
+class TrtcVideoResolution {
+  static const int TRTC_VIDEO_RESOLUTION_120_120 = 1;
+  static const int TRTC_VIDEO_RESOLUTION_160_160 = 3;
+  static const int TRTC_VIDEO_RESOLUTION_270_270 = 5;
+  static const int TRTC_VIDEO_RESOLUTION_480_480 = 7;
+  static const int TRTC_VIDEO_RESOLUTION_160_120 = 50;
+  static const int TRTC_VIDEO_RESOLUTION_240_180 = 52;
+  static const int TRTC_VIDEO_RESOLUTION_280_210 = 54;
+  static const int TRTC_VIDEO_RESOLUTION_320_240 = 56;
+  static const int TRTC_VIDEO_RESOLUTION_400_300 = 58;
+  static const int TRTC_VIDEO_RESOLUTION_480_360 = 60;
+  static const int TRTC_VIDEO_RESOLUTION_640_480 = 62;
+  static const int TRTC_VIDEO_RESOLUTION_960_720 = 64;
+  static const int TRTC_VIDEO_RESOLUTION_160_90 = 100;
+  static const int TRTC_VIDEO_RESOLUTION_256_144 = 102;
+  static const int TRTC_VIDEO_RESOLUTION_320_180 = 104;
+  static const int TRTC_VIDEO_RESOLUTION_480_270 = 106;
+  static const int TRTC_VIDEO_RESOLUTION_640_360 = 108;
+  static const int TRTC_VIDEO_RESOLUTION_960_540 = 110;
+  static const int TRTC_VIDEO_RESOLUTION_1280_720 = 112;
+}
+
+class TrtcVideoResolutionMode {
+  static const int TRTC_VIDEO_RESOLUTION_MODE_LANDSCAPE = 0;
+  static const int TRTC_VIDEO_RESOLUTION_MODE_PORTRAIT = 1;
+}
+
+class TrtcVideoQosControl {
+  static const int VIDEO_QOS_CONTROL_CLIENT = 0;
+  static const int VIDEO_QOS_CONTROL_SERVER = 1;
+}
+
+class TrtcVideoQosPreference {
+  static const int TRTC_VIDEO_QOS_PREFERENCE_SMOOTH = 1;
+  static const int TRTC_VIDEO_QOS_PREFERENCE_CLEAR = 2;
+}
+
+class TrtcVideoMirrorType {
+  static const int TRTC_VIDEO_MIRROR_TYPE_AUTO = 0;
+  static const int TRTC_VIDEO_MIRROR_TYPE_ENABLE = 1;
+  static const int TRTC_VIDEO_MIRROR_TYPE_DISABLE = 2;
+}
