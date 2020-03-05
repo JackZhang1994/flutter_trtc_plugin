@@ -16,6 +16,11 @@ class TrtcBase {
     return await _channel.invokeMethod('destroySharedInstance');
   }
 
+  /// 获取UserSig
+  static Future<String> getUserSig(int sdkAppId, String secretKey, String userId) async {
+    return await _channel.invokeMethod('getUserSig', {'sdkAppId': sdkAppId, 'secretKey': secretKey, 'userId': userId});
+  }
+
   /// 注册回调对象
   static void registerCallback({
     Function(int errCode, String errMsg) onError,
