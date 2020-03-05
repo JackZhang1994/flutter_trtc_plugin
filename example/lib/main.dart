@@ -23,6 +23,8 @@ class _MyAppState extends State<MyApp> {
 
   bool _frontCamera = true;
   bool _muteLocalVideo = false;
+  bool _muteLocalAudio = false;
+  bool _audioSpeaker = true;
 
   TextEditingController _controller;
 
@@ -131,6 +133,7 @@ class _MyAppState extends State<MyApp> {
                           if (!_viewIdMap.containsKey(_currentUserId) && !_widgetMap.containsKey(_currentUserId)) {
                             Widget widget = TrtcVideo.createPlatformView((viewId) {
                               _viewIdMap[_currentUserId] = viewId;
+                              TrtcVideo.setLocalViewFillMode(TrtcVideoRenderMode.TRTC_VIDEO_RENDER_MODE_FILL);
                               TrtcVideo.startLocalPreview(true, _viewIdMap[_currentUserId]);
                             });
                             _widgetMap[_currentUserId] = widget;
@@ -159,7 +162,16 @@ class _MyAppState extends State<MyApp> {
                           String msg = _muteLocalVideo ? '停止推送本地的视频' : '恢复推送本地的视频';
                           showTips(msg);
                         },
-                        child: Text('停止/恢复推送本地的视频'),
+                        child: Text('摄像头控制'),
+                      ),
+                      FlatButton(
+                        onPressed: () {
+                          TrtcAudio.muteLocalAudio(_muteLocalAudio);
+                          _muteLocalAudio = !_muteLocalAudio;
+                          String msg = _muteLocalAudio ? '停止推送本地的音频' : '恢复推送本地的音频';
+                          showTips(msg);
+                        },
+                        child: Text('麦克风控制'),
                       ),
                       FlatButton(
                         onPressed: () {
@@ -169,6 +181,17 @@ class _MyAppState extends State<MyApp> {
                           showTips('切换为$msg');
                         },
                         child: Text('切换摄像头'),
+                      ),
+                      FlatButton(
+                        onPressed: () {
+                          _audioSpeaker = !_audioSpeaker;
+                          TrtcAudio.setAudioRoute(_audioSpeaker
+                              ? TrtcAudioRouter.TRTC_AUDIO_ROUTE_SPEAKER
+                              : TrtcAudioRouter.TRTC_AUDIO_ROUTE_EARPIECE);
+                          String msg = _audioSpeaker ? '扬声器' : '听筒';
+                          showTips('切换为$msg');
+                        },
+                        child: Text('声音播放控制'),
                       ),
                       FlatButton(
                         onPressed: () {
@@ -266,6 +289,7 @@ class _MyAppState extends State<MyApp> {
       if (!_viewIdMap.containsKey(userId) && !_widgetMap.containsKey(userId)) {
         Widget widget = TrtcVideo.createPlatformView((viewId) {
           _viewIdMap[userId] = viewId;
+          TrtcVideo.setRemoteViewFillMode(userId, TrtcVideoRenderMode.TRTC_VIDEO_RENDER_MODE_FILL);
           TrtcVideo.startRemoteView(userId, viewId);
         });
         _widgetMap[userId] = widget;
