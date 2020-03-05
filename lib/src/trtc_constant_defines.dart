@@ -68,22 +68,31 @@ class TrtcVideoResolution {
 }
 
 class TrtcVideoResolutionMode {
+  /// 横屏分辨率
   static const int TRTC_VIDEO_RESOLUTION_MODE_LANDSCAPE = 0;
+  /// 竖屏分辨率
   static const int TRTC_VIDEO_RESOLUTION_MODE_PORTRAIT = 1;
 }
 
 class TrtcVideoQosControl {
+  /// 客户端控制（用于 SDK 开发内部调试，客户请勿使用）
   static const int VIDEO_QOS_CONTROL_CLIENT = 0;
+  /// 云端控制 （默认）
   static const int VIDEO_QOS_CONTROL_SERVER = 1;
 }
 
 class TrtcVideoQosPreference {
+  /// 弱网下保流畅
   static const int TRTC_VIDEO_QOS_PREFERENCE_SMOOTH = 1;
+  /// 弱网下保清晰
   static const int TRTC_VIDEO_QOS_PREFERENCE_CLEAR = 2;
 }
 
 class TrtcVideoMirrorType {
+  /// SDK 决定镜像方式：前置摄像头镜像，后置摄像头不镜像
   static const int TRTC_VIDEO_MIRROR_TYPE_AUTO = 0;
+  /// 前置摄像头和后置摄像头都镜像
   static const int TRTC_VIDEO_MIRROR_TYPE_ENABLE = 1;
+  /// 前置摄像头和后置摄像头都不镜像
   static const int TRTC_VIDEO_MIRROR_TYPE_DISABLE = 2;
 }

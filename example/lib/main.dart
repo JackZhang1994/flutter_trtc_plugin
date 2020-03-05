@@ -25,6 +25,8 @@ class _MyAppState extends State<MyApp> {
   bool _muteLocalVideo = false;
   bool _muteLocalAudio = false;
   bool _audioSpeaker = true;
+  int _localMirror = TrtcVideoMirrorType.TRTC_VIDEO_MIRROR_TYPE_AUTO;
+  bool _mirror = false;
 
   TextEditingController _controller;
 
@@ -124,6 +126,50 @@ class _MyAppState extends State<MyApp> {
                       ),
                       FlatButton(
                         onPressed: () {
+                          TrtcVideo.setVideoEncoderParam();
+                        },
+                        child: Text('设置视频编码器相关参数'),
+                      ),
+                      FlatButton(
+                        onPressed: () {
+                          String msg;
+                          switch (_localMirror) {
+                            case TrtcVideoMirrorType.TRTC_VIDEO_MIRROR_TYPE_AUTO:
+                              _localMirror = TrtcVideoMirrorType.TRTC_VIDEO_MIRROR_TYPE_ENABLE;
+                              msg = '前置摄像头和后置摄像头都镜像';
+                              break;
+
+                            case TrtcVideoMirrorType.TRTC_VIDEO_MIRROR_TYPE_ENABLE:
+                              _localMirror = TrtcVideoMirrorType.TRTC_VIDEO_MIRROR_TYPE_DISABLE;
+                              msg = '前置摄像头和后置摄像头都不镜像';
+                              break;
+
+                            default:
+                              _localMirror = TrtcVideoMirrorType.TRTC_VIDEO_MIRROR_TYPE_AUTO;
+                              msg = '前置摄像头镜像，后置摄像头不镜像';
+                              break;
+                          }
+                          TrtcVideo.setLocalViewMirror(_localMirror);
+                          showTips(msg);
+                        },
+                        child: Text('本地摄像头镜像'),
+                      ),
+                      FlatButton(
+                        onPressed: () {
+                          String msg;
+                          _mirror = !_mirror;
+                          if (_mirror) {
+                            msg = '开启推流镜像';
+                          } else {
+                            msg = '关闭推流镜像';
+                          }
+                          TrtcVideo.setVideoEncoderMirror(_mirror);
+                          showTips(msg);
+                        },
+                        child: Text('输出画面镜像'),
+                      ),
+                      FlatButton(
+                        onPressed: () {
                           TrtcVideo.muteLocalVideo(_muteLocalVideo);
                           _muteLocalVideo = !_muteLocalVideo;
                           String msg = _muteLocalVideo ? '停止推送本地的视频' : '恢复推送本地的视频';
@@ -204,6 +250,9 @@ class _MyAppState extends State<MyApp> {
   }
 
   void _onWarning(int warningCode, String warningMsg) {
+    if (warningCode == TrtcWarningCode.WARNING_VIDEO_PLAY_LAG) {
+      TrtcVideo.setNetworkQosParam(preference: TrtcVideoQosPreference.TRTC_VIDEO_QOS_PREFERENCE_SMOOTH);
+    }
     String msg = 'onWarning: warningCode = $warningCode, warningMsg = $warningMsg';
     showTips(msg);
   }

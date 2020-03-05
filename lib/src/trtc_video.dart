@@ -129,7 +129,7 @@ class TrtcVideo {
 
   /// 设置网络流控相关参数
   ///
-  /// [preference] 弱网下选择“保清晰”或“保流畅”，默认保清晰
+  /// [preference] 弱网下选择“保清晰”或“保流畅”，默认值[TrtcVideoQosPreference.TRTC_VIDEO_QOS_PREFERENCE_CLEAR]
   /// [controlMode] 视频分辨率（云端控制 - 客户端控制），只能使用[TrtcVideoQosControl.VIDEO_QOS_CONTROL_SERVER]
   static Future<void> setNetworkQosParam({
     @required int preference,
