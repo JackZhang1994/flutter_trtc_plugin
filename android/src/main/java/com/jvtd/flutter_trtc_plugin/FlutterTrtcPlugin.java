@@ -176,6 +176,40 @@ public class FlutterTrtcPlugin implements FlutterPlugin, MethodCallHandler, Even
         mManager.setRemoteViewFillMode(userId3, mode1);
         break;
 
+      case "setVideoEncoderParam":
+        int videoResolution = numberToIntValue((Number) call.argument("videoResolution"));
+        int videoResolutionMode = numberToIntValue((Number) call.argument("videoResolutionMode"));
+        int videoFps = numberToIntValue((Number) call.argument("videoFps"));
+        int videoBitrate = numberToIntValue((Number) call.argument("videoBitrate"));
+        boolean enableAdjustRes = numberToBoolValue((Boolean) call.argument("enableAdjustRes"));
+        TRTCCloudDef.TRTCVideoEncParam endParam = new TRTCCloudDef.TRTCVideoEncParam();
+        endParam.videoResolution = videoResolution;
+        endParam.videoResolutionMode = videoResolutionMode;
+        endParam.videoFps = videoFps;
+        endParam.videoBitrate = videoBitrate;
+        endParam.enableAdjustRes = enableAdjustRes;
+        mManager.setVideoEncoderParam(endParam);
+        break;
+
+      case "setNetworkQosParam":
+        int preference = numberToIntValue((Number) call.argument("preference"));
+        int controlMode = numberToIntValue((Number) call.argument("controlMode"));
+        TRTCCloudDef.TRTCNetworkQosParam qosParam = new TRTCCloudDef.TRTCNetworkQosParam();
+        qosParam.preference = preference;
+        qosParam.controlMode = controlMode;
+        mManager.setNetworkQosParam(qosParam);
+        break;
+
+      case "setLocalViewMirror":
+        int mirrorType = numberToIntValue((Number) call.argument("mirrorType"));
+        mManager.setLocalViewMirror(mirrorType);
+        break;
+
+      case "setVideoEncoderMirror":
+        boolean mirror = numberToBoolValue((Boolean) call.argument("mirror"));
+        mManager.setVideoEncoderMirror(mirror);
+        break;
+
       case "startLocalAudio":
         mManager.startLocalAudio();
         break;

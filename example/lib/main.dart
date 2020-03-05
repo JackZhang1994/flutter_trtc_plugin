@@ -25,6 +25,8 @@ class _MyAppState extends State<MyApp> {
   bool _muteLocalVideo = false;
   bool _muteLocalAudio = false;
   bool _audioSpeaker = true;
+  int _localMirror = TrtcVideoMirrorType.TRTC_VIDEO_MIRROR_TYPE_AUTO;
+  bool _mirror = false;
 
   TextEditingController _controller;
 
@@ -116,12 +118,6 @@ class _MyAppState extends State<MyApp> {
                         },
                         child: Text('设置监听'),
                       ),
-//                      FlatButton(
-//                        onPressed: () {
-//                          TrtcRoom.setDefaultStreamRecvMode(true, true);
-//                        },
-//                        child: Text('设置音视频数据接收模式'),
-//                      ),
                       FlatButton(
                         onPressed: () {
                           TrtcRoom.enterRoom(_sdkAppId, _currentUserId, _userSig, _roomId, 0);
@@ -130,30 +126,47 @@ class _MyAppState extends State<MyApp> {
                       ),
                       FlatButton(
                         onPressed: () {
-                          if (!_viewIdMap.containsKey(_currentUserId) && !_widgetMap.containsKey(_currentUserId)) {
-                            Widget widget = TrtcVideo.createPlatformView(_currentUserId, (viewId) {
-                              _viewIdMap[_currentUserId] = viewId;
-                              TrtcVideo.setLocalViewFillMode(TrtcVideoRenderMode.TRTC_VIDEO_RENDER_MODE_FILL);
-                              TrtcVideo.startLocalPreview(true, _viewIdMap[_currentUserId]);
-                            });
-                            _widgetMap[_currentUserId] = widget;
-                            setState(() {});
-                          }
+                          TrtcVideo.setVideoEncoderParam();
                         },
-                        child: Text('开启本地预览'),
+                        child: Text('设置视频编码器相关参数'),
                       ),
                       FlatButton(
                         onPressed: () {
-                          TrtcVideo.stopLocalPreview();
-                          TrtcVideo.destroyPlatformView(_viewIdMap[_currentUserId]).then((flag) {
-                            if (flag) {
-                              _viewIdMap.remove(_currentUserId);
-                              _widgetMap.remove(_currentUserId);
-                              setState(() {});
-                            }
-                          });
+                          String msg;
+                          switch (_localMirror) {
+                            case TrtcVideoMirrorType.TRTC_VIDEO_MIRROR_TYPE_AUTO:
+                              _localMirror = TrtcVideoMirrorType.TRTC_VIDEO_MIRROR_TYPE_ENABLE;
+                              msg = '前置摄像头和后置摄像头都镜像';
+                              break;
+
+                            case TrtcVideoMirrorType.TRTC_VIDEO_MIRROR_TYPE_ENABLE:
+                              _localMirror = TrtcVideoMirrorType.TRTC_VIDEO_MIRROR_TYPE_DISABLE;
+                              msg = '前置摄像头和后置摄像头都不镜像';
+                              break;
+
+                            default:
+                              _localMirror = TrtcVideoMirrorType.TRTC_VIDEO_MIRROR_TYPE_AUTO;
+                              msg = '前置摄像头镜像，后置摄像头不镜像';
+                              break;
+                          }
+                          TrtcVideo.setLocalViewMirror(_localMirror);
+                          showTips(msg);
                         },
-                        child: Text('停止本地预览'),
+                        child: Text('本地摄像头镜像'),
+                      ),
+                      FlatButton(
+                        onPressed: () {
+                          String msg;
+                          _mirror = !_mirror;
+                          if (_mirror) {
+                            msg = '开启推流镜像';
+                          } else {
+                            msg = '关闭推流镜像';
+                          }
+                          TrtcVideo.setVideoEncoderMirror(_mirror);
+                          showTips(msg);
+                        },
+                        child: Text('输出画面镜像'),
                       ),
                       FlatButton(
                         onPressed: () {
@@ -237,6 +250,9 @@ class _MyAppState extends State<MyApp> {
   }
 
   void _onWarning(int warningCode, String warningMsg) {
+    if (warningCode == TrtcWarningCode.WARNING_VIDEO_PLAY_LAG) {
+      TrtcVideo.setNetworkQosParam(preference: TrtcVideoQosPreference.TRTC_VIDEO_QOS_PREFERENCE_SMOOTH);
+    }
     String msg = 'onWarning: warningCode = $warningCode, warningMsg = $warningMsg';
     showTips(msg);
   }
@@ -245,6 +261,14 @@ class _MyAppState extends State<MyApp> {
     String msg;
     if (result > 0) {
       msg = '进入房间耗时$result毫秒';
+      TrtcAudio.startLocalAudio();
+      Widget widget = TrtcVideo.createPlatformView(_currentUserId, (viewId) {
+        _viewIdMap[_currentUserId] = viewId;
+        TrtcVideo.setLocalViewFillMode(TrtcVideoRenderMode.TRTC_VIDEO_RENDER_MODE_FILL);
+        TrtcVideo.startLocalPreview(true, _viewIdMap[_currentUserId]);
+      });
+      _widgetMap[_currentUserId] = widget;
+      setState(() {});
     } else {
       msg = '进入房间失败，错误码$result';
     }
@@ -256,6 +280,8 @@ class _MyAppState extends State<MyApp> {
     String msg;
     if (reason == 0) {
       msg = '用户主动离开房间';
+      _widgetMap.clear();
+      _viewIdMap.clear();
     } else if (reason == 1) {
       msg = '用户被踢出房间';
     } else {
