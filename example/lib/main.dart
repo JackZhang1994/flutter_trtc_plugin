@@ -131,7 +131,7 @@ class _MyAppState extends State<MyApp> {
                       FlatButton(
                         onPressed: () {
                           if (!_viewIdMap.containsKey(_currentUserId) && !_widgetMap.containsKey(_currentUserId)) {
-                            Widget widget = TrtcVideo.createPlatformView((viewId) {
+                            Widget widget = TrtcVideo.createPlatformView(_currentUserId, (viewId) {
                               _viewIdMap[_currentUserId] = viewId;
                               TrtcVideo.setLocalViewFillMode(TrtcVideoRenderMode.TRTC_VIDEO_RENDER_MODE_FILL);
                               TrtcVideo.startLocalPreview(true, _viewIdMap[_currentUserId]);
@@ -287,7 +287,7 @@ class _MyAppState extends State<MyApp> {
 
     if (available) {
       if (!_viewIdMap.containsKey(userId) && !_widgetMap.containsKey(userId)) {
-        Widget widget = TrtcVideo.createPlatformView((viewId) {
+        Widget widget = TrtcVideo.createPlatformView(userId, (viewId) {
           _viewIdMap[userId] = viewId;
           TrtcVideo.setRemoteViewFillMode(userId, TrtcVideoRenderMode.TRTC_VIDEO_RENDER_MODE_FILL);
           TrtcVideo.startRemoteView(userId, viewId);

@@ -7,11 +7,11 @@ class TrtcVideo {
   static const MethodChannel _channel = const MethodChannel('flutter_trtc_plugin');
 
   /// 创建PlatformView
-  static Widget createPlatformView(Function(int viewID) onViewCreated) {
+  static Widget createPlatformView(String userId, Function(int viewID) onViewCreated) {
     if (TargetPlatform.iOS == defaultTargetPlatform) {
       return UiKitView(
           viewType: 'flutter_trtc_plugin_view',
-          key: new ObjectKey('preview'),
+          key: new ObjectKey(userId),
           onPlatformViewCreated: (int viewId) {
             if (onViewCreated != null) {
               onViewCreated(viewId);
@@ -19,6 +19,7 @@ class TrtcVideo {
           });
     } else if (TargetPlatform.android == defaultTargetPlatform) {
       return AndroidView(
+        key: new ObjectKey(userId),
         viewType: 'flutter_trtc_plugin_view',
         onPlatformViewCreated: (int viewID) {
           if (onViewCreated != null) {
