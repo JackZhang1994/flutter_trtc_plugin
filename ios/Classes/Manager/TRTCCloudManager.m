@@ -19,8 +19,8 @@ static TRTCCloud * _trtc = nil;
 - (instancetype)init{
     self = [super init];
     if (self) {
-        _trtc = [TRTCCloud sharedInstance];
-        [_trtc setDelegate:self];
+//        _trtc = [TRTCCloud sharedInstance];
+//        [_trtc setDelegate:self];
     }
     return self;
 }
@@ -53,9 +53,10 @@ static TRTCCloud * _trtc = nil;
     TRTCVideoView * view = [[TRTCPlatformViewFactory shareInstance] getPlatformView:viewID];
     if(view) {
         [self.trtc startLocalPreview:frontCamera view:[view getUIView]];
-        self.callBack(YES);
+        self.callBack(1);
+    
     } else {
-        self.callBack(NO);
+        self.callBack(0);
     }
 }
 
@@ -65,4 +66,5 @@ static TRTCCloud * _trtc = nil;
 -(void)onExitRoom:(NSInteger)reason{
     
 }
+
 @end

@@ -13,13 +13,14 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol TRTCCloudManagerDelegate <NSObject>
 
 @optional
+
 - (void)roomSettingsManager:(TRTCCloudManager *)manager didSetVolumeEvaluation:(BOOL)isEnabled;
 
 @end
 @interface TRTCCloudManager : NSObject
-@property (weak, nonatomic) id<TRTCCloudManagerDelegate> delegate;
+@property (nonatomic,weak) id<TRTCCloudManagerDelegate> delegate;
 @property (strong, nonatomic, nullable) UIImageView *videoView;
-typedef void(^CallBackBlock)(BOOL result);
+typedef void(^CallBackBlock)(int result);
 @property (nonatomic, copy)CallBackBlock callBack;
 + (instancetype) shareInstance;
 #pragma mark - Room

@@ -21,6 +21,7 @@
     if(self =[super init]){
         _trtc = nil;
         _registrar = registrar;
+        
     }
     return  self;
 }
@@ -62,7 +63,8 @@
     if ([@"getPlatformVersion" isEqualToString:call.method]) {
         result([@"iOS " stringByAppendingString:[[UIDevice currentDevice] systemVersion]]);
     }else if ([@"sharedInstance" isEqualToString:call.method]) {
-        [[TRTCCloudManager shareInstance] initTrtcCloud];
+        //设置代理
+        [self initTrtcManager];
     }else if ([@"enterRoom" isEqualToString:call.method]) {
         TRTCParams * params = [[TRTCParams alloc]init];
         params.roomId = [self numberToIntValue:args[@"roomId"]];
@@ -71,27 +73,117 @@
         params.userSig = call.arguments[@"userSig"];
         int scene = [self numberToIntValue:args[@"scene"]];
         //进入房间
-        [[TRTCCloudManager shareInstance] enterRoom:params appScene:scene];
+        [self.trtc enterRoom:params appScene:scene];
+        result(@(YES));
     }else if ([@"startLocalPreview" isEqualToString:call.method]) {
         BOOL frontCamera =[self numberToBoolValue:args[@"frontCamera"]];
         int viewID = [self numberToIntValue:args[@"viewId"]];
         //本地视频渲染
-        [[TRTCCloudManager shareInstance] startLocalPreview:frontCamera viewID:@(viewID) callBackBlock:^(BOOL success) {
-            if(success){
-                result(@(YES));
-            }else{
-               result(@(NO));
-            }
-        }];
+        TRTCVideoView * view = [[TRTCPlatformViewFactory shareInstance] getPlatformView:@(viewID)];
+        if(view) {
+            [self.trtc startLocalPreview:frontCamera view:[view getUIView]];
+            result(@(YES));
+            
+        } else {
+            result(@(NO));
+        }
+    }else if ([@"stopLocalPreview" isEqualToString:call.method]) {
+        [self.trtc stopLocalPreview];
     }else if ([@"exitRoom" isEqualToString:call.method]) {
-        [[TRTCCloudManager shareInstance] exitRoom];
+        [self.trtc exitRoom];
         result(0);
     } else {
         result(FlutterMethodNotImplemented);
     }
 }
-- (void)onEnterRoom:(NSInteger)elapsed {
-    NSLog(@"进入房间成功========%ld",(long)elapsed);
+
+#pragma mark - flutter_trtc_plugin
+#pragma mark--初始化API
+-(void)initTrtcManager{
+    self.trtc = [TRTCCloud sharedInstance];
+    [self.trtc setDelegate:self];
+    
+}
+#pragma mark - flutter_trtc_plugin_callback
+#pragma mark--进房监听
+- (void)onEnterRoom:(NSInteger)result {
+    FlutterEventSink sink = _eventSink;
+    if(sink) {
+        sink(@{@"method": @{@"name": @"onEnterRoom",@"result": @(result),}});
+    }
+    
+}
+#pragma mark--退房监听
+-(void)onExitRoom:(NSInteger)reason{
+    FlutterEventSink sink = _eventSink;
+    if(sink) {
+        sink(@{@"method": @{@"name": @"onExitRoom",@"reason": @(reason),}});
+    }
+}
+#pragma mark--远程进房监听
+-(void)onRemoteUserEnterRoom:(NSString *)userId{
+    FlutterEventSink sink = _eventSink;
+    if(sink) {
+        sink(@{@"method": @{@"name": @"onRemoteUserEnterRoom",@"userId": userId}});
+    }
+}
+#pragma mark--远程退房监听
+-(void)onRemoteUserLeaveRoom:(NSString *)userId reason:(NSInteger)reason{
+    FlutterEventSink sink = _eventSink;
+    if(sink) {
+        sink(@{@"method": @{@"name": @"onRemoteUserEnterRoom",@"userId": userId,@"reason":@(reason)}});
+    }
+    
+}
+#pragma mark -- 视频监听
+-(void)onUserVideoAvailable:(NSString *)userId available:(BOOL)available{
+    FlutterEventSink sink = _eventSink;
+    if(sink) {
+        sink(@{@"method": @{@"name": @"onUserVideoAvailable",@"userId": userId,@"available":@(available)}});
+    }
+}
+#pragma mark --音频监听
+-(void)onUserAudioAvailable:(NSString *)userId available:(BOOL)available{
+    FlutterEventSink sink = _eventSink;
+    if(sink) {
+        sink(@{@"method": @{@"name": @"onUserAudioAvailable",@"userId": userId,@"available":@(available)}});
+    }
+    
+}
+#pragma mark-- 失去连接监听
+-(void)onConnectionLost{
+    FlutterEventSink sink = _eventSink;
+    if(sink) {
+        sink(@{@"method": @{@"name": @"onConnectionLost"}});
+    }
+}
+#pragma mark-- 尝试连接监听
+-(void)onTryToReconnect{
+    FlutterEventSink sink = _eventSink;
+    if(sink) {
+        sink(@{@"method": @{@"name": @"onTryToReconnect"}});
+    }
+}
+#pragma mark-- 连接回复监听
+-(void)onConnectionRecovery{
+    FlutterEventSink sink = _eventSink;
+    if(sink) {
+        sink(@{@"method": @{@"name": @"onConnectionRecovery"}});
+    }
+}
+#pragma mark-- 错误监听
+-(void)onError:(TXLiteAVError)errCode errMsg:(NSString *)errMsg extInfo:(NSDictionary *)extInfo{
+    FlutterEventSink sink = _eventSink;
+    if(sink) {
+        sink(@{@"method": @{@"name": @"onError",@"errCode":@(errCode),@"errMsg":errMsg}});
+    }
+}
+#pragma mark -- 警告监听
+-(void)onWarning:(TXLiteAVWarning)warningCode warningMsg:(NSString *)warningMsg extInfo:(NSDictionary *)extInfo{
+    FlutterEventSink sink = _eventSink;
+    if(sink) {
+        sink(@{@"method": @{@"name": @"onWarning",@"warningCode":@(warningCode),@"warningMsg":warningMsg}});
+    }
 }
 #pragma mark - FlutterStreamHandler methods
 

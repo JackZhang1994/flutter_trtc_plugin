@@ -155,6 +155,7 @@ class _MyAppState extends State<MyApp> {
     } else {
       msg = '进入房间失败，错误码$result';
     }
+    debugPrint(msg);
     showTips(msg);
   }
 
