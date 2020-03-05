@@ -14,14 +14,22 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   HashMap<String, int> _viewIdMap = HashMap<String, int>();
   HashMap<String, Widget> _widgetMap = HashMap<String, Widget>();
-  String _currentUserId = '1513';
-  String _userSig =
-      'eJwtzE0LgkAUheH-MttC7p07Eya0KAgznBKKgtkZTnXpA9Mxgui-J*ryPAfer9inu*DtKhEJGYAYd5sL9-R85o5RIw1eF7e8LLkQESoAkkop2T-uU3LlRDQBFQL05vnRCuqQCORU09DgSxvdaLNcWLJII9zG1jS59pQdXklmTle8VyuzPvo4aep0PhO-P-6YLtQ_';
+  int _sdkAppId = 1400324442;
+  String _secretKey = 'dcfa262b7ccac8e29e163c8d824138ebb6530331ff625d9e21305259a35714ac';
+
+  String _currentUserId;
+  String _userSig;
   int _roomId = 58994078;
+
+  bool _frontCamera = true;
+  bool _muteLocalVideo = false;
+
+  TextEditingController _controller;
 
   @override
   void initState() {
     super.initState();
+    _controller = TextEditingController(text: '1513');
   }
 
   @override
@@ -35,15 +43,38 @@ class _MyAppState extends State<MyApp> {
             children: <Widget>[
               Positioned(
                 top: 0,
+                bottom: 240,
+                left: 0,
+                right: 0,
+                child: _renderWidget(),
+              ),
+              Positioned(
                 bottom: 200,
                 left: 0,
                 right: 0,
-                child: GridView.count(
-                  crossAxisSpacing: 2.0,
-                  mainAxisSpacing: 2.0,
-                  crossAxisCount: 2,
-                  childAspectRatio: 0.7,
-                  children: _renderWidgetList(),
+                child: Container(
+                  height: 40,
+                  child: Row(
+                    children: <Widget>[
+                      Expanded(
+                        child: TextField(
+                          controller: _controller,
+                          decoration: InputDecoration(
+                            fillColor: Colors.lightGreenAccent,
+                            filled: true,
+                          ),
+                        ),
+                      ),
+                      FlatButton(
+                        onPressed: () async {
+                          _currentUserId = _controller.text?.toString();
+                          _userSig = await TrtcBase.getUserSig(_sdkAppId, _secretKey, _currentUserId);
+                          showTips('获取UserSig成功');
+                        },
+                        child: Text('获取UserSig'),
+                      ),
+                    ],
+                  ),
                 ),
               ),
               Positioned(
@@ -56,7 +87,7 @@ class _MyAppState extends State<MyApp> {
                   child: GridView.count(
                     crossAxisSpacing: 5,
                     mainAxisSpacing: 5,
-                    crossAxisCount: 4,
+                    crossAxisCount: 3,
                     childAspectRatio: 2,
                     children: <Widget>[
                       FlatButton(
@@ -83,25 +114,27 @@ class _MyAppState extends State<MyApp> {
                         },
                         child: Text('设置监听'),
                       ),
+//                      FlatButton(
+//                        onPressed: () {
+//                          TrtcRoom.setDefaultStreamRecvMode(true, true);
+//                        },
+//                        child: Text('设置音视频数据接收模式'),
+//                      ),
                       FlatButton(
                         onPressed: () {
-                          TrtcRoom.enterRoom(1400324442, _currentUserId, _userSig, _roomId, 0).then((success){
-
-                          });
+                          TrtcRoom.enterRoom(_sdkAppId, _currentUserId, _userSig, _roomId, 0);
                         },
                         child: Text('进入房间'),
                       ),
                       FlatButton(
                         onPressed: () {
-                          if (_viewIdMap[_currentUserId] == null && _widgetMap[_currentUserId] == null) {
+                          if (!_viewIdMap.containsKey(_currentUserId) && !_widgetMap.containsKey(_currentUserId)) {
                             Widget widget = TrtcVideo.createPlatformView((viewId) {
                               _viewIdMap[_currentUserId] = viewId;
                               TrtcVideo.startLocalPreview(true, _viewIdMap[_currentUserId]);
                             });
                             _widgetMap[_currentUserId] = widget;
                             setState(() {});
-                          } else {
-                            TrtcVideo.startLocalPreview(true, _viewIdMap[_currentUserId]);
                           }
                         },
                         child: Text('开启本地预览'),
@@ -109,8 +142,33 @@ class _MyAppState extends State<MyApp> {
                       FlatButton(
                         onPressed: () {
                           TrtcVideo.stopLocalPreview();
+                          TrtcVideo.destroyPlatformView(_viewIdMap[_currentUserId]).then((flag) {
+                            if (flag) {
+                              _viewIdMap.remove(_currentUserId);
+                              _widgetMap.remove(_currentUserId);
+                              setState(() {});
+                            }
+                          });
                         },
                         child: Text('停止本地预览'),
+                      ),
+                      FlatButton(
+                        onPressed: () {
+                          TrtcVideo.muteLocalVideo(_muteLocalVideo);
+                          _muteLocalVideo = !_muteLocalVideo;
+                          String msg = _muteLocalVideo ? '停止推送本地的视频' : '恢复推送本地的视频';
+                          showTips(msg);
+                        },
+                        child: Text('停止/恢复推送本地的视频'),
+                      ),
+                      FlatButton(
+                        onPressed: () {
+                          TrtcVideo.switchCamera();
+                          _frontCamera = !_frontCamera;
+                          String msg = _frontCamera ? '前置摄像头' : '后置摄像头';
+                          showTips('切换为$msg');
+                        },
+                        child: Text('切换摄像头'),
                       ),
                       FlatButton(
                         onPressed: () {
@@ -127,13 +185,25 @@ class _MyAppState extends State<MyApp> {
     );
   }
 
-  /// 渲染层集合
-  List<Widget> _renderWidgetList() {
-    var list = List<Widget>();
-    if (_widgetMap.isEmpty) {
-      list.add(SizedBox());
+  Widget _renderWidget() {
+    if (_widgetMap == null || _widgetMap.isEmpty) {
+      return SizedBox();
     } else {
-      list.addAll(_widgetMap.values.toList().map((widget) => Container(width: 150, child: widget)));
+      return GridView.count(
+        crossAxisSpacing: 2.0,
+        mainAxisSpacing: 2.0,
+        crossAxisCount: 2,
+        childAspectRatio: 0.7,
+        children: _videoWidgetList(),
+      );
+    }
+  }
+
+  /// 渲染层集合
+  List<Widget> _videoWidgetList() {
+    var list = List<Widget>();
+    if (_widgetMap.isNotEmpty) {
+      list.addAll(_widgetMap.values);
     }
     return list;
   }
@@ -196,12 +266,14 @@ class _MyAppState extends State<MyApp> {
       if (!_viewIdMap.containsKey(userId) && !_widgetMap.containsKey(userId)) {
         Widget widget = TrtcVideo.createPlatformView((viewId) {
           _viewIdMap[userId] = viewId;
+          TrtcVideo.startRemoteView(userId, viewId);
         });
         _widgetMap[userId] = widget;
         setState(() {});
       }
     } else {
       if (_viewIdMap.containsKey(userId) && _widgetMap.containsKey(userId)) {
+        TrtcVideo.stopRemoteView(userId);
         TrtcVideo.destroyPlatformView(_viewIdMap[userId]).then((flag) {
           if (flag) {
             _viewIdMap.remove(userId);
@@ -233,5 +305,11 @@ class _MyAppState extends State<MyApp> {
   void showTips(String msg) {
     Fluttertoast.showToast(msg: msg);
     print(msg);
+  }
+
+  @override
+  void dispose() {
+    _controller?.dispose();
+    super.dispose();
   }
 }

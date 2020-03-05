@@ -98,6 +98,13 @@ public class FlutterTrtcPlugin implements FlutterPlugin, MethodCallHandler, Even
         mManager.destroySharedInstance();
         break;
 
+      case "getUserSig":
+        int appId = numberToIntValue((Number) call.argument("sdkAppId"));
+        String secretKey = call.argument("secretKey");
+        String uid = call.argument("userId");
+        result.success(GenerateTestUserSig.genTestUserSig(appId, secretKey, uid));
+        break;
+
       case "enterRoom":
         int sdkAppId = numberToIntValue((Number) call.argument("sdkAppId"));// 应用标识 [必填]
         String userId = call.argument("userId");// 用户标识 [必填]
