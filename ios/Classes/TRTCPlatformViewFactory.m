@@ -16,7 +16,7 @@ static TRTCPlatformViewFactory * g_factory = nil;
 
 @implementation TRTCPlatformViewFactory
 
-- (instancetype)initWithMessenger:(NSObject<FlutterBinaryMessenger> *)messager{
+- (instancetype)init{
     self = [super init];
     if (self) {
         _views = [[NSMutableDictionary alloc]init];

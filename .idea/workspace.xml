@@ -6,11 +6,27 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9a974cae-84d5-4bc6-ab47-e489d27e2798" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/android/src/main/java/com/jvtd/flutter_trtc_plugin/GenerateTestUserSig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/src/main/java/com/jvtd/flutter_trtc_plugin/FlutterTrtcPlugin.java" beforeDir="false" afterPath="$PROJECT_DIR$/android/src/main/java/com/jvtd/flutter_trtc_plugin/FlutterTrtcPlugin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/Classes/Manager/TRTCAudioConfig.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/Classes/Manager/TRTCAudioConfig.m" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/Classes/Manager/TRTCCloudManager.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/Classes/Manager/TRTCCloudManager.m" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/Classes/Manager/TRTCStreamConfig.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/Classes/Manager/TRTCStreamConfig.m" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/Classes/Manager/TRTCVideoConfig.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/Classes/Manager/TRTCVideoConfig.m" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/Classes/RemoteUser/TRTCRemoteUserConfig.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/Classes/RemoteUser/TRTCRemoteUserConfig.m" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/Classes/RemoteUser/TRTCRemoteUserManager.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/Classes/RemoteUser/TRTCRemoteUserManager.m" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/example/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/example/lib/main.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/trtc_base.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/trtc_base.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/flutter_trtc_plugin.iml" beforeDir="false" afterPath="$PROJECT_DIR$/flutter_trtc_plugin.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Classes/FlutterTrtcPlugin.m" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/FlutterTrtcPlugin.m" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Classes/TRTCPlatformViewFactory.h" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/TRTCPlatformViewFactory.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Classes/TRTCPlatformViewFactory.m" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/TRTCPlatformViewFactory.m" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Classes/TRTCVideoView.h" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/TRTCVideoView.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Classes/TRTCVideoView.m" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/TRTCVideoView.m" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/trtc_video.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/trtc_video.dart" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.dart_tool/" />
     <ignored path="$PROJECT_DIR$/.idea/" />
@@ -30,11 +46,11 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="SQR7N17407005945" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/example/lib/main.dart">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="785">
-              <caret line="314" lean-forward="true" selection-start-line="314" selection-end-line="314" />
+            <state relative-caret-position="502">
+              <caret line="118" column="74" lean-forward="true" selection-start-line="118" selection-start-column="74" selection-end-line="118" selection-end-column="74" />
               <folding>
                 <element signature="e#0#25#0" expanded="true" />
               </folding>
@@ -76,7 +92,7 @@
         <entry file="file://$PROJECT_DIR$/lib/src/trtc_video.dart">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="295">
-              <caret line="47" column="22" selection-start-line="47" selection-start-column="22" selection-end-line="47" selection-end-column="22" />
+              <caret line="48" column="22" selection-start-line="48" selection-start-column="22" selection-end-line="48" selection-end-column="22" />
               <folding>
                 <element signature="e#0#41#0" expanded="true" />
               </folding>
@@ -102,7 +118,7 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/lib/src/trtc_base.dart">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="295">
@@ -190,6 +206,12 @@
               <item name="flutter_trtc_plugin" type="462c0819:PsiDirectoryNode" />
               <item name="example" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="flutter_trtc_plugin" type="b2602c69:ProjectViewProjectNode" />
+              <item name="flutter_trtc_plugin" type="462c0819:PsiDirectoryNode" />
+              <item name="example" type="462c0819:PsiDirectoryNode" />
+              <item name="lib" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
@@ -244,7 +266,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1680" height="1027" extended-state="0" />
-    <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24969475" />
       <window_info id="Captures" order="1" side_tool="true" />
@@ -496,19 +517,9 @@
     <entry file="file://$PROJECT_DIR$/lib/src/trtc_video.dart">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="295">
-          <caret line="47" column="22" selection-start-line="47" selection-start-column="22" selection-end-line="47" selection-end-column="22" />
+          <caret line="48" column="22" selection-start-line="48" selection-start-column="22" selection-end-line="48" selection-end-column="22" />
           <folding>
             <element signature="e#0#41#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/example/lib/main.dart">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="785">
-          <caret line="314" lean-forward="true" selection-start-line="314" selection-end-line="314" />
-          <folding>
-            <element signature="e#0#25#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -519,6 +530,16 @@
           <caret line="19" column="24" selection-start-line="19" selection-start-column="24" selection-end-line="19" selection-end-column="24" />
           <folding>
             <element signature="e#0#20#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example/lib/main.dart">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="502">
+          <caret line="118" column="74" lean-forward="true" selection-start-line="118" selection-start-column="74" selection-end-line="118" selection-end-column="74" />
+          <folding>
+            <element signature="e#0#25#0" expanded="true" />
           </folding>
         </state>
       </provider>
