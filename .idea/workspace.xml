@@ -48,8 +48,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/example/lib/main.dart">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="921">
-              <caret line="159" column="50" selection-start-line="159" selection-start-column="50" selection-end-line="159" selection-end-column="50" />
+            <state relative-caret-position="425">
+              <caret line="145" column="39" lean-forward="true" selection-start-line="145" selection-start-column="39" selection-end-line="145" selection-end-column="39" />
               <folding>
                 <element signature="e#0#25#0" expanded="true" />
               </folding>
@@ -82,7 +82,7 @@
         <entry file="file://$PROJECT_DIR$/lib/src/trtc_video.dart">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="229">
-              <caret line="49" column="56" selection-start-line="49" selection-start-column="40" selection-end-line="49" selection-end-column="56" />
+              <caret line="50" column="56" selection-start-line="50" selection-start-column="40" selection-end-line="50" selection-end-column="56" />
               <folding>
                 <element signature="e#0#41#0" expanded="true" />
               </folding>
@@ -177,8 +177,8 @@
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="250" />
-    <option name="y" value="206" />
+    <option name="x" value="-364" />
+    <option name="y" value="483" />
     <option name="width" value="1452" />
     <option name="height" value="900" />
   </component>
@@ -302,7 +302,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="334" y="0" width="1452" height="900" extended-state="0" />
+    <frame x="-90" y="524" width="1452" height="900" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.26312056" />
@@ -528,7 +528,7 @@
     <entry file="file://$PROJECT_DIR$/lib/src/trtc_video.dart">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="229">
-          <caret line="49" column="56" selection-start-line="49" selection-start-column="40" selection-end-line="49" selection-end-column="56" />
+          <caret line="50" column="56" selection-start-line="50" selection-start-column="40" selection-end-line="50" selection-end-column="56" />
           <folding>
             <element signature="e#0#41#0" expanded="true" />
           </folding>
@@ -544,8 +544,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/example/lib/main.dart">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="921">
-          <caret line="159" column="50" selection-start-line="159" selection-start-column="50" selection-end-line="159" selection-end-column="50" />
+        <state relative-caret-position="425">
+          <caret line="145" column="39" lean-forward="true" selection-start-line="145" selection-start-column="39" selection-end-line="145" selection-end-column="39" />
           <folding>
             <element signature="e#0#25#0" expanded="true" />
           </folding>
