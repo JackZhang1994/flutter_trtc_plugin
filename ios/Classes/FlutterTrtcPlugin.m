@@ -1,6 +1,7 @@
 #import "FlutterTrtcPlugin.h"
 #import "TRTCPlatformViewFactory.h"
 #import "TRTCCloud.h"
+#import "TRTCCloudDef.h"
 #import "TRTCCloudDelegate.h"
 #import "TRTCCloudManager.h"
 #import "TRTCVideoView.h"
@@ -28,6 +29,11 @@ static NSString * const setAudioRoute = @"setAudioRoute";/** 设置音频路由*
 static NSString * const muteRemoteAudio = @"muteRemoteAudio";/** 静音某一个用户的声音，同时不再拉取该远端用户的音频数据流*/
 static NSString * const muteAllRemoteAudio = @"muteAllRemoteAudio";/** 静音所有用户的声音，同时不再拉取远端用户的音频数据流*/
 static NSString * const switchCamera = @"switchCamera";/** 切换摄像头*/
+static NSString * const setVideoEncoderParam = @"setVideoEncoderParam";/** 设置视频编码器相关参数*/
+static NSString * const setNetworkQosParam = @"setNetworkQosParam";/** 设置网络流控相关参数*/
+static NSString * const setLocalViewMirror = @"setLocalViewMirror";/** 设置本地摄像头预览画面的镜像模式*/
+static NSString * const setVideoEncoderMirror = @"setVideoEncoderMirror";/** 设置编码器输出的画面镜像模式*/
+
 
 @interface FlutterTrtcPlugin()<TRTCCloudDelegate,FlutterStreamHandler>
 @property(nonatomic,strong) TRTCCloud *trtc;
@@ -168,11 +174,36 @@ static NSString * const switchCamera = @"switchCamera";/** 切换摄像头*/
         [self.trtc muteAllRemoteAudio:mote];
     }else if ([switchCamera isEqualToString:call.method]) {
         [self.trtc switchCamera];
+    }else if ([setVideoEncoderParam isEqualToString:call.method]) {
+        int videoResolution = [self numberToIntValue:args[@"videoResolution"]];
+        int resMode =[self numberToIntValue:args[@"videoResolutionMode"]];
+        int videoFps = [self numberToIntValue:args[@"videoFps"]];
+        int videoBitrate = [self numberToIntValue:args[@"videoBitrate"]];
+        BOOL enableAdjustRes =[self numberToBoolValue:args[@"enableAdjustRes"]];
+        TRTCVideoEncParam * endParam = [[TRTCVideoEncParam alloc]init];
+        endParam.videoResolution = videoResolution;
+        endParam.resMode = resMode;
+        endParam.videoFps = videoFps;
+        endParam.videoBitrate = videoBitrate;
+        endParam.enableAdjustRes = enableAdjustRes;
+        [self.trtc setVideoEncoderParam:endParam];
+    }else if ([setNetworkQosParam isEqualToString:call.method]) {
+        int preference = [self numberToIntValue:args[@"preference"]];
+        int controlMode =[self numberToIntValue:args[@"controlMode"]];
+        TRTCNetworkQosParam * qosParam = [[TRTCNetworkQosParam alloc]init];
+        qosParam.preference = preference;
+        qosParam.controlMode = controlMode;
+        [self.trtc setNetworkQosParam:qosParam];
+    }else if ([setLocalViewMirror isEqualToString:call.method]) {
+        int mirrorType = [self numberToIntValue:args[@"mirrorType"]];
+        [self.trtc setLocalViewMirror:mirrorType];
+    }else if ([setVideoEncoderMirror isEqualToString:call.method]) {
+        BOOL mirror =[self numberToBoolValue:args[@"mirror"]];
+        [self.trtc setVideoEncoderMirror:mirror];
     }else {
         result(FlutterMethodNotImplemented);
     }
 }
-
 #pragma mark- 初始化API
 -(void)initTrtcManager{
     self.trtc = [TRTCCloud sharedInstance];

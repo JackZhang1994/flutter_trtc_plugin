@@ -135,7 +135,7 @@ class TrtcVideo {
     @required int preference,
     int controlMode = TrtcVideoQosControl.VIDEO_QOS_CONTROL_SERVER,
   }) async {
-    return await _channel.invokeMethod('setVideoEncoderParam', {
+    return await _channel.invokeMethod('setNetworkQosParam', {
       'preference': preference,
       'controlMode': controlMode,
     });
