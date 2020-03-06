@@ -1,7 +1,6 @@
 package com.jvtd.flutter_trtc_plugin;
 
 import android.app.Activity;
-import android.app.Application;
 import android.content.Context;
 
 import androidx.annotation.NonNull;
@@ -9,9 +8,7 @@ import androidx.annotation.NonNull;
 import com.tencent.trtc.TRTCCloudDef;
 
 import java.lang.ref.WeakReference;
-import java.util.HashMap;
 
-import io.flutter.embedding.engine.plugins.FlutterPlugin;
 import io.flutter.embedding.engine.plugins.activity.ActivityAware;
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding;
 import io.flutter.plugin.common.EventChannel;
@@ -32,19 +29,27 @@ public class FlutterTrtcPlugin implements MethodCallHandler, EventChannel.Stream
 
   private WeakReference<Activity> mActivity;
   private TrtcCloudManager mManager;
+  private Context mContext;
 
-  private FlutterTrtcPlugin(PluginRegistry.Registrar registrar) {
-    Context context = registrar.context();    //获取应用程序的Context
-    mManager = new TrtcCloudManager(context);
+  private FlutterTrtcPlugin(PluginRegistry.Registrar registrar)
+  {
+    mContext = registrar.context();    //获取应用程序的Context
+    mManager = new TrtcCloudManager(mContext);
+  }
 
+  /**
+   * Plugin registration.
+   */
+  public static void registerWith(PluginRegistry.Registrar registrar)
+  {
+    FlutterTrtcPlugin plugin = new FlutterTrtcPlugin(registrar);
     MethodChannel methodChannel = new MethodChannel(registrar.messenger(), PLUGIN_METHOD_NAME);
-    methodChannel.setMethodCallHandler(this);
+    methodChannel.setMethodCallHandler(plugin);
 
     EventChannel eventChannel = new EventChannel(registrar.messenger(), PLUGIN_EVENT_NAME);
-    eventChannel.setStreamHandler(this);
+    eventChannel.setStreamHandler(plugin);
 
     registrar.platformViewRegistry().registerViewFactory(PLUGIN_VIEW_NAME, TrtcPlatformViewFactory.shareInstance());
-
   }
 
   @Override
