@@ -35,7 +35,7 @@ end
 target 'Runner' do
   # Flutter Pod
   #TRTC
-  pod 'TXLiteAVSDK_TRTC'
+#  pod 'TXLiteAVSDK_TRTC'
 
   copied_flutter_dir = File.join(__dir__, 'Flutter')
   copied_framework_path = File.join(copied_flutter_dir, 'Flutter.framework')
