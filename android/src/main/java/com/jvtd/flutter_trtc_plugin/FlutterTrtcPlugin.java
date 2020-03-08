@@ -1,7 +1,7 @@
 package com.jvtd.flutter_trtc_plugin;
 
 import android.app.Activity;
-import android.app.Application;
+import android.content.Context;
 
 import androidx.annotation.NonNull;
 
@@ -9,7 +9,6 @@ import com.tencent.trtc.TRTCCloudDef;
 
 import java.lang.ref.WeakReference;
 
-import io.flutter.embedding.engine.plugins.FlutterPlugin;
 import io.flutter.embedding.engine.plugins.activity.ActivityAware;
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding;
 import io.flutter.plugin.common.EventChannel;
@@ -17,42 +16,40 @@ import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
 import io.flutter.plugin.common.MethodChannel.Result;
+import io.flutter.plugin.common.PluginRegistry;
 
 /**
  * FlutterTrtcPlugin
  */
-public class FlutterTrtcPlugin implements FlutterPlugin, MethodCallHandler, EventChannel.StreamHandler, ActivityAware
+public class FlutterTrtcPlugin implements MethodCallHandler, EventChannel.StreamHandler, ActivityAware
 {
   private static final String PLUGIN_METHOD_NAME = "flutter_trtc_plugin";
   private static final String PLUGIN_EVENT_NAME = "flutter_trtc_plugin_callback";
   private static final String PLUGIN_VIEW_NAME = "flutter_trtc_plugin_view";
 
-  private MethodChannel mMethodChannel;
-  private EventChannel mEventChannel;
-  private EventChannel.EventSink mEvents;
-  private Application mApplication;
   private WeakReference<Activity> mActivity;
   private TrtcCloudManager mManager;
+  private Context mContext;
+
+  private FlutterTrtcPlugin(PluginRegistry.Registrar registrar)
+  {
+    mContext = registrar.context();    //获取应用程序的Context
+    mManager = new TrtcCloudManager(mContext);
+  }
 
   /**
-   * 新的加载方式
-   *
-   * @author Jack Zhang
-   * create at 2020-03-02 16:21
+   * Plugin registration.
    */
-  @Override
-  public void onAttachedToEngine(@NonNull FlutterPluginBinding flutterPluginBinding)
+  public static void registerWith(PluginRegistry.Registrar registrar)
   {
-    mApplication = (Application) flutterPluginBinding.getApplicationContext();
-    mManager = new TrtcCloudManager(mApplication);
+    FlutterTrtcPlugin plugin = new FlutterTrtcPlugin(registrar);
+    MethodChannel methodChannel = new MethodChannel(registrar.messenger(), PLUGIN_METHOD_NAME);
+    methodChannel.setMethodCallHandler(plugin);
 
-    mMethodChannel = new MethodChannel(flutterPluginBinding.getBinaryMessenger(), PLUGIN_METHOD_NAME);
-    mMethodChannel.setMethodCallHandler(this);
+    EventChannel eventChannel = new EventChannel(registrar.messenger(), PLUGIN_EVENT_NAME);
+    eventChannel.setStreamHandler(plugin);
 
-    mEventChannel = new EventChannel(flutterPluginBinding.getBinaryMessenger(), PLUGIN_EVENT_NAME);
-    mEventChannel.setStreamHandler(this);
-
-    flutterPluginBinding.getPlatformViewRegistry().registerViewFactory(PLUGIN_VIEW_NAME, TrtcPlatformViewFactory.shareInstance());
+    registrar.platformViewRegistry().registerViewFactory(PLUGIN_VIEW_NAME, TrtcPlatformViewFactory.shareInstance());
   }
 
   @Override
@@ -250,26 +247,14 @@ public class FlutterTrtcPlugin implements FlutterPlugin, MethodCallHandler, Even
   }
 
   @Override
-  public void onDetachedFromEngine(@NonNull FlutterPluginBinding binding)
-  {
-    mManager = null;
-    mMethodChannel.setMethodCallHandler(null);
-    mMethodChannel = null;
-    mEventChannel.setStreamHandler(null);
-    mEventChannel = null;
-  }
-
-  @Override
   public void onListen(Object arguments, EventChannel.EventSink events)
   {
     mManager.setEvents(events);
-    mEvents = events;
   }
 
   @Override
   public void onCancel(Object arguments)
   {
-    mEvents = null;
   }
 
   private boolean numberToBoolValue(Boolean number)
@@ -295,6 +280,4 @@ public class FlutterTrtcPlugin implements FlutterPlugin, MethodCallHandler, Even
 
     return number != null ? number.floatValue() : .0f;
   }
-
-
 }
