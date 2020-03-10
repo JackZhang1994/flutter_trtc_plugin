@@ -25,7 +25,7 @@ public class FlutterTrtcPlugin implements MethodCallHandler, EventChannel.Stream
 {
   private static final String PLUGIN_METHOD_NAME = "flutter_trtc_plugin";
   private static final String PLUGIN_EVENT_NAME = "flutter_trtc_plugin_callback";
-  private static final String PLUGIN_VIEW_NAME = "flutter_trtc_plugin_view";
+  private static final String PLUGIN_VIEW_NAME = "flutter_trtc_plugin/view";
 
   private WeakReference<Activity> mActivity;
   private TrtcCloudManager mManager;

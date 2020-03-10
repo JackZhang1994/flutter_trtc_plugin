@@ -83,7 +83,7 @@ static NSString * const setVideoEncoderMirror = @"setVideoEncoderMirror";/** 设
     [eventChannel setStreamHandler:instance];
     
     /*registrarView*/
-    [registrar registerViewFactory:[TRTCPlatformViewFactory shareInstance] withId:@"flutter_trtc_plugin_view"];
+    [registrar registerViewFactory:[TRTCPlatformViewFactory shareInstance] withId:@"flutter_trtc_plugin/view"];
     
 }
 #pragma mark - flutter_trtc_plugin
