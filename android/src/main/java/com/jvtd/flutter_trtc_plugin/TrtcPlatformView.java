@@ -11,7 +11,7 @@ public class TrtcPlatformView implements PlatformView
 {
   private TXCloudVideoView mTXCloudVideoView;
 
-  public TrtcPlatformView(Context context)
+  public TrtcPlatformView(Context context, int viewId)
   {
     this.mTXCloudVideoView = new TXCloudVideoView(context);
   }

@@ -54,7 +54,7 @@ public class TrtcPlatformViewFactory extends PlatformViewFactory
   @Override
   public PlatformView create(Context context, int viewID, Object args)
   {
-    TrtcPlatformView view = new TrtcPlatformView(context);
+    TrtcPlatformView view = new TrtcPlatformView(context, viewID);
     addView(viewID, view);
     return view;
   }

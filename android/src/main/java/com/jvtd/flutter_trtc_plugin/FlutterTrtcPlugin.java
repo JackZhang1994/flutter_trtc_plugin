@@ -1,16 +1,12 @@
 package com.jvtd.flutter_trtc_plugin;
 
-import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
 import com.tencent.trtc.TRTCCloudDef;
 
-import java.lang.ref.WeakReference;
-
-import io.flutter.embedding.engine.plugins.activity.ActivityAware;
-import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding;
 import io.flutter.plugin.common.EventChannel;
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
@@ -21,13 +17,14 @@ import io.flutter.plugin.common.PluginRegistry;
 /**
  * FlutterTrtcPlugin
  */
-public class FlutterTrtcPlugin implements MethodCallHandler, EventChannel.StreamHandler, ActivityAware
+public class FlutterTrtcPlugin implements MethodCallHandler, EventChannel.StreamHandler
 {
+  private static final String TAG = "FlutterTrtcPlugin";
+
   private static final String PLUGIN_METHOD_NAME = "flutter_trtc_plugin";
   private static final String PLUGIN_EVENT_NAME = "flutter_trtc_plugin_callback";
   private static final String PLUGIN_VIEW_NAME = "flutter_trtc_plugin/view";
 
-  private WeakReference<Activity> mActivity;
   private TrtcCloudManager mManager;
   private Context mContext;
 
@@ -49,31 +46,8 @@ public class FlutterTrtcPlugin implements MethodCallHandler, EventChannel.Stream
     EventChannel eventChannel = new EventChannel(registrar.messenger(), PLUGIN_EVENT_NAME);
     eventChannel.setStreamHandler(plugin);
 
-    registrar.platformViewRegistry().registerViewFactory(PLUGIN_VIEW_NAME, TrtcPlatformViewFactory.shareInstance());
-  }
-
-  @Override
-  public void onAttachedToActivity(ActivityPluginBinding binding)
-  {
-    mActivity = new WeakReference<>(binding.getActivity());
-  }
-
-  @Override
-  public void onDetachedFromActivityForConfigChanges()
-  {
-
-  }
-
-  @Override
-  public void onReattachedToActivityForConfigChanges(ActivityPluginBinding binding)
-  {
-
-  }
-
-  @Override
-  public void onDetachedFromActivity()
-  {
-    mActivity = null;
+    boolean success = registrar.platformViewRegistry().registerViewFactory(PLUGIN_VIEW_NAME, TrtcPlatformViewFactory.shareInstance());
+    Log.i(TAG, "Register PlatformView的状态为：" + success);
   }
 
   @Override
