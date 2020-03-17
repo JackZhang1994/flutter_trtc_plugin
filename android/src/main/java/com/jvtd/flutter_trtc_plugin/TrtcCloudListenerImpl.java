@@ -203,4 +203,39 @@ public class TrtcCloudListenerImpl extends TRTCCloudListener
       eventSink.success(returnMap);
     }
   }
+
+  @Override
+  public void onFirstVideoFrame(String userId, int streamType, int width, int height)
+  {
+    Log.i(TAG, "onFirstVideoFrame");
+    EventChannel.EventSink eventSink = mWefListener.get();
+    if (eventSink != null)
+    {
+      HashMap<String, Object> returnMap = new HashMap<>();
+      HashMap<String, Object> method = new HashMap<>();
+      method.put("name", "onFirstVideoFrame");
+      method.put("userId", userId);
+      method.put("streamType", streamType);
+      method.put("width", width);
+      method.put("height", height);
+      returnMap.put("method", method);
+      eventSink.success(returnMap);
+    }
+  }
+
+  @Override
+  public void onFirstAudioFrame(String userId)
+  {
+    Log.i(TAG, "onFirstAudioFrame");
+    EventChannel.EventSink eventSink = mWefListener.get();
+    if (eventSink != null)
+    {
+      HashMap<String, Object> returnMap = new HashMap<>();
+      HashMap<String, Object> method = new HashMap<>();
+      method.put("name", "onFirstAudioFrame");
+      method.put("userId", userId);
+      returnMap.put("method", method);
+      eventSink.success(returnMap);
+    }
+  }
 }

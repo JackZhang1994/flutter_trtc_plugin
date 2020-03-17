@@ -210,6 +210,17 @@ public class FlutterTrtcPlugin implements MethodCallHandler, EventChannel.Stream
         mManager.muteAllRemoteAudio(mote3);
         break;
 
+      case "startAudioRecording":
+        String path = call.argument("path");
+        TRTCCloudDef.TRTCAudioRecordingParams params = new TRTCCloudDef.TRTCAudioRecordingParams();
+        params.filePath = path;
+        result.success(mManager.startAudioRecording(params));
+        break;
+
+      case "stopAudioRecording":
+        mManager.stopAudioRecording();
+        break;
+
       case "switchCamera":
         mManager.switchCamera();
         break;

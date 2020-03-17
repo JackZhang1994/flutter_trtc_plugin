@@ -31,6 +31,8 @@ class TrtcBase {
     Function(String userId, int reason) onRemoteUserLeaveRoom,
     Function(String userId, bool available) onUserVideoAvailable,
     Function(String userId, bool available) onUserAudioAvailable,
+    Function(String userId, int streamType, int width, int height) onFirstVideoFrame,
+    Function(String userId) onFirstAudioFrame,
     Function() onConnectionLost,
     Function() onTryToReconnect,
     Function() onConnectionRecovery,
@@ -43,6 +45,8 @@ class TrtcBase {
     _onRemoteUserLeaveRoom = onRemoteUserLeaveRoom;
     _onUserVideoAvailable = onUserVideoAvailable;
     _onUserAudioAvailable = onUserAudioAvailable;
+    _onFirstVideoFrame = onFirstVideoFrame;
+    _onFirstAudioFrame = onFirstAudioFrame;
     _onConnectionLost = onConnectionLost;
     _onTryToReconnect = onTryToReconnect;
     _onConnectionRecovery = onConnectionRecovery;
@@ -140,6 +144,21 @@ class TrtcBase {
   /// [available] 声音是否开启
   static void Function(String userId, bool available) _onUserAudioAvailable;
 
+  /// 开始渲染本地或远程用户的首帧画面
+  ///
+  /// [userId] 本地或远程用户 ID，如果 userId == null 代表本地，userId != null 代表远程
+  /// [streamType] 视频流类型：摄像头或屏幕分享
+  /// [width] 画面宽度
+  /// [height] 画面高度
+  /// 如果 userId 为 null，代表开始渲染本地采集的摄像头画面，需要您先调用 startLocalPreview 触发。
+  /// 如果 userId 不为 null，代表开始渲染远程用户的首帧画面，需要您先调用 startRemoteView 触发。
+  static void Function(String userId, int streamType, int width, int height) _onFirstVideoFrame;
+
+  /// 开始播放远程用户的首帧音频（本地声音暂不通知）
+  ///
+  /// [userId] 远程用户 ID
+  static void Function(String userId) _onFirstAudioFrame;
+
   /// SDK 跟服务器的连接断开
   static void Function() _onConnectionLost;
 
@@ -214,6 +233,23 @@ class TrtcBase {
           String userId = args['userId'];
           bool available = args['available'];
           _onUserAudioAvailable(userId, available);
+        }
+        break;
+
+      case 'onFirstVideoFrame':
+        if (_onFirstVideoFrame != null) {
+          String userId = args['userId'];
+          int streamType = args['streamType'];
+          int width = args['width'];
+          int height = args['height'];
+          _onFirstVideoFrame(userId, streamType, width, height);
+        }
+        break;
+
+      case 'onFirstAudioFrame':
+        if (_onFirstAudioFrame != null) {
+          String userId = args['userId'];
+          _onFirstAudioFrame(userId);
         }
         break;
 
