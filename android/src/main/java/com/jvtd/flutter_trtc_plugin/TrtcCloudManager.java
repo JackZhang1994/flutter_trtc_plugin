@@ -239,6 +239,25 @@ public class TrtcCloudManager
     }
   }
 
+  public int startAudioRecording(TRTCCloudDef.TRTCAudioRecordingParams params)
+  {
+    if (mTRTCCloud != null)
+    {
+      return mTRTCCloud.startAudioRecording(params);
+    } else {
+      return -2;
+    }
+  }
+
+
+  public void stopAudioRecording()
+  {
+    if (mTRTCCloud != null)
+    {
+      mTRTCCloud.stopAudioRecording();
+    }
+  }
+
   public void switchCamera()
   {
     if (mTRTCCloud != null)

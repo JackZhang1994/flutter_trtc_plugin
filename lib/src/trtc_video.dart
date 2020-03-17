@@ -11,7 +11,7 @@ class TrtcVideo {
     if (TargetPlatform.iOS == defaultTargetPlatform) {
       return UiKitView(
           key: ObjectKey(userId),
-          viewType: 'flutter_trtc_plugin_view',
+          viewType: 'flutter_trtc_plugin/view',
           onPlatformViewCreated: (int viewId) {
             if (onViewCreated != null) {
               onViewCreated(viewId);
@@ -20,7 +20,7 @@ class TrtcVideo {
     } else if (TargetPlatform.android == defaultTargetPlatform) {
       return AndroidView(
         key: ObjectKey(userId),
-        viewType: 'flutter_trtc_plugin_view',
+        viewType: 'flutter_trtc_plugin/view',
         onPlatformViewCreated: (int viewID) {
           if (onViewCreated != null) {
             onViewCreated(viewID);

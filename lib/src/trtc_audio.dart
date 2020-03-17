@@ -54,4 +54,21 @@ class TrtcAudio {
   static Future<void> muteAllRemoteAudio(bool mote) async {
     return await _channel.invokeMethod('muteAllRemoteAudio', {'mote': mote});
   }
+
+  /// 开始录音
+  ///
+  /// [path] 录音的文件地址
+  /// 该方法调用后， SDK 会将通话过程中的所有音频（包括本地音频，远端音频，BGM 等）录制到一个文件里。
+  /// 无论是否进房，调用该接口都生效。 如果调用 exitRoom 时还在录音，录音会自动停止。
+  /// return 0：成功；-1：录音已开始；-2：文件或目录创建失败；-3：后缀指定的音频格式不支持
+  static Future<int> startAudioRecording(String path) async {
+    return await _channel.invokeMethod('startAudioRecording', {'path': path});
+  }
+
+  /// 停止录音
+  ///
+  /// 如果调用 exitRoom 时还在录音，录音会自动停止。
+  static Future<void> stopAudioRecording() async {
+    return await _channel.invokeMethod('stopAudioRecording');
+  }
 }
