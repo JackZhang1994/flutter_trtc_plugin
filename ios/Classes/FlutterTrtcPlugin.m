@@ -94,7 +94,7 @@ static NSString * const stopAudioRecording = @"stopAudioRecording";/** 停止录
     if ([sharedInstance isEqualToString:call.method]) {
         [self initTrtcManager];
     }else if ([destroySharedInstance isEqualToString:call.method]) {
-        //销毁 todo
+        [self destroySharedIntance];
     }else if ([getUserSig isEqualToString:call.method]) {
         NSString *  userId =args[@"userId"];
         int sdkAppId = [self numberToIntValue:args[@"sdkAppId"]];
@@ -218,6 +218,9 @@ static NSString * const stopAudioRecording = @"stopAudioRecording";/** 停止录
     self.trtc = [TRTCCloud sharedInstance];
     [self.trtc setDelegate:self];
     
+}
+-(void)destroySharedIntance{
+    [TRTCCloud destroySharedIntance];
 }
 #pragma mark - flutter_trtc_plugin_callback
 #pragma mark- 进房监听
