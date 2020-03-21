@@ -249,7 +249,7 @@ static NSString * const stopAudioRecording = @"stopAudioRecording";/** 停止录
 -(void)onRemoteUserLeaveRoom:(NSString *)userId reason:(NSInteger)reason{
     FlutterEventSink sink = _eventSink;
     if(sink) {
-        sink(@{@"method": @{@"name": @"onRemoteUserEnterRoom",@"userId": userId,@"reason":@(reason)}});
+        sink(@{@"method": @{@"name": @"onRemoteUserLeaveRoom",@"userId": userId,@"reason":@(reason)}});
     }
     
 }
