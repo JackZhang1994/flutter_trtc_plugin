@@ -33,6 +33,8 @@ static NSString * const setVideoEncoderParam = @"setVideoEncoderParam";/** 设�
 static NSString * const setNetworkQosParam = @"setNetworkQosParam";/** 设置网络流控相关参数*/
 static NSString * const setLocalViewMirror = @"setLocalViewMirror";/** 设置本地摄像头预览画面的镜像模式*/
 static NSString * const setVideoEncoderMirror = @"setVideoEncoderMirror";/** 设置编码器输出的画面镜像模式*/
+static NSString * const startAudioRecording = @"startAudioRecording";/** 开始录音*/
+static NSString * const stopAudioRecording = @"stopAudioRecording";/** 停止录音*/
 
 
 @interface FlutterTrtcPlugin()<TRTCCloudDelegate,FlutterStreamHandler>
@@ -92,7 +94,7 @@ static NSString * const setVideoEncoderMirror = @"setVideoEncoderMirror";/** 设
     if ([sharedInstance isEqualToString:call.method]) {
         [self initTrtcManager];
     }else if ([destroySharedInstance isEqualToString:call.method]) {
-        //销毁 todo
+        [self destroySharedIntance];
     }else if ([getUserSig isEqualToString:call.method]) {
         NSString *  userId =args[@"userId"];
         int sdkAppId = [self numberToIntValue:args[@"sdkAppId"]];
@@ -200,6 +202,13 @@ static NSString * const setVideoEncoderMirror = @"setVideoEncoderMirror";/** 设
     }else if ([setVideoEncoderMirror isEqualToString:call.method]) {
         BOOL mirror =[self numberToBoolValue:args[@"mirror"]];
         [self.trtc setVideoEncoderMirror:mirror];
+    }else if ([startAudioRecording isEqualToString:call.method]) {
+        NSString * path = args[@"path"];
+        TRTCAudioRecordingParams * params = [[TRTCAudioRecordingParams alloc]init];
+        params.filePath = path;
+       result(@([self.trtc startAudioRecording:params]));
+    }else if ([stopAudioRecording isEqualToString:call.method]) {
+        [self.trtc stopAudioRecording];
     }else {
         result(FlutterMethodNotImplemented);
     }
@@ -209,6 +218,9 @@ static NSString * const setVideoEncoderMirror = @"setVideoEncoderMirror";/** 设
     self.trtc = [TRTCCloud sharedInstance];
     [self.trtc setDelegate:self];
     
+}
+-(void)destroySharedIntance{
+    [TRTCCloud destroySharedIntance];
 }
 #pragma mark - flutter_trtc_plugin_callback
 #pragma mark- 进房监听
@@ -237,7 +249,7 @@ static NSString * const setVideoEncoderMirror = @"setVideoEncoderMirror";/** 设
 -(void)onRemoteUserLeaveRoom:(NSString *)userId reason:(NSInteger)reason{
     FlutterEventSink sink = _eventSink;
     if(sink) {
-        sink(@{@"method": @{@"name": @"onRemoteUserEnterRoom",@"userId": userId,@"reason":@(reason)}});
+        sink(@{@"method": @{@"name": @"onRemoteUserLeaveRoom",@"userId": userId,@"reason":@(reason)}});
     }
     
 }
