@@ -244,7 +244,8 @@ public class TrtcCloudManager
     if (mTRTCCloud != null)
     {
       return mTRTCCloud.startAudioRecording(params);
-    } else {
+    } else
+    {
       return -2;
     }
   }
@@ -263,6 +264,48 @@ public class TrtcCloudManager
     if (mTRTCCloud != null)
     {
       mTRTCCloud.switchCamera();
+    }
+  }
+
+  public void startRemoteSubStreamView(String userId, int viewId)
+  {
+    TrtcPlatformView trtcPlatformView = TrtcPlatformViewFactory.shareInstance().getPlatformView(viewId);
+    if (trtcPlatformView == null)
+    {
+      return;
+    }
+    TXCloudVideoView txCloudVideoView = (TXCloudVideoView) trtcPlatformView.getView();
+    if (txCloudVideoView == null)
+    {
+      return;
+    }
+    if (mTRTCCloud != null)
+    {
+      mTRTCCloud.startRemoteSubStreamView(userId, txCloudVideoView);
+    }
+  }
+
+  public void stopRemoteSubStreamView(String userId)
+  {
+    if (mTRTCCloud != null)
+    {
+      mTRTCCloud.stopRemoteSubStreamView(userId);
+    }
+  }
+
+  public void setRemoteSubStreamViewFillMode(String userId, int mode)
+  {
+    if (mTRTCCloud != null)
+    {
+      mTRTCCloud.setRemoteSubStreamViewFillMode(userId, mode);
+    }
+  }
+
+  public void setRemoteSubStreamViewRotation(String userId, int rotation)
+  {
+    if (mTRTCCloud != null)
+    {
+      mTRTCCloud.setRemoteSubStreamViewRotation(userId, rotation);
     }
   }
 
