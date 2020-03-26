@@ -35,6 +35,11 @@ static NSString * const setLocalViewMirror = @"setLocalViewMirror";/** 设置本
 static NSString * const setVideoEncoderMirror = @"setVideoEncoderMirror";/** 设置编码器输出的画面镜像模式*/
 static NSString * const startAudioRecording = @"startAudioRecording";/** 开始录音*/
 static NSString * const stopAudioRecording = @"stopAudioRecording";/** 停止录音*/
+static NSString * const startRemoteSubStreamView = @"startRemoteSubStreamView";/**  开始显示远端用户的屏幕分享画面*/
+static NSString * const stopRemoteSubStreamView = @"stopRemoteSubStreamView";/**  停止显示远端用户的屏幕分享画面。*/
+static NSString * const setRemoteSubStreamViewFillMode = @"setRemoteSubStreamViewFillMode";/**  设置屏幕分享画面的显示模式。*/
+static NSString * const setRemoteSubStreamViewRotation = @"setRemoteSubStreamViewRotation";/**  设置屏幕分享画面的顺时针旋转角度。*/
+
 
 
 @interface FlutterTrtcPlugin()<TRTCCloudDelegate,FlutterStreamHandler>
@@ -206,9 +211,30 @@ static NSString * const stopAudioRecording = @"stopAudioRecording";/** 停止录
         NSString * path = args[@"path"];
         TRTCAudioRecordingParams * params = [[TRTCAudioRecordingParams alloc]init];
         params.filePath = path;
-       result(@([self.trtc startAudioRecording:params]));
+        result(@([self.trtc startAudioRecording:params]));
     }else if ([stopAudioRecording isEqualToString:call.method]) {
         [self.trtc stopAudioRecording];
+    }else if ([startRemoteSubStreamView isEqualToString:call.method]) {
+        NSString * userId = args[@"userId"];
+        int viewId = [self numberToIntValue:args[@"viewId"]];
+        TRTCVideoView * view = [[TRTCPlatformViewFactory shareInstance] getPlatformView:@(viewId)];
+        if(view){
+            [self.trtc startRemoteSubStreamView:userId view:[view getUIView]];
+            result(@(YES));
+        }else{
+            result(@(NO));
+        }
+    }else if ([stopRemoteSubStreamView isEqualToString:call.method]) {
+        NSString * userId = args[@"userId"];
+        [self.trtc stopRemoteSubStreamView:userId];
+    }else if ([setRemoteSubStreamViewFillMode isEqualToString:call.method]) {
+        NSString * userId = args[@"userId"];
+        int mode = [self numberToIntValue:args[@"mode"]];
+        [self.trtc setRemoteSubStreamViewFillMode:userId mode:mode];
+    }else if ([setRemoteSubStreamViewRotation isEqualToString:call.method]) {
+        NSString * userId = args[@"userId"];
+        int rotation = [self numberToIntValue:args[@"rotation"]];
+        [self.trtc setRemoteSubStreamViewRotation:userId rotation:rotation];
     }else {
         result(FlutterMethodNotImplemented);
     }
@@ -301,6 +327,13 @@ static NSString * const stopAudioRecording = @"stopAudioRecording";/** 停止录
     FlutterEventSink sink = _eventSink;
     if(sink) {
         sink(@{@"method": @{@"name": @"onWarning",@"warningCode":@(warningCode),@"warningMsg":warningMsg}});
+    }
+}
+#pragma mark -- 屏幕分享监听
+- (void)onUserSubStreamAvailable:(NSString *)userId available:(BOOL)available{
+    FlutterEventSink sink = _eventSink;
+    if(sink) {
+        sink(@{@"method": @{@"name": @"onUserSubStreamAvailable",@"userId":userId,@"available":@(available)}});
     }
 }
 #pragma mark - FlutterStreamHandler methods
