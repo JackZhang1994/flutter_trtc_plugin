@@ -160,6 +160,23 @@ public class TrtcCloudListenerImpl extends TRTCCloudListener
   }
 
   @Override
+  public void onUserSubStreamAvailable(String userId, boolean available)
+  {
+    Log.i(TAG, "onUserSubStreamAvailable: userId = " + userId + " available = " + available);
+    EventChannel.EventSink eventSink = mWefListener.get();
+    if (eventSink != null)
+    {
+      HashMap<String, Object> returnMap = new HashMap<>();
+      HashMap<String, Object> method = new HashMap<>();
+      method.put("name", "onUserSubStreamAvailable");
+      method.put("userId", userId);
+      method.put("available", available);
+      returnMap.put("method", method);
+      eventSink.success(returnMap);
+    }
+  }
+
+  @Override
   public void onConnectionLost()
   {
     Log.i(TAG, "onConnectionLost");

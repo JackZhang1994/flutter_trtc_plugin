@@ -225,6 +225,29 @@ public class FlutterTrtcPlugin implements MethodCallHandler, EventChannel.Stream
         mManager.switchCamera();
         break;
 
+      case "startRemoteSubStreamView":
+        String userId5 = call.argument("userId");// 用户标识 [必填]
+        int viewId3 = numberToIntValue((Number) call.argument("viewId"));
+        mManager.startRemoteSubStreamView(userId5, viewId3);
+        break;
+
+      case "stopRemoteSubStreamView":
+        String userId6 = call.argument("userId");// 用户标识 [必填]
+        mManager.stopRemoteSubStreamView(userId6);
+        break;
+
+      case "setRemoteSubStreamViewFillMode":
+        String userId7 = call.argument("userId");
+        int mode2 = numberToIntValue((Number) call.argument("mode"));
+        mManager.setRemoteSubStreamViewFillMode(userId7, mode2);
+        break;
+
+      case "setRemoteSubStreamViewRotation":
+        String userId8 = call.argument("userId");
+        int rotation = numberToIntValue((Number) call.argument("rotation"));
+        mManager.setRemoteSubStreamViewRotation(userId8, rotation);
+        break;
+
       default:
         result.notImplemented();
         break;
