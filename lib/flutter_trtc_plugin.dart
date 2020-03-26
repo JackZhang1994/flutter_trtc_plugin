@@ -8,3 +8,4 @@ export 'src/trtc_event.dart';
 export 'src/trtc_room.dart';
 export 'src/trtc_video.dart';
 export 'src/trtc_warning_code.dart';
+export 'src/trtc_sub_stream.dart';

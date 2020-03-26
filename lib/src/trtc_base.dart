@@ -31,6 +31,7 @@ class TrtcBase {
     Function(String userId, int reason) onRemoteUserLeaveRoom,
     Function(String userId, bool available) onUserVideoAvailable,
     Function(String userId, bool available) onUserAudioAvailable,
+    Function(String userId, bool available) onUserSubStreamAvailable,
     Function(String userId, int streamType, int width, int height) onFirstVideoFrame,
     Function(String userId) onFirstAudioFrame,
     Function() onConnectionLost,
@@ -45,6 +46,7 @@ class TrtcBase {
     _onRemoteUserLeaveRoom = onRemoteUserLeaveRoom;
     _onUserVideoAvailable = onUserVideoAvailable;
     _onUserAudioAvailable = onUserAudioAvailable;
+    _onUserSubStreamAvailable = onUserSubStreamAvailable;
     _onFirstVideoFrame = onFirstVideoFrame;
     _onFirstAudioFrame = onFirstAudioFrame;
     _onConnectionLost = onConnectionLost;
@@ -144,6 +146,12 @@ class TrtcBase {
   /// [available] 声音是否开启
   static void Function(String userId, bool available) _onUserAudioAvailable;
 
+  /// 用户是否开启屏幕分享
+  ///
+  /// [userId] 用户标识
+  /// [available] 屏幕分享是否开启
+  static void Function(String userId, bool available) _onUserSubStreamAvailable;
+
   /// 开始渲染本地或远程用户的首帧画面
   ///
   /// [userId] 本地或远程用户 ID，如果 userId == null 代表本地，userId != null 代表远程
@@ -228,11 +236,19 @@ class TrtcBase {
         }
         break;
 
-      case 'onUserVideoAvailable':
+      case 'onUserAudioAvailable':
         if (_onUserAudioAvailable != null) {
           String userId = args['userId'];
           bool available = args['available'];
           _onUserAudioAvailable(userId, available);
+        }
+        break;
+
+      case 'onUserSubStreamAvailable':
+        if (_onUserSubStreamAvailable != null) {
+          String userId = args['userId'];
+          bool available = args['available'];
+          _onUserSubStreamAvailable(userId, available);
         }
         break;
 
