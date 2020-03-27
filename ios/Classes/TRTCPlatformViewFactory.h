@@ -21,7 +21,9 @@ NS_ASSUME_NONNULL_BEGIN
 //-(NSObject<FlutterMessageCodec> *)createArgsCodec;
 
 //-(NSObject<FlutterPlatformView> *)createWithFrame:(CGRect)frame viewIdentifier:(int64_t)viewId arguments:(id)args;
+@property(nonatomic,strong) FlutterEventSink sink;
 - (BOOL)addView:(TRTCVideoView *)view viewID:(NSNumber *)viewId;
+-(void)setEventSink:(FlutterEventSink)sink;
 - (BOOL)removeView:(NSNumber *)viewId;
 - (TRTCVideoView *)getPlatformView:(NSNumber *) viewId;
 @end
