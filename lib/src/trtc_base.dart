@@ -37,6 +37,7 @@ class TrtcBase {
     Function() onConnectionLost,
     Function() onTryToReconnect,
     Function() onConnectionRecovery,
+    Function(int viewId) onTrtcViewClick,
   }) async {
     _onError = onError;
     _onWarning = onWarning;
@@ -52,6 +53,7 @@ class TrtcBase {
     _onConnectionLost = onConnectionLost;
     _onTryToReconnect = onTryToReconnect;
     _onConnectionRecovery = onConnectionRecovery;
+    _onTrtcViewClick = onTrtcViewClick;
 
     print('registerCallback 执行');
 
@@ -176,6 +178,8 @@ class TrtcBase {
   /// SDK 跟服务器的连接恢复
   static void Function() _onConnectionRecovery;
 
+  static void Function(int viewId) _onTrtcViewClick;
+
   /// 用于接收native层事件流，开发者无需关注
   static StreamSubscription<dynamic> _streamSubscription;
 
@@ -284,6 +288,13 @@ class TrtcBase {
       case 'onConnectionRecovery':
         if (_onConnectionRecovery != null) {
           _onConnectionRecovery();
+        }
+        break;
+
+      case 'onTrtcViewClick':
+        if (_onTrtcViewClick != null) {
+          int viewId = args['viewId'];
+          _onTrtcViewClick(viewId);
         }
         break;
 

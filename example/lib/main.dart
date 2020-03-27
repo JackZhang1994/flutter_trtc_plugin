@@ -114,6 +114,9 @@ class _MyAppState extends State<MyApp> {
                             onConnectionLost: _onConnectionLost,
                             onTryToReconnect: _onTryToReconnect,
                             onConnectionRecovery: _onConnectionRecovery,
+                            onTrtcViewClick: (viewId) {
+                              showTips('$viewId被点击');
+                            }
                           );
                         },
                         child: Text('设置监听'),
@@ -239,7 +242,17 @@ class _MyAppState extends State<MyApp> {
   List<Widget> _videoWidgetList() {
     var list = List<Widget>();
     if (_widgetMap.isNotEmpty) {
-      list.addAll(_widgetMap.values);
+      _widgetMap.forEach((str, widget) {
+        list.add(GestureDetector(
+          onTap: () {
+            print('点击了视图');
+          },
+          child: Container(
+            child: widget,
+          ),
+        ));
+      });
+//      list.addAll(_widgetMap.values);
     }
     return list;
   }

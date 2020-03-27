@@ -42,7 +42,7 @@ static TRTCPlatformViewFactory * g_factory = nil;
 
 -(NSObject<FlutterPlatformView> *)createWithFrame:(CGRect)frame viewIdentifier:(int64_t)viewId arguments:(id)args{
 //    TRTCVideoView *tRTCVideoView = [[TRTCVideoView alloc] initWithFrame:frame viewIdentifier:viewId arguments:args binaryMessenger:_messenger];
-    TRTCVideoView *view = [[TRTCVideoView alloc] initWithRect:frame viewID:viewId];
+    TRTCVideoView *view = [[TRTCVideoView alloc] initWithRect:frame viewID:viewId sink:_sink];
     [self addView:view viewID:@(viewId)];
     
     return view;
@@ -73,6 +73,10 @@ static TRTCPlatformViewFactory * g_factory = nil;
     
     return [self.views objectForKey:viewId];
 }
-
+-(void)setEventSink:(FlutterEventSink)sink{
+    if(!_sink){
+        _sink = sink;
+    }
+}
 
 @end

@@ -7,6 +7,10 @@
 #import "TRTCVideoView.h"
 #import "GenerateTestUserSig.h"
 
+static NSString * const PLUGIN_METHOD_NAME = @"flutter_trtc_plugin";/** 方法*/
+static NSString * const PLUGIN_EVENT_NAME = @"flutter_trtc_plugin_callback";/** 事件*/
+static NSString * const PLUGIN_VIEW_NAME = @"flutter_trtc_plugin/view";/** 视图*/
+
 static NSString * const sharedInstance = @"sharedInstance";/** 初始化*/
 static NSString * const destroySharedInstance = @"destroySharedInstance";/** 销毁单例*/
 static NSString * const getUserSig = @"getUserSig";/** 获取签名*/
@@ -81,16 +85,16 @@ static NSString * const setRemoteSubStreamViewRotation = @"setRemoteSubStreamVie
     FlutterTrtcPlugin* instance = [[FlutterTrtcPlugin alloc]initWithRegistrar:registrar];
     /*Create Method Channel.*/
     FlutterMethodChannel* channel = [FlutterMethodChannel
-                                     methodChannelWithName:@"flutter_trtc_plugin"
+                                     methodChannelWithName:PLUGIN_METHOD_NAME
                                      binaryMessenger:[registrar messenger]];
     
     [registrar addMethodCallDelegate:instance channel:channel];
     /*Create Event Channel.*/
-    FlutterEventChannel * eventChannel = [FlutterEventChannel eventChannelWithName:@"flutter_trtc_plugin_callback" binaryMessenger:[registrar messenger]];
+    FlutterEventChannel * eventChannel = [FlutterEventChannel eventChannelWithName:PLUGIN_EVENT_NAME binaryMessenger:[registrar messenger]];
     [eventChannel setStreamHandler:instance];
     
     /*registrarView*/
-    [registrar registerViewFactory:[TRTCPlatformViewFactory shareInstance] withId:@"flutter_trtc_plugin/view"];
+    [registrar registerViewFactory:[TRTCPlatformViewFactory shareInstance] withId:PLUGIN_VIEW_NAME];
     
 }
 #pragma mark - flutter_trtc_plugin
@@ -346,6 +350,7 @@ static NSString * const setRemoteSubStreamViewRotation = @"setRemoteSubStreamVie
 
 - (FlutterError * _Nullable)onListenWithArguments:(id _Nullable)arguments eventSink:(nonnull FlutterEventSink)events {
     _eventSink = events;
+    [[TRTCPlatformViewFactory shareInstance] setEventSink:events];
     NSLog(@"%@", [NSString stringWithFormat:@"[Flutter-Native] onListen sink: %p, object: %@", _eventSink, arguments]);
     return nil;
 }

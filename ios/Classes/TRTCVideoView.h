@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface TRTCVideoView : NSObject<FlutterPlatformView,TRTCCloudDelegate>
 
-- (instancetype)initWithRect:(CGRect)rect viewID:(int64_t) viewId;
+- (instancetype)initWithRect:(CGRect)rect viewID:(int64_t) viewId sink:(FlutterEventSink)sink;
 - (UIView *)getUIView;
 @end
 
