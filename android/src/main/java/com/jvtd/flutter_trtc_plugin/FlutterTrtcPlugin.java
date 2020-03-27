@@ -43,8 +43,9 @@ public class FlutterTrtcPlugin implements MethodCallHandler, EventChannel.Stream
     MethodChannel methodChannel = new MethodChannel(registrar.messenger(), PLUGIN_METHOD_NAME);
     methodChannel.setMethodCallHandler(plugin);
 
-    EventChannel eventChannel = new EventChannel(registrar.messenger(), PLUGIN_EVENT_NAME);
+    EventChannel  eventChannel = new EventChannel(registrar.messenger(), PLUGIN_EVENT_NAME);
     eventChannel.setStreamHandler(plugin);
+
 
     boolean success = registrar.platformViewRegistry().registerViewFactory(PLUGIN_VIEW_NAME, TrtcPlatformViewFactory.shareInstance());
     Log.i(TAG, "Register PlatformView的状态为：" + success);
@@ -258,6 +259,7 @@ public class FlutterTrtcPlugin implements MethodCallHandler, EventChannel.Stream
   public void onListen(Object arguments, EventChannel.EventSink events)
   {
     mManager.setEvents(events);
+    TrtcPlatformViewFactory.shareInstance().setEventSink(events);
   }
 
   @Override
