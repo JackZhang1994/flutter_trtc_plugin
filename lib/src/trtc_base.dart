@@ -75,9 +75,13 @@ class TrtcBase {
     _onRemoteUserLeaveRoom = null;
     _onUserVideoAvailable = null;
     _onUserAudioAvailable = null;
+    _onUserSubStreamAvailable = null;
+    _onFirstVideoFrame = null;
+    _onFirstAudioFrame = null;
     _onConnectionLost = null;
     _onTryToReconnect = null;
     _onConnectionRecovery = null;
+    _onTrtcViewClick = null;
 
     _streamSubscription.cancel().then((_) {
       _streamSubscription = null;
