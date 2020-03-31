@@ -1,0 +1,35 @@
+PODS:
+  - Flutter (1.0.0)
+  - flutter_trtc_plugin (0.0.7):
+    - Flutter
+    - TXLiteAVSDK_TRTC
+  - fluttertoast (0.0.2):
+    - Flutter
+  - TXLiteAVSDK_TRTC (6.9.8341)
+
+DEPENDENCIES:
+  - Flutter (from `Flutter`)
+  - flutter_trtc_plugin (from `.symlinks/plugins/flutter_trtc_plugin/ios`)
+  - fluttertoast (from `.symlinks/plugins/fluttertoast/ios`)
+
+SPEC REPOS:
+  https://github.com/CocoaPods/Specs.git:
+    - TXLiteAVSDK_TRTC
+
+EXTERNAL SOURCES:
+  Flutter:
+    :path: Flutter
+  flutter_trtc_plugin:
+    :path: ".symlinks/plugins/flutter_trtc_plugin/ios"
+  fluttertoast:
+    :path: ".symlinks/plugins/fluttertoast/ios"
+
+SPEC CHECKSUMS:
+  Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
+  flutter_trtc_plugin: dad04a5fe06e67be2b3a58b88865758111e9947f
+  fluttertoast: b644586ef3b16f67fae9a1f8754cef6b2d6b634b
+  TXLiteAVSDK_TRTC: 0d23d1ff11bfed12e6ed2ea48eb013459018e054
+
+PODFILE CHECKSUM: 7a7d2d15369dc603969f3d558d1da5d278290494
+
+COCOAPODS: 1.8.4
