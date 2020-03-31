@@ -148,6 +148,12 @@ public class FlutterTrtcPlugin implements MethodCallHandler, EventChannel.Stream
         mManager.setRemoteViewFillMode(userId3, mode1);
         break;
 
+      case "setRemoteViewRotation":
+        String userId9 = call.argument("userId");
+        int rotation2 = numberToIntValue((Number) call.argument("rotation"));
+        mManager.setRemoteViewRotation(userId9, rotation2);
+        break;
+
       case "setVideoEncoderParam":
         int videoResolution = numberToIntValue((Number) call.argument("videoResolution"));
         int videoResolutionMode = numberToIntValue((Number) call.argument("videoResolutionMode"));
