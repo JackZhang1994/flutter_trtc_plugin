@@ -26,6 +26,7 @@ static NSString * const stopAllRemoteView = @"stopAllRemoteView";/** 停止显�
 static NSString * const muteLocalVideo = @"muteLocalVideo";/** 静音本地的音频*/
 static NSString * const setLocalViewFillMode = @"setLocalViewFillMode";/** 设置本地图像的渲染模式*/
 static NSString * const setRemoteViewFillMode = @"setRemoteViewFillMode";/** 设置远端图像的渲染模式*/
+static NSString * const setRemoteViewRotation = @"setRemoteViewRotation";/** 设置远端图像的顺时针旋转角度*/
 static NSString * const startLocalAudio = @"startLocalAudio";/** 开启本地音频的采集和上行*/
 static NSString * const stopLocalAudio = @"stopLocalAudio";/** 关闭本地音频的采集和上行*/
 static NSString * const muteLocalAudio = @"muteLocalAudio";/** 静音本地的音频*/
@@ -166,6 +167,10 @@ static NSString * const setRemoteSubStreamViewRotation = @"setRemoteSubStreamVie
         NSString * userId = args[@"userId"];
         int mode = [self numberToIntValue:args[@"mode"]];
         [self.trtc setRemoteViewFillMode:userId mode:mode];
+    }else if ([setRemoteViewRotation isEqualToString:call.method]) {
+        NSString * userId = args[@"userId"];
+        int rotation = [self numberToIntValue:args[@"rotation"]];
+        [self.trtc setRemoteViewRotation:userId rotation:rotation];
     }else if ([startLocalAudio isEqualToString:call.method]) {
         [self.trtc startLocalAudio];
     }else if ([stopLocalAudio isEqualToString:call.method]) {
