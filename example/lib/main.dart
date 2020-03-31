@@ -103,21 +103,20 @@ class _MyAppState extends State<MyApp> {
                       FlatButton(
                         onPressed: () {
                           TrtcBase.registerCallback(
-                            onError: _onError,
-                            onWarning: _onWarning,
-                            onEnterRoom: _onEnterRoom,
-                            onExitRoom: _onExitRoom,
-                            onRemoteUserEnterRoom: _onRemoteUserEnterRoom,
-                            onRemoteUserLeaveRoom: _onRemoteUserLeaveRoom,
-                            onUserVideoAvailable: _onUserVideoAvailable,
-                            onUserAudioAvailable: _onUserAudioAvailable,
-                            onConnectionLost: _onConnectionLost,
-                            onTryToReconnect: _onTryToReconnect,
-                            onConnectionRecovery: _onConnectionRecovery,
-                            onTrtcViewClick: (viewId) {
-                              showTips('$viewId被点击');
-                            }
-                          );
+                              onError: _onError,
+                              onWarning: _onWarning,
+                              onEnterRoom: _onEnterRoom,
+                              onExitRoom: _onExitRoom,
+                              onRemoteUserEnterRoom: _onRemoteUserEnterRoom,
+                              onRemoteUserLeaveRoom: _onRemoteUserLeaveRoom,
+                              onUserVideoAvailable: _onUserVideoAvailable,
+                              onUserAudioAvailable: _onUserAudioAvailable,
+                              onConnectionLost: _onConnectionLost,
+                              onTryToReconnect: _onTryToReconnect,
+                              onConnectionRecovery: _onConnectionRecovery,
+                              onTrtcViewClick: (viewId) {
+                                showTips('$viewId被点击');
+                              });
                         },
                         child: Text('设置监听'),
                       ),
@@ -208,6 +207,23 @@ class _MyAppState extends State<MyApp> {
                           showTips('切换为$msg');
                         },
                         child: Text('声音播放控制'),
+                      ),
+                      FlatButton(
+                        onPressed: () {
+                          String firstRemoteUserId = _widgetMap.keys.firstWhere((userId) => userId != _currentUserId);
+                          int rotation = TrtcVideoRotation.TRTC_VIDEO_ROTATION_0;
+                          if (rotation == TrtcVideoRotation.TRTC_VIDEO_ROTATION_0) {
+                            rotation = TrtcVideoRotation.TRTC_VIDEO_ROTATION_90;
+                          } else if (rotation == TrtcVideoRotation.TRTC_VIDEO_ROTATION_90) {
+                            rotation = TrtcVideoRotation.TRTC_VIDEO_ROTATION_180;
+                          } else if (rotation == TrtcVideoRotation.TRTC_VIDEO_ROTATION_180) {
+                            rotation = TrtcVideoRotation.TRTC_VIDEO_ROTATION_270;
+                          } else {
+                            rotation = TrtcVideoRotation.TRTC_VIDEO_ROTATION_0;
+                          }
+                          TrtcVideo.setRemoteViewRotation(firstRemoteUserId, rotation);
+                        },
+                        child: Text('旋转远端图像角度'),
                       ),
                       FlatButton(
                         onPressed: () {
