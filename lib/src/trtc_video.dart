@@ -99,6 +99,14 @@ class TrtcVideo {
     return await _channel.invokeMethod('setRemoteViewFillMode', {'userId': userId, 'mode': mode});
   }
 
+  /// 设置远端图像的顺时针旋转角度
+  ///
+  /// [userId] 对方的用户标识
+  /// [rotation] 顺时针旋转角度，默认值：不旋转。详见[TrtcVideoRotation]
+  static Future<void> setRemoteViewRotation(String userId, int rotation) async {
+    return await _channel.invokeMethod('setRemoteViewRotation', {'userId': userId, 'rotation': rotation});
+  }
+
   /// 切换摄像头
   static Future<void> switchCamera() async {
     return await _channel.invokeMethod('switchCamera');

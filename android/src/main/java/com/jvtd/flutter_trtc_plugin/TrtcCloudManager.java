@@ -159,6 +159,14 @@ public class TrtcCloudManager
     }
   }
 
+  public void setRemoteViewRotation(String userId, int rotation)
+  {
+    if (mTRTCCloud != null)
+    {
+      mTRTCCloud.setRemoteViewRotation(userId, rotation);
+    }
+  }
+
   public void setVideoEncoderParam(TRTCCloudDef.TRTCVideoEncParam endParam)
   {
     if (mTRTCCloud != null)
