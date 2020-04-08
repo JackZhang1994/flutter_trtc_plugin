@@ -18,6 +18,14 @@ class TrtcAppScene {
   static const int TRTC_APP_SCENE_VOICE_CHATROOM = 3;
 }
 
+class TrtcRole {
+  /// 主播
+  static const int TRTC_ROLE_ANCHOR = 20;
+
+  /// 观众
+  static const int TRTC_ROLE_AUDIENCE = 21;
+}
+
 class TrtcVideoStreamType {
   /// 主画面视频流，最常用的一条线路，一般用来传输摄像头的视频数据。
   static const int TRTC_VIDEO_STREAM_TYPE_BIG = 0;
