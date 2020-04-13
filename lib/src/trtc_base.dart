@@ -27,6 +27,7 @@ class TrtcBase {
     Function(int warningCode, String warningMsg) onWarning,
     Function(int result) onEnterRoom,
     Function(int reason) onExitRoom,
+    Function(int errCode, String errMsg) onSwitchRole,
     Function(String userId) onRemoteUserEnterRoom,
     Function(String userId, int reason) onRemoteUserLeaveRoom,
     Function(String userId, bool available) onUserVideoAvailable,
@@ -43,6 +44,7 @@ class TrtcBase {
     _onWarning = onWarning;
     _onEnterRoom = onEnterRoom;
     _onExitRoom = onExitRoom;
+    _onSwitchRole = onSwitchRole;
     _onRemoteUserEnterRoom = onRemoteUserEnterRoom;
     _onRemoteUserLeaveRoom = onRemoteUserLeaveRoom;
     _onUserVideoAvailable = onUserVideoAvailable;
@@ -71,6 +73,7 @@ class TrtcBase {
     _onWarning = null;
     _onEnterRoom = null;
     _onExitRoom = null;
+    _onSwitchRole = null;
     _onRemoteUserEnterRoom = null;
     _onRemoteUserLeaveRoom = null;
     _onUserVideoAvailable = null;
@@ -113,6 +116,12 @@ class TrtcBase {
   /// @discussion 如果加入成功，result 会是一个正数（result > 0），代表加入房间的时间消耗，单位是毫秒（ms）。
   /// @discussion 如果加入失败，result 会是一个负数（result < 0），代表进房失败的错误码。 进房失败的错误码含义请参见[TrtcErrorCode]
   static void Function(int result) _onEnterRoom;
+
+  /// 切换角色的事件回调
+  ///
+  /// [errCode] 错误码，0代表切换成功，其他请参见
+  /// @discussion 调用 TRTCCloud 中的 switchRole() 接口会切换主播和观众的角色，该操作会伴随一个线路切换的过程， 待 SDK 切换完成后，会抛出 onSwitchRole() 事件回调。
+  static void Function(int errCode, String errMsg) _onSwitchRole;
 
   /// 有用户加入当前房间
   ///
@@ -218,6 +227,14 @@ class TrtcBase {
         if (_onExitRoom != null) {
           int reason = args['reason'];
           _onExitRoom(reason);
+        }
+        break;
+
+      case 'onSwitchRole':
+        if (_onSwitchRole != null) {
+          int errCode = args['errCode'];
+          String errMsg = args['errMsg'];
+          _onSwitchRole(errCode, errMsg);
         }
         break;
 

@@ -43,7 +43,7 @@ public class FlutterTrtcPlugin implements MethodCallHandler, EventChannel.Stream
     MethodChannel methodChannel = new MethodChannel(registrar.messenger(), PLUGIN_METHOD_NAME);
     methodChannel.setMethodCallHandler(plugin);
 
-    EventChannel  eventChannel = new EventChannel(registrar.messenger(), PLUGIN_EVENT_NAME);
+    EventChannel eventChannel = new EventChannel(registrar.messenger(), PLUGIN_EVENT_NAME);
     eventChannel.setStreamHandler(plugin);
 
 
@@ -89,7 +89,8 @@ public class FlutterTrtcPlugin implements MethodCallHandler, EventChannel.Stream
         param.userId = userId;
         param.userSig = userSig;
         param.roomId = roomId;
-        if (role != 0) {
+        if (role != 0)
+        {
           param.role = role;
         }
         mManager.enterRoom(param, scene);
@@ -97,6 +98,11 @@ public class FlutterTrtcPlugin implements MethodCallHandler, EventChannel.Stream
 
       case "exitRoom":
         mManager.exitRoom();
+        break;
+
+      case "switchRole":
+        int role1 = numberToIntValue((Number) call.argument("role"));
+        mManager.switchRole(role1);
         break;
 
       case "setDefaultStreamRecvMode":

@@ -67,6 +67,14 @@ public class TrtcCloudManager
     }
   }
 
+  public void switchRole(int role)
+  {
+    if (mTRTCCloud != null)
+    {
+      mTRTCCloud.switchRole(role);
+    }
+  }
+
   public void setDefaultStreamRecvMode(boolean isReceivedAudio, boolean isReceivedVideo)
   {
     if (mTRTCCloud != null)

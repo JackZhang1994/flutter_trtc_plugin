@@ -16,8 +16,8 @@ class TrtcRoom {
   /// @discussion 当 scene 选择为 TRTC_APP_SCENE_LIVE 或 TRTC_APP_SCENE_VOICE_CHATROOM 时，您必须通过 TRTCParams 中的 role 字段指定当前用户的角色。
   /// @discussion 不管进房是否成功，enterRoom 都必须与 exitRoom 配对使用，在调用 exitRoom 前再次调用 enterRoom 函数会导致不可预期的错误问题。
   static Future<void> enterRoom(int sdkAppId, String userId, String userSig, int roomId, int scene, {int role}) async {
-    return await _channel.invokeMethod(
-        'enterRoom', {'sdkAppId': sdkAppId, 'userId': userId, 'userSig': userSig, 'roomId': roomId, 'scene': scene, 'role': role});
+    return await _channel.invokeMethod('enterRoom',
+        {'sdkAppId': sdkAppId, 'userId': userId, 'userSig': userSig, 'roomId': roomId, 'scene': scene, 'role': role});
   }
 
   /// 离开房间
@@ -40,5 +40,13 @@ class TrtcRoom {
   static Future<void> setDefaultStreamRecvMode(bool isReceivedAudio, bool isReceivedVideo) async {
     return await _channel.invokeMethod(
         'setDefaultStreamRecvMode', {'isReceivedAudio': isReceivedAudio, 'isReceivedVideo': isReceivedVideo});
+  }
+
+  /// 切换角色，仅适用于直播场景[TrtcAppScene.TRTC_APP_SCENE_LIVE] 和 [TrtcAppScene.TRTC_APP_SCENE_VOICE_CHATROOM]
+  ///
+  /// 在直播场景下，一个用户可能需要在“观众”和“主播”之间来回切换。 您可以在进房前通过 TRTCParams 中的 role 字段确定角色，也可以通过 switchRole 在进房后切换角色。
+  /// [role] 目标角色，默认为主播，详见[TrtcRole]
+  static Future<void> switchRole(int role) async {
+    return await _channel.invokeMethod('exitRoom');
   }
 }

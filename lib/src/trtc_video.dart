@@ -91,6 +91,13 @@ class TrtcVideo {
     return await _channel.invokeMethod('setLocalViewFillMode', {'mode': mode});
   }
 
+  /// 设置本地图像的顺时针旋转角度
+  ///
+  /// [rotation] 顺时针旋转角度，默认值：不旋转。详见[TrtcVideoRotation]
+  static Future<void> setLocalViewRotation(int rotation) async {
+    return await _channel.invokeMethod('setLocalViewRotation', {'rotation': rotation});
+  }
+
   /// 设置远端图像的渲染模式
   ///
   /// [userId] 对方的用户标识

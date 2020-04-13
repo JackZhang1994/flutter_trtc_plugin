@@ -91,6 +91,22 @@ public class TrtcCloudListenerImpl extends TRTCCloudListener
     }
   }
 
+  @Override
+  public void onSwitchRole(int errCode, String errMsg)
+  {
+    Log.i(TAG, "onSwitchRole: errCode = " + errCode + ", errMsg = " + errMsg);
+    final EventChannel.EventSink eventSink = mWefListener.get();
+    if (eventSink != null)
+    {
+      HashMap<String, Object> returnMap = new HashMap<>();
+      HashMap<String, Object> method = new HashMap<>();
+      method.put("name", "onSwitchRole");
+      method.put("errCode", errCode);
+      method.put("errMsg", errMsg);
+      returnMap.put("method", method);
+      eventSink.success(returnMap);
+    }
+  }
 
   @Override
   public void onRemoteUserEnterRoom(String userId)
