@@ -16,6 +16,7 @@ static NSString * const destroySharedInstance = @"destroySharedInstance";/** 销
 static NSString * const getUserSig = @"getUserSig";/** 获取签名*/
 static NSString * const enterRoom = @"enterRoom";/** 进入房间*/
 static NSString * const exitRoom = @"exitRoom";/** 退出房间*/
+static NSString * const switchRole = @"switchRole";/** 角色切换*/
 static NSString * const setDefaultStreamRecvMode = @"setDefaultStreamRecvMode";/** 设置音视频数据接收模式（需要在进房前设置才能生效）*/
 static NSString * const destroyPlatformView = @"destroyPlatformView";/** 移除视图*/
 static NSString * const startLocalPreview = @"startLocalPreview";/** 开启本地视频的预览画面*/
@@ -25,6 +26,7 @@ static NSString * const stopRemoteView = @"stopRemoteView";/** 停止显示远�
 static NSString * const stopAllRemoteView = @"stopAllRemoteView";/** 停止显示所有远端视频画面，同时不再拉取远端用户的视频数据流*/
 static NSString * const muteLocalVideo = @"muteLocalVideo";/** 静音本地的音频*/
 static NSString * const setLocalViewFillMode = @"setLocalViewFillMode";/** 设置本地图像的渲染模式*/
+static NSString * const setLocalViewRotation = @"setLocalViewRotation";/** 设置本地图像的顺时针旋转角度*/
 static NSString * const setRemoteViewFillMode = @"setRemoteViewFillMode";/** 设置远端图像的渲染模式*/
 static NSString * const setRemoteViewRotation = @"setRemoteViewRotation";/** 设置远端图像的顺时针旋转角度*/
 static NSString * const startLocalAudio = @"startLocalAudio";/** 开启本地音频的采集和上行*/
@@ -98,6 +100,7 @@ static NSString * const setRemoteSubStreamViewRotation = @"setRemoteSubStreamVie
     [registrar registerViewFactory:[TRTCPlatformViewFactory shareInstance] withId:PLUGIN_VIEW_NAME];
     
 }
+
 #pragma mark - flutter_trtc_plugin
 - (void)handleMethodCall:(FlutterMethodCall*)call result:(FlutterResult)result {
     NSDictionary *args = call.arguments;
@@ -114,13 +117,18 @@ static NSString * const setRemoteSubStreamViewRotation = @"setRemoteSubStreamVie
         TRTCParams * params = [[TRTCParams alloc]init];
         params.roomId = [self numberToIntValue:args[@"roomId"]];
         params.sdkAppId = [self numberToIntValue:args[@"sdkAppId"]];
-        params.userId = call.arguments[@"userId"];
-        params.userSig = call.arguments[@"userSig"];
+        params.userId = args[@"userId"];
+        params.userSig = args[@"userSig"];
+        params.role = [self numberToIntValue:args[@"role"]];
         int scene = [self numberToIntValue:args[@"scene"]];
         [self.trtc enterRoom:params appScene:scene];
         result(@(YES));
     }else if ([exitRoom isEqualToString:call.method]) {
         [self.trtc exitRoom];
+        result(@(YES));
+    }else if ([switchRole isEqualToString:call.method]) {
+        int role = [self numberToIntValue:args[@"role"]];
+        [self.trtc switchRole:role];
         result(@(YES));
     }else if ([setDefaultStreamRecvMode isEqualToString:call.method]) {
         BOOL isReceivedAudio = [self numberToBoolValue:args[@"isReceivedAudio"]];
@@ -163,6 +171,9 @@ static NSString * const setRemoteSubStreamViewRotation = @"setRemoteSubStreamVie
     }else if ([setLocalViewFillMode isEqualToString:call.method]) {
         int mode = [self numberToIntValue:args[@"mode"]];
         [self.trtc setLocalViewFillMode:mode];
+    }else if ([setLocalViewRotation isEqualToString:call.method]) {
+        int rotation = [self numberToIntValue:args[@"rotation"]];
+        [self.trtc setLocalViewRotation:rotation];
     }else if ([setRemoteViewFillMode isEqualToString:call.method]) {
         NSString * userId = args[@"userId"];
         int mode = [self numberToIntValue:args[@"mode"]];
@@ -273,6 +284,12 @@ static NSString * const setRemoteSubStreamViewRotation = @"setRemoteSubStreamVie
         sink(@{@"method": @{@"name": @"onExitRoom",@"reason": @(reason),}});
     }
 }
+-(void)onSwitchRole:(TXLiteAVError)errCode errMsg:(id)errMsg{
+    FlutterEventSink sink = _eventSink;
+    if (sink) {
+        sink(@{@"method": @{@"name": @"onSwitchRole",@"errCode":@(errCode),@"errMsg":errMsg}});
+    }
+}
 #pragma mark- 远程进房监听
 -(void)onRemoteUserEnterRoom:(NSString *)userId{
     FlutterEventSink sink = _eventSink;
@@ -286,7 +303,6 @@ static NSString * const setRemoteSubStreamViewRotation = @"setRemoteSubStreamVie
     if(sink) {
         sink(@{@"method": @{@"name": @"onRemoteUserLeaveRoom",@"userId": userId,@"reason":@(reason)}});
     }
-    
 }
 #pragma mark - 视频监听
 -(void)onUserVideoAvailable:(NSString *)userId available:(BOOL)available{
