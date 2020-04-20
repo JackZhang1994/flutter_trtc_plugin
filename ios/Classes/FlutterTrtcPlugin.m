@@ -120,6 +120,7 @@ static NSString * const setRemoteSubStreamViewRotation = @"setRemoteSubStreamVie
         params.userId = args[@"userId"];
         params.userSig = args[@"userSig"];
         params.role = [self numberToIntValue:args[@"role"]];
+        params.streamId = args[@"streamId"];
         int scene = [self numberToIntValue:args[@"scene"]];
         [self.trtc enterRoom:params appScene:scene];
         result(@(YES));
