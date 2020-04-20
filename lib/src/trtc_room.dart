@@ -12,12 +12,13 @@ class TrtcRoom {
   /// [roomId] 房间号码
   /// [scene] 应用场景, 详见 [TrtcAppScene] 定义
   /// [role] 直播场景下的角色，SDK 用这个参数确定用户是主播还是观众[直播场景下必填，通话场景下不填写], 默认值：主播（TRTCRoleAnchor）。详见 [TrtcRole] 定义
+  /// [streamId] 绑定腾讯云直播 CDN 流 ID[非必填]，设置之后，您就可以在腾讯云直播 CDN 上通过标准直播方案（FLV或HLS）播放该用户的音视频流。
   /// @discussion 调用接口后，您会收到来自 [TrtcBase.registerCallback] 中的 onEnterRoom(result) 回调
   /// @discussion 当 scene 选择为 TRTC_APP_SCENE_LIVE 或 TRTC_APP_SCENE_VOICE_CHATROOM 时，您必须通过 TRTCParams 中的 role 字段指定当前用户的角色。
   /// @discussion 不管进房是否成功，enterRoom 都必须与 exitRoom 配对使用，在调用 exitRoom 前再次调用 enterRoom 函数会导致不可预期的错误问题。
-  static Future<void> enterRoom(int sdkAppId, String userId, String userSig, int roomId, int scene, {int role}) async {
+  static Future<void> enterRoom(int sdkAppId, String userId, String userSig, int roomId, int scene, {int role, String streamId}) async {
     return await _channel.invokeMethod('enterRoom',
-        {'sdkAppId': sdkAppId, 'userId': userId, 'userSig': userSig, 'roomId': roomId, 'scene': scene, 'role': role});
+        {'sdkAppId': sdkAppId, 'userId': userId, 'userSig': userSig, 'roomId': roomId, 'scene': scene, 'role': role, 'streamId': streamId});
   }
 
   /// 离开房间

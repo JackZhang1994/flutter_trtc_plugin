@@ -84,6 +84,7 @@ public class FlutterTrtcPlugin implements MethodCallHandler, EventChannel.Stream
         int roomId = numberToIntValue((Number) call.argument("roomId"));// 房间号码 [必填]
         int scene = numberToIntValue((Number) call.argument("scene"));// 应用场景，目前支持视频通话（VideoCall）、在线直播（Live）、语音通话（AudioCall）、语音聊天室（VoiceChatRoom）四种场景。
         int role = numberToIntValue((Number) call.argument("role"));// 直播场景下的角色
+        String streamId = call.argument("streamId");// 流ID
         TRTCCloudDef.TRTCParams param = new TRTCCloudDef.TRTCParams();
         param.sdkAppId = sdkAppId;
         param.userId = userId;
@@ -92,6 +93,9 @@ public class FlutterTrtcPlugin implements MethodCallHandler, EventChannel.Stream
         if (role != 0)
         {
           param.role = role;
+        }
+        if (streamId != null && streamId.length() > 0) {
+          param.streamId = streamId;
         }
         mManager.enterRoom(param, scene);
         break;
