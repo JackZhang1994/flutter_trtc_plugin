@@ -16,7 +16,7 @@ A new Flutter plugin.
   s.source_files = 'Classes/**/*'
   s.public_header_files = 'Classes/**/*.h'
   s.dependency 'Flutter'
-  s.dependency 'TXLiteAVSDK_TRTC'
+  s.dependency 'TXLiteAVSDK_Professional'
   s.static_framework = true
   s.platform = :ios, '8.0'
 

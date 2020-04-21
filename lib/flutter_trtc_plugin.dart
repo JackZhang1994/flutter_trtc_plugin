@@ -9,3 +9,12 @@ export 'src/trtc_room.dart';
 export 'src/trtc_video.dart';
 export 'src/trtc_warning_code.dart';
 export 'src/trtc_sub_stream.dart';
+
+export 'model/download_value.dart';
+export 'model/player_config.dart';
+export 'model/tentcent_player_value.dart';
+
+export 'controller/download_controller.dart';
+export 'controller/tencent_player_controller.dart';
+
+export 'view/tencent_player.dart';
