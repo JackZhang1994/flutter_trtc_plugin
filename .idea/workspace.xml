@@ -6,53 +6,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9a974cae-84d5-4bc6-ab47-e489d27e2798" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/android/src/main/java/com/jvtd/flutter_trtc_plugin/TencentDownload.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/android/src/main/java/com/jvtd/flutter_trtc_plugin/TencentDownloadUtil.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/android/src/main/java/com/jvtd/flutter_trtc_plugin/TencentPlayer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/android/src/main/java/com/jvtd/flutter_trtc_plugin/TencentQueuingEventSink.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/flutter_trtc_plugin/android/src/main/java/com/jvtd/flutter_trtc_plugin/TencentDownload.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/flutter_trtc_plugin/android/src/main/java/com/jvtd/flutter_trtc_plugin/TencentDownloadUtil.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/flutter_trtc_plugin/android/src/main/java/com/jvtd/flutter_trtc_plugin/TencentPlayer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/flutter_trtc_plugin/android/src/main/java/com/jvtd/flutter_trtc_plugin/TencentQueuingEventSink.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/flutter_trtc_plugin/ios/Classes/FLTDownLoadManager.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/flutter_trtc_plugin/ios/Classes/FLTDownLoadManager.m" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/flutter_trtc_plugin/ios/Classes/FLTFrameUpdater.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/flutter_trtc_plugin/ios/Classes/FLTFrameUpdater.m" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/flutter_trtc_plugin/ios/Classes/FLTVideoPlayer.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/flutter_trtc_plugin/ios/Classes/FLTVideoPlayer.m" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/flutter_trtc_plugin/lib/controller/download_controller.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/flutter_trtc_plugin/lib/controller/tencent_player_controller.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/flutter_trtc_plugin/lib/model/download_value.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/flutter_trtc_plugin/lib/model/player_config.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/flutter_trtc_plugin/lib/model/tentcent_player_value.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/flutter_trtc_plugin/lib/view/tencent_player.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ios/Classes/FLTDownLoadManager.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ios/Classes/FLTDownLoadManager.m" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ios/Classes/FLTFrameUpdater.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ios/Classes/FLTFrameUpdater.m" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ios/Classes/FLTVideoPlayer.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ios/Classes/FLTVideoPlayer.m" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/controller/download_controller.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/controller/tencent_player_controller.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/model/download_value.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/model/player_config.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/model/tentcent_player_value.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/view/tencent_player.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/android/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/src/main/java/com/jvtd/flutter_trtc_plugin/FlutterTrtcPlugin.java" beforeDir="false" afterPath="$PROJECT_DIR$/android/src/main/java/com/jvtd/flutter_trtc_plugin/FlutterTrtcPlugin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/android/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/example/android/app/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/flutter_trtc_plugin/.idea/libraries/Dart_SDK.xml" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/flutter_trtc_plugin/.idea/libraries/Dart_SDK.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/flutter_trtc_plugin/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/flutter_trtc_plugin/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/flutter_trtc_plugin/android/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/flutter_trtc_plugin/android/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/flutter_trtc_plugin/android/src/main/java/com/jvtd/flutter_trtc_plugin/FlutterTrtcPlugin.java" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/flutter_trtc_plugin/android/src/main/java/com/jvtd/flutter_trtc_plugin/FlutterTrtcPlugin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/flutter_trtc_plugin/example/android/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/flutter_trtc_plugin/example/android/app/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/flutter_trtc_plugin/ios/Classes/FlutterTrtcPlugin.m" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/flutter_trtc_plugin/ios/Classes/FlutterTrtcPlugin.m" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/flutter_trtc_plugin/ios/flutter_trtc_plugin.podspec" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/flutter_trtc_plugin/ios/flutter_trtc_plugin.podspec" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Classes/FlutterTrtcPlugin.m" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/FlutterTrtcPlugin.m" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/flutter_trtc_plugin.podspec" beforeDir="false" afterPath="$PROJECT_DIR$/ios/flutter_trtc_plugin.podspec" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/flutter_trtc_plugin.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/flutter_trtc_plugin.dart" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -70,28 +25,6 @@
         <option value="Dart File" />
       </list>
     </option>
-  </component>
-  <component name="FindInProjectRecents">
-    <findStrings>
-      <find>_widgetMap</find>
-      <find>onRemoteUserLeaveRoom</find>
-      <find>onEnterRoom</find>
-      <find>getUserSig</find>
-      <find>muteLocalVideo</find>
-      <find>_onConnectionLost</find>
-      <find>setNetworkQosParam</find>
-      <find>setVideoEncoderParam</find>
-      <find>setLocalViewMirror</find>
-      <find>mEvents</find>
-      <find>UiKitView</find>
-      <find>startLocalPreview</find>
-      <find>startAudio</find>
-      <find>startLocalAudio</find>
-      <find>hitTestBehavior</find>
-      <find>onTrtcViewClick</find>
-      <find>_onUserSubStreamAvailable</find>
-      <find>_onEnterRoom</find>
-    </findStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -173,11 +106,6 @@
           <url>file://$PROJECT_DIR$/example/lib/main.dart</url>
           <line>263</line>
           <option name="timeStamp" value="14" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/ios/Classes/FlutterTrtcPlugin.m</url>
-          <line>150</line>
-          <option name="timeStamp" value="15" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
