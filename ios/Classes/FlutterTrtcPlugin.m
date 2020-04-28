@@ -96,6 +96,19 @@ static NSString * const setRemoteSubStreamViewRotation = @"setRemoteSubStreamVie
     
     return [number isKindOfClass:[NSNull class]] ? 0 : [number intValue];
 }
+
+- (bool)isEmptyString:(NSString *) str{
+    NSCharacterSet *set1 = [NSCharacterSet whitespaceAndNewlineCharacterSet];
+    NSString *trimmedStr1 = [str stringByTrimmingCharactersInSet:set1];
+    if (!str && [str isKindOfClass:[NSNull class]] && !str.length && !trimmedStr1.length){
+        //字符串为空
+        return YES;
+    }else{
+        //字符串不为空
+        return NO;
+    }
+}
+
 + (void)registerWithRegistrar:(NSObject<FlutterPluginRegistrar>*)registrar {
     
     FlutterTrtcPlugin* instance = [[FlutterTrtcPlugin alloc]initWithRegistrar:registrar];
@@ -134,7 +147,7 @@ static NSString * const setRemoteSubStreamViewRotation = @"setRemoteSubStreamVie
         params.userSig = args[@"userSig"];
         params.role = [self numberToIntValue:args[@"role"]];
         NSString* streamId = args[@"streamId"];
-        if(streamId != nil && streamId.length > 0){
+        if(![self isEmptyString:streamId]){
             params.streamId = streamId;
         }
         int scene = [self numberToIntValue:args[@"scene"]];
