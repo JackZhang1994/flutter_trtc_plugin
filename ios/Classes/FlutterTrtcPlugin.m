@@ -97,16 +97,22 @@ static NSString * const setRemoteSubStreamViewRotation = @"setRemoteSubStreamVie
     return [number isKindOfClass:[NSNull class]] ? 0 : [number intValue];
 }
 
-- (bool)isEmptyString:(NSString *) str{
-    NSCharacterSet *set1 = [NSCharacterSet whitespaceAndNewlineCharacterSet];
-    NSString *trimmedStr1 = [str stringByTrimmingCharactersInSet:set1];
-    if (!str && [str isKindOfClass:[NSNull class]] && !str.length && !trimmedStr1.length){
-        //字符串为空
+- (bool)isEmptyString:(NSString *) aStr{
+    if (!aStr) {
         return YES;
-    }else{
-        //字符串不为空
-        return NO;
     }
+    if ([aStr isKindOfClass:[NSNull class]]) {
+        return YES;
+    }
+    if (!aStr.length) {
+        return YES;
+    }
+    NSCharacterSet *set = [NSCharacterSet whitespaceAndNewlineCharacterSet];
+    NSString *trimmedStr = [aStr stringByTrimmingCharactersInSet:set];
+    if (!trimmedStr.length) {
+        return YES;
+    }
+    return NO;
 }
 
 + (void)registerWithRegistrar:(NSObject<FlutterPluginRegistrar>*)registrar {
