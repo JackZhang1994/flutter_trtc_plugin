@@ -472,6 +472,18 @@ static NSString * const setRemoteSubStreamViewRotation = @"setRemoteSubStreamVie
     }
     
 }
+#pragma mark- 网络质量监听
+- (void)onNetworkQuality:(TRTCQualityInfo *)localQuality remoteQuality:(NSArray<TRTCQualityInfo*>*)remoteQuality{
+    FlutterEventSink sink = _eventSink;
+    if(sink) {
+        NSMutableArray *remoteQualityList = [[NSMutableArray alloc]init];
+        for(TRTCQualityInfo *otherQuality in remoteQuality){
+            [remoteQualityList addObject:@{@"userId":otherQuality.userId,@"qualiity":otherQuality.quality}];
+        }
+    
+        sink(@{@"method": @{@"name": @"onNetworkQuality",@"localQuality": @{@"userId":localQuality.userId,@"qualiity":localQuality.quality},@"remoteQuality":remoteQualityList}});
+    }
+}
 #pragma mark- 失去连接监听
 -(void)onConnectionLost{
     FlutterEventSink sink = _eventSink;

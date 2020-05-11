@@ -123,3 +123,20 @@ class TrtcVideoRotation {
   /// 顺时针旋转270度
   static const int TRTC_VIDEO_ROTATION_270 = 3;
 }
+
+class TrtcQuality {
+  static const int TRTC_QUALITY_UNKNOWN = 0; //未定义
+  static const int TRTC_QUALITY_EXCELLENT = 1; //最好
+  static const int TRTC_QUALITY_GOOD = 2; //好
+  static const int TRTC_QUALITY_POOR = 3; //一般
+  static const int TRTC_QUALITY_BAD = 4; //差
+  static const int TRTC_QUALITY_VBAD = 5; //很差
+  static const int TRTC_QUALITY_DOWN = 6; //不可用
+}
+
+class TrtcUserQuality {
+  final String userId;
+  final int quality;
+
+  TrtcUserQuality(this.userId, this.quality);
+}

@@ -38,6 +38,7 @@ class TrtcBase {
     Function() onConnectionLost,
     Function() onTryToReconnect,
     Function() onConnectionRecovery,
+    Function(TrtcUserQuality localQuality, List<TrtcUserQuality> remoteQuality) onNetworkQuality,
     Function(int viewId) onTrtcViewClick,
   }) async {
     _onError = onError;
@@ -56,6 +57,7 @@ class TrtcBase {
     _onTryToReconnect = onTryToReconnect;
     _onConnectionRecovery = onConnectionRecovery;
     _onTrtcViewClick = onTrtcViewClick;
+    _onNetworkQuality = onNetworkQuality;
 
     print('registerCallback 执行');
 
@@ -85,6 +87,7 @@ class TrtcBase {
     _onTryToReconnect = null;
     _onConnectionRecovery = null;
     _onTrtcViewClick = null;
+    _onNetworkQuality = null;
 
     _streamSubscription.cancel().then((_) {
       _streamSubscription = null;
@@ -190,6 +193,9 @@ class TrtcBase {
 
   /// SDK 跟服务器的连接恢复
   static void Function() _onConnectionRecovery;
+
+  /// 网络质量，该回调每2秒触发一次，统计当前网络的上行和下行质量。
+  static void Function(TrtcUserQuality localQuality, List<TrtcUserQuality> remoteQuality) _onNetworkQuality;
 
   static void Function(int viewId) _onTrtcViewClick;
 
@@ -316,6 +322,17 @@ class TrtcBase {
         if (_onTrtcViewClick != null) {
           int viewId = args['viewId'];
           _onTrtcViewClick(viewId);
+        }
+        break;
+      case 'onNetworkQuality':
+        if (_onNetworkQuality != null) {
+          Map<String, dynamic> localQualityMap = args['localQuality'];
+          TrtcUserQuality localQuality = TrtcUserQuality(localQualityMap['userId'], localQualityMap['quality']);
+          List<Map<String, dynamic>> remoteQualityList = args['remoteQuality'];
+          List<TrtcUserQuality> remoteQuality = remoteQualityList.map((value) {
+            return TrtcUserQuality(value['userId'], value['quality']);
+          }).toList();
+          _onNetworkQuality(localQuality, remoteQuality);
         }
         break;
 
