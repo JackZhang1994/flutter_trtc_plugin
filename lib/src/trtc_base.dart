@@ -326,9 +326,9 @@ class TrtcBase {
         break;
       case 'onNetworkQuality':
         if (_onNetworkQuality != null) {
-          Map<String, dynamic> localQualityMap = args['localQuality'];
+          Map localQualityMap = args['localQuality'];
           TrtcUserQuality localQuality = TrtcUserQuality(localQualityMap['userId'], localQualityMap['quality']);
-          List<Map<String, dynamic>> remoteQualityList = args['remoteQuality'];
+          List<Map> remoteQualityList = args['remoteQuality'];
           List<TrtcUserQuality> remoteQuality = remoteQualityList.map((value) {
             return TrtcUserQuality(value['userId'], value['quality']);
           }).toList();

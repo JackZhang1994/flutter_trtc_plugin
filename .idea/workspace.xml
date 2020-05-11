@@ -9,6 +9,7 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/android/src/main/java/com/jvtd/flutter_trtc_plugin/TrtcCloudListenerImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/android/src/main/java/com/jvtd/flutter_trtc_plugin/TrtcCloudListenerImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/flutter_trtc_plugin/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/flutter_trtc_plugin/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Classes/FlutterTrtcPlugin.m" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/FlutterTrtcPlugin.m" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/src/trtc_base.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/trtc_base.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/src/trtc_constant_defines.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/trtc_constant_defines.dart" afterDir="false" />
     </list>
