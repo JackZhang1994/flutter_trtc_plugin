@@ -256,7 +256,7 @@ public class TrtcCloudListenerImpl extends TRTCCloudListener {
             for (TRTCCloudDef.TRTCQuality quality : arrayList) {
                 HashMap<String, Object> otherQuality = new HashMap<>();
                 otherQuality.put("userId", quality.userId);
-                otherQuality.put("quality", quality.userId);
+                otherQuality.put("quality", quality.quality);
                 remoteQuality.add(otherQuality);
             }
 
