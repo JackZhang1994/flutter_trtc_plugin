@@ -250,7 +250,7 @@ public class TrtcCloudListenerImpl extends TRTCCloudListener {
         if (eventSink != null) {
             HashMap<String, Object> localQuality = new HashMap<>();
             localQuality.put("userId", trtcQuality.userId);
-            localQuality.put("quality", trtcQuality.userId);
+            localQuality.put("quality", trtcQuality.quality);
 
             ArrayList<HashMap<String, Object>> remoteQuality = new ArrayList<>();
             for (TRTCCloudDef.TRTCQuality quality : arrayList) {
