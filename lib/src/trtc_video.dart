@@ -1,34 +1,56 @@
+import 'dart:io';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_trtc_plugin/flutter_trtc_plugin.dart';
+
+class TrtcVideoView extends StatefulWidget {
+  final String userId;
+  final void Function(int viewId) onViewCreated;
+
+  const TrtcVideoView({Key key, this.userId, this.onViewCreated}) : super(key: key);
+
+  @override
+  _TrtcVideoViewState createState() => _TrtcVideoViewState();
+}
+
+class _TrtcVideoViewState extends State<TrtcVideoView> {
+  @override
+  Widget build(BuildContext context) {
+    if (Platform.isIOS) {
+      return UiKitView(
+          key: ObjectKey(widget.userId),
+          viewType: 'flutter_trtc_plugin/view',
+          onPlatformViewCreated: (int viewId) {
+            if (widget.onViewCreated != null) {
+              widget.onViewCreated(viewId);
+            }
+          });
+    } else if (Platform.isAndroid) {
+      return AndroidView(
+        key: ObjectKey(widget.userId),
+        viewType: 'flutter_trtc_plugin/view',
+        onPlatformViewCreated: (int viewID) {
+          if (widget.onViewCreated != null) {
+            widget.onViewCreated(viewID);
+          }
+        },
+      );
+    }
+    return Center(child: Text('界面创建失败'));
+  }
+}
 
 class TrtcVideo {
   static const MethodChannel _channel = const MethodChannel('flutter_trtc_plugin');
 
   /// 创建PlatformView
   static Widget createPlatformView(String userId, Function(int viewID) onViewCreated) {
-    if (TargetPlatform.iOS == defaultTargetPlatform) {
-      return UiKitView(
-          key: ObjectKey(userId),
-          viewType: 'flutter_trtc_plugin/view',
-          onPlatformViewCreated: (int viewId) {
-            if (onViewCreated != null) {
-              onViewCreated(viewId);
-            }
-          });
-    } else if (TargetPlatform.android == defaultTargetPlatform) {
-      return AndroidView(
-        key: ObjectKey(userId),
-        viewType: 'flutter_trtc_plugin/view',
-        onPlatformViewCreated: (int viewID) {
-          if (onViewCreated != null) {
-            onViewCreated(viewID);
-          }
-        },
-      );
-    }
-    return null;
+    return TrtcVideoView(
+      userId: userId,
+      onViewCreated: onViewCreated,
+    );
   }
 
   /// 销毁PlatformView
