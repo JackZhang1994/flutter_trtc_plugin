@@ -478,10 +478,16 @@ static NSString * const setRemoteSubStreamViewRotation = @"setRemoteSubStreamVie
     if(sink) {
         NSMutableArray *remoteQualityList = [[NSMutableArray alloc]init];
         for(TRTCQualityInfo *otherQuality in remoteQuality){
-            [remoteQualityList addObject:@{@"userId":otherQuality.userId,@"quality":@(otherQuality.quality)}];
+            NSMutableDictionary * otherQualityDic = [[NSMutableDictionary alloc]init];
+            [otherQualityDic setValue:!otherQuality.userId ? otherQuality.userId : @"" forKey:@"userId"];
+            [otherQualityDic setValue:!otherQuality.quality ? @(otherQuality.quality) : @(0) forKey:@"quality"];
+            [remoteQualityList addObject:otherQualityDic];
         }
+        NSMutableDictionary * localQualityDic = [[NSMutableDictionary alloc]init];
+        [localQualityDic setValue:!localQuality.userId ? localQuality.userId : @"" forKey:@"userId"];
+        [localQualityDic setValue:!localQuality.quality ? @(localQuality.quality) : @(0) forKey:@"quality"];
     
-        sink(@{@"method": @{@"name": @"onNetworkQuality",@"localQuality": @{@"userId":localQuality.userId,@"quality":@(localQuality.quality)},@"remoteQuality":remoteQualityList}});
+        sink(@{@"method": @{@"name": @"onNetworkQuality",@"localQuality": localQualityDic,@"remoteQuality":remoteQualityList}});
     }
 }
 #pragma mark- 失去连接监听
