@@ -48,6 +48,6 @@ class TrtcRoom {
   /// 在直播场景下，一个用户可能需要在“观众”和“主播”之间来回切换。 您可以在进房前通过 TRTCParams 中的 role 字段确定角色，也可以通过 switchRole 在进房后切换角色。
   /// [role] 目标角色，默认为主播，详见[TrtcRole]
   static Future<void> switchRole(int role) async {
-    return await _channel.invokeMethod('exitRoom');
+    return await _channel.invokeMethod('switchRole');
   }
 }
