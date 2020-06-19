@@ -3,6 +3,6 @@
 
 .packages
 .pub/
-.idea/workspace.xml
+.idea/
 
 build/
