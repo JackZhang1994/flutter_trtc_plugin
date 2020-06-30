@@ -14,316 +14,256 @@ import io.flutter.plugin.common.EventChannel;
 /**
  * 封装了 TRTCCloud 的基本功能，方便直接调用
  */
-public class TrtcCloudManager
-{
-  private static final String TAG = TrtcCloudListenerImpl.class.getName();
+public class TrtcCloudManager {
+    private static final String TAG = TrtcCloudListenerImpl.class.getName();
 
-  private Context mContext;
-  private TRTCCloud mTRTCCloud;                 // SDK 核心类
+    private Context mContext;
+    private TRTCCloud mTRTCCloud;                 // SDK 核心类
 
 
-  /**
-   * 美颜相关
-   */
-  private int mBeautyLevel = 5;        // 美颜等级
-  private int mWhiteningLevel = 3;        // 美白等级
-  private int mRuddyLevel = 2;        // 红润等级
-  private int mBeautyStyle = TRTCCloudDef.TRTC_BEAUTY_STYLE_SMOOTH;// 美颜风格
+    /**
+     * 美颜相关
+     */
+    private int mBeautyLevel = 5;        // 美颜等级
+    private int mWhiteningLevel = 3;        // 美白等级
+    private int mRuddyLevel = 2;        // 红润等级
+    private int mBeautyStyle = TRTCCloudDef.TRTC_BEAUTY_STYLE_SMOOTH;// 美颜风格
 
-  public TrtcCloudManager(Context context)
-  {
-    mContext = context;
-  }
-
-  public void setEvents(EventChannel.EventSink events)
-  {
-    mTRTCCloud.setListener(new TrtcCloudListenerImpl(events));
-  }
-
-  public void sharedInstance()
-  {
-    mTRTCCloud = TRTCCloud.sharedInstance(mContext);
-  }
-
-  public void destroySharedInstance()
-  {
-    mTRTCCloud.setListener(null);
-    TRTCCloud.destroySharedInstance();
-  }
-
-  public void enterRoom(TRTCCloudDef.TRTCParams param, int scene)
-  {
-    if (mTRTCCloud != null)
-    {
-      mTRTCCloud.enterRoom(param, scene);
+    public TrtcCloudManager(Context context) {
+        mContext = context;
     }
-  }
 
-  public void exitRoom()
-  {
-    if (mTRTCCloud != null)
-    {
-      mTRTCCloud.exitRoom();
+    public void setEvents(EventChannel.EventSink events) {
+        mTRTCCloud.setListener(new TrtcCloudListenerImpl(events));
     }
-  }
 
-  public void switchRole(int role)
-  {
-    if (mTRTCCloud != null)
-    {
-      mTRTCCloud.switchRole(role);
+    public void sharedInstance() {
+        mTRTCCloud = TRTCCloud.sharedInstance(mContext);
     }
-  }
 
-  public void setDefaultStreamRecvMode(boolean isReceivedAudio, boolean isReceivedVideo)
-  {
-    if (mTRTCCloud != null)
-    {
-      mTRTCCloud.setDefaultStreamRecvMode(isReceivedAudio, isReceivedVideo);
+    public void destroySharedInstance() {
+        mTRTCCloud.setListener(null);
+        TRTCCloud.destroySharedInstance();
     }
-  }
 
-  public void startLocalPreview(boolean frontCamera, int viewId)
-  {
-    TrtcPlatformView trtcPlatformView = TrtcPlatformViewFactory.shareInstance().getPlatformView(viewId);
-    if (trtcPlatformView == null)
-    {
-      return;
+    public void enterRoom(TRTCCloudDef.TRTCParams param, int scene) {
+        if (mTRTCCloud != null) {
+            mTRTCCloud.enterRoom(param, scene);
+        }
     }
-    TXCloudVideoView txCloudVideoView = (TXCloudVideoView) trtcPlatformView.getView();
-    if (txCloudVideoView == null)
-    {
-      return;
-    }
-    if (mTRTCCloud != null)
-    {
-      mTRTCCloud.startLocalPreview(frontCamera, txCloudVideoView);
-    }
-  }
 
-  public void stopLocalPreview()
-  {
-    if (mTRTCCloud != null)
-    {
-      mTRTCCloud.stopLocalPreview();
+    public void startSpeedTest(int sdkAppId, String userId, String userSig) {
+        if (mTRTCCloud != null) {
+            mTRTCCloud.startSpeedTest(sdkAppId, userId, userSig);
+        }
     }
-  }
 
-  public void startRemoteView(String userId, int viewId)
-  {
-    TrtcPlatformView trtcPlatformView = TrtcPlatformViewFactory.shareInstance().getPlatformView(viewId);
-    if (trtcPlatformView == null)
-    {
-      return;
+    public void stopSpeedTest() {
+        if (mTRTCCloud != null) {
+            mTRTCCloud.stopSpeedTest();
+        }
     }
-    TXCloudVideoView txCloudVideoView = (TXCloudVideoView) trtcPlatformView.getView();
-    if (txCloudVideoView == null)
-    {
-      return;
-    }
-    if (mTRTCCloud != null)
-    {
-      mTRTCCloud.startRemoteView(userId, txCloudVideoView);
-    }
-  }
 
-  public void stopRemoteView(String userId)
-  {
-    if (mTRTCCloud != null)
-    {
-      mTRTCCloud.stopRemoteView(userId);
+    public void exitRoom() {
+        if (mTRTCCloud != null) {
+            mTRTCCloud.exitRoom();
+        }
     }
-  }
 
-  public void stopAllRemoteView()
-  {
-    if (mTRTCCloud != null)
-    {
-      mTRTCCloud.stopAllRemoteView();
+    public void switchRole(int role) {
+        if (mTRTCCloud != null) {
+            mTRTCCloud.switchRole(role);
+        }
     }
-  }
 
-  public void muteLocalVideo(boolean mute)
-  {
-    if (mTRTCCloud != null)
-    {
-      mTRTCCloud.muteLocalVideo(mute);
+    public void setDefaultStreamRecvMode(boolean isReceivedAudio, boolean isReceivedVideo) {
+        if (mTRTCCloud != null) {
+            mTRTCCloud.setDefaultStreamRecvMode(isReceivedAudio, isReceivedVideo);
+        }
     }
-  }
 
-  public void setLocalViewFillMode(int mode)
-  {
-    if (mTRTCCloud != null)
-    {
-      mTRTCCloud.setLocalViewFillMode(mode);
+    public void startLocalPreview(boolean frontCamera, int viewId) {
+        TrtcPlatformView trtcPlatformView = TrtcPlatformViewFactory.shareInstance().getPlatformView(viewId);
+        if (trtcPlatformView == null) {
+            return;
+        }
+        TXCloudVideoView txCloudVideoView = (TXCloudVideoView) trtcPlatformView.getView();
+        if (txCloudVideoView == null) {
+            return;
+        }
+        if (mTRTCCloud != null) {
+            mTRTCCloud.startLocalPreview(frontCamera, txCloudVideoView);
+        }
     }
-  }
 
-  public void setRemoteViewFillMode(String userId, int mode)
-  {
-    if (mTRTCCloud != null)
-    {
-      mTRTCCloud.setRemoteViewFillMode(userId, mode);
+    public void stopLocalPreview() {
+        if (mTRTCCloud != null) {
+            mTRTCCloud.stopLocalPreview();
+        }
     }
-  }
 
-  public void setRemoteViewRotation(String userId, int rotation)
-  {
-    if (mTRTCCloud != null)
-    {
-      mTRTCCloud.setRemoteViewRotation(userId, rotation);
+    public void startRemoteView(String userId, int viewId) {
+        TrtcPlatformView trtcPlatformView = TrtcPlatformViewFactory.shareInstance().getPlatformView(viewId);
+        if (trtcPlatformView == null) {
+            return;
+        }
+        TXCloudVideoView txCloudVideoView = (TXCloudVideoView) trtcPlatformView.getView();
+        if (txCloudVideoView == null) {
+            return;
+        }
+        if (mTRTCCloud != null) {
+            mTRTCCloud.startRemoteView(userId, txCloudVideoView);
+        }
     }
-  }
 
-  public void setVideoEncoderParam(TRTCCloudDef.TRTCVideoEncParam endParam)
-  {
-    if (mTRTCCloud != null)
-    {
-      mTRTCCloud.setVideoEncoderParam(endParam);
+    public void stopRemoteView(String userId) {
+        if (mTRTCCloud != null) {
+            mTRTCCloud.stopRemoteView(userId);
+        }
     }
-  }
 
-  public void setNetworkQosParam(TRTCCloudDef.TRTCNetworkQosParam qosParam)
-  {
-    if (mTRTCCloud != null)
-    {
-      mTRTCCloud.setNetworkQosParam(qosParam);
+    public void stopAllRemoteView() {
+        if (mTRTCCloud != null) {
+            mTRTCCloud.stopAllRemoteView();
+        }
     }
-  }
 
-  public void setLocalViewMirror(int mirrorType)
-  {
-    if (mTRTCCloud != null)
-    {
-      mTRTCCloud.setLocalViewMirror(mirrorType);
+    public void muteLocalVideo(boolean mute) {
+        if (mTRTCCloud != null) {
+            mTRTCCloud.muteLocalVideo(mute);
+        }
     }
-  }
 
-  public void setVideoEncoderMirror(boolean mirror)
-  {
-    if (mTRTCCloud != null)
-    {
-      mTRTCCloud.setVideoEncoderMirror(mirror);
+    public void setLocalViewFillMode(int mode) {
+        if (mTRTCCloud != null) {
+            mTRTCCloud.setLocalViewFillMode(mode);
+        }
     }
-  }
 
-  public void startLocalAudio()
-  {
-    if (mTRTCCloud != null)
-    {
-      mTRTCCloud.startLocalAudio();
+    public void setRemoteViewFillMode(String userId, int mode) {
+        if (mTRTCCloud != null) {
+            mTRTCCloud.setRemoteViewFillMode(userId, mode);
+        }
     }
-  }
 
-  public void stopLocalAudio()
-  {
-    if (mTRTCCloud != null)
-    {
-      mTRTCCloud.stopLocalAudio();
+    public void setRemoteViewRotation(String userId, int rotation) {
+        if (mTRTCCloud != null) {
+            mTRTCCloud.setRemoteViewRotation(userId, rotation);
+        }
     }
-  }
 
-  public void muteLocalAudio(boolean mute)
-  {
-    if (mTRTCCloud != null)
-    {
-      mTRTCCloud.muteLocalAudio(mute);
+    public void setVideoEncoderParam(TRTCCloudDef.TRTCVideoEncParam endParam) {
+        if (mTRTCCloud != null) {
+            mTRTCCloud.setVideoEncoderParam(endParam);
+        }
     }
-  }
 
-  public void setAudioRoute(int route)
-  {
-    if (mTRTCCloud != null)
-    {
-      mTRTCCloud.setAudioRoute(route);
+    public void setNetworkQosParam(TRTCCloudDef.TRTCNetworkQosParam qosParam) {
+        if (mTRTCCloud != null) {
+            mTRTCCloud.setNetworkQosParam(qosParam);
+        }
     }
-  }
 
-  public void muteRemoteAudio(String userId, boolean mote)
-  {
-    if (mTRTCCloud != null)
-    {
-      mTRTCCloud.muteRemoteAudio(userId, mote);
+    public void setLocalViewMirror(int mirrorType) {
+        if (mTRTCCloud != null) {
+            mTRTCCloud.setLocalViewMirror(mirrorType);
+        }
     }
-  }
 
-  public void muteAllRemoteAudio(boolean mote)
-  {
-    if (mTRTCCloud != null)
-    {
-      mTRTCCloud.muteAllRemoteAudio(mote);
+    public void setVideoEncoderMirror(boolean mirror) {
+        if (mTRTCCloud != null) {
+            mTRTCCloud.setVideoEncoderMirror(mirror);
+        }
     }
-  }
 
-  public int startAudioRecording(TRTCCloudDef.TRTCAudioRecordingParams params)
-  {
-    if (mTRTCCloud != null)
-    {
-      return mTRTCCloud.startAudioRecording(params);
-    } else
-    {
-      return -2;
+    public void startLocalAudio() {
+        if (mTRTCCloud != null) {
+            mTRTCCloud.startLocalAudio();
+        }
     }
-  }
+
+    public void stopLocalAudio() {
+        if (mTRTCCloud != null) {
+            mTRTCCloud.stopLocalAudio();
+        }
+    }
+
+    public void muteLocalAudio(boolean mute) {
+        if (mTRTCCloud != null) {
+            mTRTCCloud.muteLocalAudio(mute);
+        }
+    }
+
+    public void setAudioRoute(int route) {
+        if (mTRTCCloud != null) {
+            mTRTCCloud.setAudioRoute(route);
+        }
+    }
+
+    public void muteRemoteAudio(String userId, boolean mote) {
+        if (mTRTCCloud != null) {
+            mTRTCCloud.muteRemoteAudio(userId, mote);
+        }
+    }
+
+    public void muteAllRemoteAudio(boolean mote) {
+        if (mTRTCCloud != null) {
+            mTRTCCloud.muteAllRemoteAudio(mote);
+        }
+    }
+
+    public int startAudioRecording(TRTCCloudDef.TRTCAudioRecordingParams params) {
+        if (mTRTCCloud != null) {
+            return mTRTCCloud.startAudioRecording(params);
+        } else {
+            return -2;
+        }
+    }
 
 
-  public void stopAudioRecording()
-  {
-    if (mTRTCCloud != null)
-    {
-      mTRTCCloud.stopAudioRecording();
+    public void stopAudioRecording() {
+        if (mTRTCCloud != null) {
+            mTRTCCloud.stopAudioRecording();
+        }
     }
-  }
 
-  public void switchCamera()
-  {
-    if (mTRTCCloud != null)
-    {
-      mTRTCCloud.switchCamera();
+    public void switchCamera() {
+        if (mTRTCCloud != null) {
+            mTRTCCloud.switchCamera();
+        }
     }
-  }
 
-  public void startRemoteSubStreamView(String userId, int viewId)
-  {
-    TrtcPlatformView trtcPlatformView = TrtcPlatformViewFactory.shareInstance().getPlatformView(viewId);
-    if (trtcPlatformView == null)
-    {
-      return;
+    public void startRemoteSubStreamView(String userId, int viewId) {
+        TrtcPlatformView trtcPlatformView = TrtcPlatformViewFactory.shareInstance().getPlatformView(viewId);
+        if (trtcPlatformView == null) {
+            return;
+        }
+        TXCloudVideoView txCloudVideoView = (TXCloudVideoView) trtcPlatformView.getView();
+        if (txCloudVideoView == null) {
+            return;
+        }
+        if (mTRTCCloud != null) {
+            mTRTCCloud.startRemoteSubStreamView(userId, txCloudVideoView);
+        }
     }
-    TXCloudVideoView txCloudVideoView = (TXCloudVideoView) trtcPlatformView.getView();
-    if (txCloudVideoView == null)
-    {
-      return;
-    }
-    if (mTRTCCloud != null)
-    {
-      mTRTCCloud.startRemoteSubStreamView(userId, txCloudVideoView);
-    }
-  }
 
-  public void stopRemoteSubStreamView(String userId)
-  {
-    if (mTRTCCloud != null)
-    {
-      mTRTCCloud.stopRemoteSubStreamView(userId);
+    public void stopRemoteSubStreamView(String userId) {
+        if (mTRTCCloud != null) {
+            mTRTCCloud.stopRemoteSubStreamView(userId);
+        }
     }
-  }
 
-  public void setRemoteSubStreamViewFillMode(String userId, int mode)
-  {
-    if (mTRTCCloud != null)
-    {
-      mTRTCCloud.setRemoteSubStreamViewFillMode(userId, mode);
+    public void setRemoteSubStreamViewFillMode(String userId, int mode) {
+        if (mTRTCCloud != null) {
+            mTRTCCloud.setRemoteSubStreamViewFillMode(userId, mode);
+        }
     }
-  }
 
-  public void setRemoteSubStreamViewRotation(String userId, int rotation)
-  {
-    if (mTRTCCloud != null)
-    {
-      mTRTCCloud.setRemoteSubStreamViewRotation(userId, rotation);
+    public void setRemoteSubStreamViewRotation(String userId, int rotation) {
+        if (mTRTCCloud != null) {
+            mTRTCCloud.setRemoteSubStreamViewRotation(userId, rotation);
+        }
     }
-  }
 
 
 //  /**
@@ -453,87 +393,75 @@ public class TrtcCloudManager
 //  }
 
 
-  /**
-   * 声音采样率
-   *
-   * @param enable true 开启16k采样率 false 开启48k采样率
-   */
-  public void enable16KSampleRate(boolean enable)
-  {
-    JSONObject jsonObject = new JSONObject();
-    try
-    {
-      jsonObject.put("api", "setAudioSampleRate");
-      JSONObject params = new JSONObject();
-      params.put("sampleRate", enable ? 16000 : 48000);
-      jsonObject.put("params", params);
-      mTRTCCloud.callExperimentalAPI(jsonObject.toString());
-    } catch (JSONException e)
-    {
-      e.printStackTrace();
+    /**
+     * 声音采样率
+     *
+     * @param enable true 开启16k采样率 false 开启48k采样率
+     */
+    public void enable16KSampleRate(boolean enable) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("api", "setAudioSampleRate");
+            JSONObject params = new JSONObject();
+            params.put("sampleRate", enable ? 16000 : 48000);
+            jsonObject.put("params", params);
+            mTRTCCloud.callExperimentalAPI(jsonObject.toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
-  }
 
-  /**
-   * 是否开启自动增益补偿功能, 可以自动调麦克风的收音量到一定的音量水平
-   *
-   * @param enable
-   */
-  public void enableAGC(boolean enable)
-  {
-    JSONObject jsonObject = new JSONObject();
-    try
-    {
-      jsonObject.put("api", "enableAudioAGC");
-      JSONObject params = new JSONObject();
-      params.put("enable", enable ? 1 : 0);
-      jsonObject.put("params", params);
-      mTRTCCloud.callExperimentalAPI(jsonObject.toString());
-    } catch (JSONException e)
-    {
-      e.printStackTrace();
+    /**
+     * 是否开启自动增益补偿功能, 可以自动调麦克风的收音量到一定的音量水平
+     *
+     * @param enable
+     */
+    public void enableAGC(boolean enable) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("api", "enableAudioAGC");
+            JSONObject params = new JSONObject();
+            params.put("enable", enable ? 1 : 0);
+            jsonObject.put("params", params);
+            mTRTCCloud.callExperimentalAPI(jsonObject.toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
-  }
 
-  /**
-   * 回声消除器，可以消除各种延迟的回声
-   *
-   * @param enable
-   */
-  public void enableAEC(boolean enable)
-  {
-    JSONObject jsonObject = new JSONObject();
-    try
-    {
-      jsonObject.put("api", "enableAudioAEC");
-      JSONObject params = new JSONObject();
-      params.put("enable", enable ? 1 : 0);
-      jsonObject.put("params", params);
-      mTRTCCloud.callExperimentalAPI(jsonObject.toString());
-    } catch (JSONException e)
-    {
-      e.printStackTrace();
+    /**
+     * 回声消除器，可以消除各种延迟的回声
+     *
+     * @param enable
+     */
+    public void enableAEC(boolean enable) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("api", "enableAudioAEC");
+            JSONObject params = new JSONObject();
+            params.put("enable", enable ? 1 : 0);
+            jsonObject.put("params", params);
+            mTRTCCloud.callExperimentalAPI(jsonObject.toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
-  }
 
-  /**
-   * 背景噪音抑制功能，可探测出背景固定频率的杂音并消除背景噪音
-   *
-   * @param enable
-   */
-  public void enableANS(boolean enable)
-  {
-    JSONObject jsonObject = new JSONObject();
-    try
-    {
-      jsonObject.put("api", "enableAudioANS");
-      JSONObject params = new JSONObject();
-      params.put("enable", enable ? 1 : 0);
-      jsonObject.put("params", params);
-      mTRTCCloud.callExperimentalAPI(jsonObject.toString());
-    } catch (JSONException e)
-    {
-      e.printStackTrace();
+    /**
+     * 背景噪音抑制功能，可探测出背景固定频率的杂音并消除背景噪音
+     *
+     * @param enable
+     */
+    public void enableANS(boolean enable) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("api", "enableAudioANS");
+            JSONObject params = new JSONObject();
+            params.put("enable", enable ? 1 : 0);
+            jsonObject.put("params", params);
+            mTRTCCloud.callExperimentalAPI(jsonObject.toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
-  }
 }

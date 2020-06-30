@@ -121,6 +121,15 @@ public class FlutterTrtcPlugin implements MethodCallHandler, EventChannel.Stream
             case "exitRoom":
                 mManager.exitRoom();
                 break;
+            case "startSpeedTest":
+                int sdkAppIdSpeedTest = numberToIntValue((Number) call.argument("sdkAppId"));// 应用标识 [必填]
+                String userIdSpeedTest = call.argument("userId");// 用户标识 [必填]
+                String userSigSpeedTest = call.argument("userSig");// 用户签名 [必填]
+                mManager.startSpeedTest(sdkAppIdSpeedTest, userIdSpeedTest, userSigSpeedTest);
+                break;
+            case "stopSpeedTest":
+                mManager.stopSpeedTest();
+                break;
 
             case "switchRole":
                 int role1 = numberToIntValue((Number) call.argument("role"));

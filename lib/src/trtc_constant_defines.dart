@@ -140,3 +140,13 @@ class TrtcUserQuality {
 
   TrtcUserQuality(this.userId, this.quality);
 }
+
+class TrtcSpeedTestResult {
+  String ip;
+  int quality;
+  double upLostRate;
+  double downLostRate;
+  int rtt;
+
+  TrtcSpeedTestResult(this.ip, this.quality, this.upLostRate, this.downLostRate, this.rtt);
+}

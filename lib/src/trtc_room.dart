@@ -17,8 +17,7 @@ class TrtcRoom {
   /// @discussion 当 scene 选择为 TRTC_APP_SCENE_LIVE 或 TRTC_APP_SCENE_VOICE_CHATROOM 时，您必须通过 TRTCParams 中的 role 字段指定当前用户的角色。
   /// @discussion 不管进房是否成功，enterRoom 都必须与 exitRoom 配对使用，在调用 exitRoom 前再次调用 enterRoom 函数会导致不可预期的错误问题。
   static Future<void> enterRoom(int sdkAppId, String userId, String userSig, int roomId, int scene, {int role, String streamId}) async {
-    return await _channel.invokeMethod('enterRoom',
-        {'sdkAppId': sdkAppId, 'userId': userId, 'userSig': userSig, 'roomId': roomId, 'scene': scene, 'role': role, 'streamId': streamId});
+    return await _channel.invokeMethod('enterRoom', {'sdkAppId': sdkAppId, 'userId': userId, 'userSig': userSig, 'roomId': roomId, 'scene': scene, 'role': role, 'streamId': streamId});
   }
 
   /// 离开房间
@@ -39,8 +38,7 @@ class TrtcRoom {
   /// @discussion 若您没有调用 startRemoteView，视频数据将自动超时取消。
   /// @discussion 若您主要用于语音聊天等没有自动接收视频数据需求的场景，您可以根据实际需求选择接收模式。
   static Future<void> setDefaultStreamRecvMode(bool isReceivedAudio, bool isReceivedVideo) async {
-    return await _channel.invokeMethod(
-        'setDefaultStreamRecvMode', {'isReceivedAudio': isReceivedAudio, 'isReceivedVideo': isReceivedVideo});
+    return await _channel.invokeMethod('setDefaultStreamRecvMode', {'isReceivedAudio': isReceivedAudio, 'isReceivedVideo': isReceivedVideo});
   }
 
   /// 切换角色，仅适用于直播场景[TrtcAppScene.TRTC_APP_SCENE_LIVE] 和 [TrtcAppScene.TRTC_APP_SCENE_VOICE_CHATROOM]
@@ -49,5 +47,22 @@ class TrtcRoom {
   /// [role] 目标角色，默认为主播，详见[TrtcRole]
   static Future<void> switchRole(int role) async {
     return await _channel.invokeMethod('switchRole');
+  }
+
+  /// 开始进行网络测速（视频通话期间请勿测试，以免影响通话质量）
+  ///
+  /// [sdkAppId]	应用标识
+  /// [userId]	用户标识
+  /// [userSig]	用户签名
+  /// 测速结果将会用于优化 SDK 接下来的服务器选择策略，因此推荐您在用户首次通话前先进行一次测速，这将有助于我们选择最佳的服务器。
+  /// 同时，如果测试结果非常不理想，您可以通过醒目的 UI 提示用户选择更好的网络。
+  /// 测试结果通过 TRTCCloudListener.onSpeedTest 回调出来。
+  static Future<void> startSpeedTest(int sdkAppId, String userId, String userSig) async {
+    return await _channel.invokeMethod('startSpeedTest', {'sdkAppId': sdkAppId, 'userId': userId, 'userSig': userSig});
+  }
+
+  /// 停止服务器测速
+  static Future<void> stopSpeedTest() async{
+    return await _channel.invokeMethod('stopSpeedTest');
   }
 }

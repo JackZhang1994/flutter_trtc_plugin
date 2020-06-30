@@ -39,6 +39,7 @@ class TrtcBase {
     Function() onTryToReconnect,
     Function() onConnectionRecovery,
     Function(TrtcUserQuality localQuality, List<TrtcUserQuality> remoteQuality) onNetworkQuality,
+    Function(TrtcSpeedTestResult currentResult, int finishedCount, int totalCount) onSpeedTest,
     Function(int viewId) onTrtcViewClick,
   }) async {
     _onError = onError;
@@ -58,7 +59,7 @@ class TrtcBase {
     _onConnectionRecovery = onConnectionRecovery;
     _onTrtcViewClick = onTrtcViewClick;
     _onNetworkQuality = onNetworkQuality;
-
+    _onSpeedTest = onSpeedTest;
     print('registerCallback 执行');
 
     _streamSubscription = TrtcEvent.listenEvent().listen(_eventListener, onError: (error) {
@@ -88,6 +89,7 @@ class TrtcBase {
     _onConnectionRecovery = null;
     _onTrtcViewClick = null;
     _onNetworkQuality = null;
+    _onSpeedTest = null;
 
     _streamSubscription.cancel().then((_) {
       _streamSubscription = null;
@@ -196,6 +198,9 @@ class TrtcBase {
 
   /// 网络质量，该回调每2秒触发一次，统计当前网络的上行和下行质量。
   static void Function(TrtcUserQuality localQuality, List<TrtcUserQuality> remoteQuality) _onNetworkQuality;
+
+  /// 服务器测速的回调，SDK 对多个服务器 IP 做测速，每个 IP 的测速结果通过这个回调通知
+  static void Function(TrtcSpeedTestResult currentResult, int finishedCount, int totalCount) _onSpeedTest;
 
   static void Function(int viewId) _onTrtcViewClick;
 
@@ -330,12 +335,27 @@ class TrtcBase {
           TrtcUserQuality localQuality = TrtcUserQuality(localQualityMap['userId'], localQualityMap['quality']);
           List<dynamic> remoteQualityList = args['remoteQuality'];
           List<TrtcUserQuality> remoteQuality = [];
-          if(remoteQualityList != null && remoteQualityList.length > 0){
+          if (remoteQualityList != null && remoteQualityList.length > 0) {
             remoteQuality = remoteQualityList.map((value) {
               return TrtcUserQuality(value['userId'], value['quality']);
             }).toList();
           }
           _onNetworkQuality(localQuality, remoteQuality);
+        }
+        break;
+      case 'onSpeedTest':
+        if (_onSpeedTest != null) {
+          Map currentResult = args['currentResult'];
+          TrtcSpeedTestResult currentResultEntity = TrtcSpeedTestResult(
+            currentResult['ip'],
+            currentResult['quality'],
+            currentResult['upLostRate'],
+            currentResult['downLostRate'],
+            currentResult['rtt'],
+          );
+          int finishedCount = args['finishedCount'];
+          int totalCount = args['totalCount'];
+          _onSpeedTest(currentResultEntity, finishedCount, totalCount);
         }
         break;
 

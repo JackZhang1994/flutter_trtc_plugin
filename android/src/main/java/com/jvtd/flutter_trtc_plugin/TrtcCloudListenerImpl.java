@@ -213,6 +213,28 @@ public class TrtcCloudListenerImpl extends TRTCCloudListener {
     }
 
     @Override
+    public void onSpeedTest(TRTCCloudDef.TRTCSpeedTestResult trtcSpeedTestResult, int finishedCount, int totalCount) {
+        Log.i(TAG, "onSpeedTest");
+        EventChannel.EventSink eventSink = mWefListener.get();
+        if (eventSink != null) {
+            HashMap<String, Object> returnMap = new HashMap<>();
+            HashMap<String, Object> method = new HashMap<>();
+            method.put("name", "onSpeedTest");
+            HashMap<String, Object> speedRes = new HashMap<>();
+            speedRes.put("ip",trtcSpeedTestResult.ip);
+            speedRes.put("quality",trtcSpeedTestResult.quality);
+            speedRes.put("upLostRate",trtcSpeedTestResult.ip);
+            speedRes.put("downLostRate",trtcSpeedTestResult.downLostRate);
+            speedRes.put("rtt",trtcSpeedTestResult.rtt);
+            method.put("currentResult",speedRes);
+            method.put("finishedCount",finishedCount);
+            method.put("totalCount",totalCount);
+            returnMap.put("method", method);
+            eventSink.success(returnMap);
+        }
+    }
+
+    @Override
     public void onFirstVideoFrame(String userId, int streamType, int width, int height) {
         Log.i(TAG, "onFirstVideoFrame");
         EventChannel.EventSink eventSink = mWefListener.get();

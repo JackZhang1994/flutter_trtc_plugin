@@ -20,6 +20,8 @@ static NSString * const getUserSig = @"getUserSig";/** 获取签名*/
 static NSString * const enterRoom = @"enterRoom";/** 进入房间*/
 static NSString * const exitRoom = @"exitRoom";/** 退出房间*/
 static NSString * const switchRole = @"switchRole";/** 角色切换*/
+static NSString * const startSpeedTest = @"startSpeedTest";/** 角色切换*/
+static NSString * const stopSpeedTest = @"stopSpeedTest";/** 角色切换*/
 static NSString * const setDefaultStreamRecvMode = @"setDefaultStreamRecvMode";/** 设置音视频数据接收模式（需要在进房前设置才能生效）*/
 static NSString * const destroyPlatformView = @"destroyPlatformView";/** 移除视图*/
 static NSString * const startLocalPreview = @"startLocalPreview";/** 开启本地视频的预览画面*/
@@ -165,6 +167,23 @@ static NSString * const setRemoteSubStreamViewRotation = @"setRemoteSubStreamVie
     }else if ([switchRole isEqualToString:call.method]) {
         int role = [self numberToIntValue:args[@"role"]];
         [self.trtc switchRole:role];
+        result(@(YES));
+    }else if ([startSpeedTest isEqualToString:call.method]) {
+        [self.trtc startSpeedTest:[self numberToIntValue:args[@"sdkAppId"]] userId:args[@"userId"] userSig:args[@"userSig"] completion:^(TRTCSpeedTestResult *result, NSInteger completedCount, NSInteger totalCount) {
+            FlutterEventSink sink = self->_eventSink;
+            if(sink) {
+                NSMutableDictionary *resultMap = [[NSMutableDictionary alloc]init];
+                        [resultMap setValue:!result.ip ? result.ip : @"" forKey:@"ip"];
+                        [resultMap setValue:!result.quality ? @(result.quality) : @(0) forKey:@"quality"];
+                [resultMap setValue:!result.upLostRate ? @(result.upLostRate) : @(0) forKey:@"upLostRate"];
+                [resultMap setValue:!result.downLostRate ? @(result.downLostRate) : @(0) forKey:@"quality"];
+                [resultMap setValue:!result.rtt ? @(result.rtt) : @(0) forKey:@"rtt"];
+                sink(@{@"method": @{@"name": @"onSpeedTest",@"currentResult": resultMap,@"finishedCount":@(completedCount),@"totalCount":@(totalCount)}});
+            }
+        }];
+        result(@(YES));
+    }else if ([stopSpeedTest isEqualToString:call.method]) {
+        [self.trtc stopSpeedTest];
         result(@(YES));
     }else if ([setDefaultStreamRecvMode isEqualToString:call.method]) {
         BOOL isReceivedAudio = [self numberToBoolValue:args[@"isReceivedAudio"]];
