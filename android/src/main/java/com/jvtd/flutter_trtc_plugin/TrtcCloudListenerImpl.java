@@ -292,4 +292,34 @@ public class TrtcCloudListenerImpl extends TRTCCloudListener {
             eventSink.success(returnMap);
         }
     }
+
+    @Override
+    public void onCameraDidReady() {
+        super.onCameraDidReady();
+        Log.i(TAG, "onCameraDidReady");
+        EventChannel.EventSink eventSink = mWefListener.get();
+        if (eventSink != null) {
+            HashMap<String, Object> returnMap = new HashMap<>();
+            HashMap<String, Object> method = new HashMap<>();
+            method.put("name", "onCameraDidReady");
+
+            returnMap.put("method", method);
+            eventSink.success(returnMap);
+        }
+    }
+
+    @Override
+    public void onMicDidReady() {
+        super.onMicDidReady();
+        Log.i(TAG, "onMicDidReady");
+        EventChannel.EventSink eventSink = mWefListener.get();
+        if (eventSink != null) {
+            HashMap<String, Object> returnMap = new HashMap<>();
+            HashMap<String, Object> method = new HashMap<>();
+            method.put("name", "onMicDidReady");
+
+            returnMap.put("method", method);
+            eventSink.success(returnMap);
+        }
+    }
 }

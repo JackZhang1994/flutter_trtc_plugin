@@ -41,6 +41,8 @@ class TrtcBase {
     Function(TrtcUserQuality localQuality, List<TrtcUserQuality> remoteQuality) onNetworkQuality,
     Function(TrtcSpeedTestResult currentResult, int finishedCount, int totalCount) onSpeedTest,
     Function(int viewId) onTrtcViewClick,
+    Function() onMicDidReady,
+    Function() onCameraDidReady,
   }) async {
     _onError = onError;
     _onWarning = onWarning;
@@ -60,6 +62,8 @@ class TrtcBase {
     _onTrtcViewClick = onTrtcViewClick;
     _onNetworkQuality = onNetworkQuality;
     _onSpeedTest = onSpeedTest;
+    _onMicDidReady = onMicDidReady;
+    _onCameraDidReady = onCameraDidReady;
     print('registerCallback 执行');
 
     _streamSubscription = TrtcEvent.listenEvent().listen(_eventListener, onError: (error) {
@@ -90,6 +94,8 @@ class TrtcBase {
     _onTrtcViewClick = null;
     _onNetworkQuality = null;
     _onSpeedTest = null;
+    _onMicDidReady = null;
+    _onCameraDidReady = null;
 
     _streamSubscription.cancel().then((_) {
       _streamSubscription = null;
@@ -203,6 +209,12 @@ class TrtcBase {
   static void Function(TrtcSpeedTestResult currentResult, int finishedCount, int totalCount) _onSpeedTest;
 
   static void Function(int viewId) _onTrtcViewClick;
+
+  /// 麦克风准备就绪
+  static void Function() _onMicDidReady;
+
+  /// 摄像头准备就绪
+  static void Function() _onCameraDidReady;
 
   /// 用于接收native层事件流，开发者无需关注
   static StreamSubscription<dynamic> _streamSubscription;
@@ -356,6 +368,16 @@ class TrtcBase {
           int finishedCount = args['finishedCount'];
           int totalCount = args['totalCount'];
           _onSpeedTest(currentResultEntity, finishedCount, totalCount);
+        }
+        break;
+      case 'onMicDidReady':
+        if (_onMicDidReady != null) {
+          _onMicDidReady();
+        }
+        break;
+      case 'onCameraDidReady':
+        if (_onCameraDidReady != null) {
+          _onCameraDidReady();
         }
         break;
 

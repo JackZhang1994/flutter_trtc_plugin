@@ -551,6 +551,20 @@ static NSString * const setRemoteSubStreamViewRotation = @"setRemoteSubStreamVie
         sink(@{@"method": @{@"name": @"onUserSubStreamAvailable",@"userId":userId,@"available":@(available)}});
     }
 }
+
+-(void)onMicDidReady{
+    FlutterEventSink sink = _eventSink;
+    if(sink) {
+        sink(@{@"method": @{@"name": @"onMicDidReady"}});
+    }
+}
+
+-(void)onCameraDidReady{
+    FlutterEventSink sink = _eventSink;
+    if(sink) {
+        sink(@{@"method": @{@"name": @"onCameraDidReady"}});
+    }
+}
 #pragma mark - FlutterStreamHandler methods
 
 - (FlutterError * _Nullable)onCancelWithArguments:(id _Nullable)arguments {
